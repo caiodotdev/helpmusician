@@ -1,0 +1,51 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load form_utils %}
+{% block content %}
+    <div id="top" class="row">
+        <div class="col-xs-12">
+            <h2> Resultados</h2>
+        </div>
+    </div> <!-- /#top -->
+    <div class="row">
+        <div class="col-xs-3">
+            <button class="btn btn-secondary" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        {% for result in results %}
+            <div class="col-12 col-sm-3">
+                <div class="card" style="width: 18rem; margin-top: 16px;">
+                    <a href="{% url 'confirm_artist' %}?id={{ result.id }}&title={{ result.title }}&thumb={{ result.thumbnails.0.url }}">
+                        <img class="card-img-top" width="100%"
+                             src="{{ result.thumbnails.0.url }}"/>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <b>{{ result.title|truncatechars:23 }}</b>
+                        </h5>
+                        <div class="form-group">
+                            <label>Duração:</label>
+                            <span>{{ result.duration }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Canal:</label>
+                            <span>{{ result.channel.name }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Link:</label>
+                            <span><a href="{{ result.link }}" target="_blank">Link</a></span>
+                        </div>
+                        <a role="button" href="{% url 'confirm_artist' %}?id={{ result.id }}&title={{ result.title }}&thumb={{ result.thumbnails.0.url }}"
+                           class="btn btn-secondary btn-block">Selecionar</a>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+    <script type="text/javascript">
+    </script>
+
+{% endblock %}

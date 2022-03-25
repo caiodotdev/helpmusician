@@ -1,0 +1,26 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load form_utils %}
+{% block content %}
+    <div id="top" class="row">
+        <div class="col-sm-12 text-center">
+{#            <h2> Help Musician</h2>#}
+        </div>
+    </div> <!-- /#top -->
+    <hr/>
+    <form id="advancedForm" method="post" action="">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <div class="form-group">
+                    <label>Insira o nome da música: </label>
+                    {{ form.musica }}
+                </div>
+                <button type="submit" class="btn btn-primary" id="search"><i class="fa fa-search"></i> Buscar</button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+    </script>
+
+{% endblock %}

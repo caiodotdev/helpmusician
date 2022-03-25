@@ -1,0 +1,32 @@
+{% if DJANGO_DEVELOPMENT %}
+  {% load render_bundle from webpack_loader %}
+  {% load webpack_static from webpack_loader %}
+{% else %}
+  {% load static %}
+{% endif %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Help Musician</title>
+  {% if DJANGO_DEVELOPMENT %}
+  <link rel="shortcut icon" href="{% webpack_static "icons/favicon.ico" type="image/x-icon">
+  <link rel="alternate icon" href="{% webpack_static "icons/favicon.ico" %}">
+  
+  {% else %}
+  <link rel="alternate icon" href="{% static "dist/icons/favicon.ico" %}">
+  {% endif %}
+</head>
+<body>
+  <div id="react"></div>
+  {% if DJANGO_DEVELOPMENT %}
+    {% render_bundle 'main' 'js' %}
+    {% render_bundle 'runtime' 'js' %}
+    {% render_bundle 'vendors' 'js' %}
+  {% else %}
+    <script src="{% static "dist/main.js" %}"></script>
+    <script src="{% static "dist/runtime.js" %}"></script>
+    <script src="{% static "dist/vendors.js" %}"></script>
+  {% endif %}
+</body>
+</html>

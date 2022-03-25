@@ -1,0 +1,50 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load form_utils %}
+{% block content %}
+    <div id="top" class="row">
+        <div class="col-sm-12 text-center">
+            <h2> Confirmar Artista</h2>
+        </div>
+    </div> <!-- /#top -->
+    <hr/>
+    <form id="advancedForm" method="post" action="">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-4 align-self-center">
+                <div class="form-group">
+                    <img src="{{ image }}" class="img-responsive img-thumbnail" style="height: 300px;"/>
+                </div>
+                <div class="form-group">
+                    <label>Link: </label>
+                    <a href="{{ youtube_link }}" class="btn btn-secondary"><i class="fa fa-youtube-play"></i> Youtube
+                        Video</a>
+                    <input name="youtube_link" class="hidden" value="{{ youtube_link }}"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Artista: </label>
+                    {{ form.artist }}
+                </div>
+                <div class="form-group">
+                    <label>Música: </label>
+                    {{ form.title }}
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary"
+                            id="search"><i class="fa fa-check"></i> Confirmar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <hr/>
+    </form>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[name="artist"]').val('{{ artist }}');
+            $('[name="title"]').val('{{ title }}');
+        });
+    </script>
+
+{% endblock %}

@@ -18,3 +18,4 @@ youtube_dl==2020.12.2
 youtube-title-parse==1.0.0
 websockets==10.0
 django-webpack-loader==0.7.0
+mutagen

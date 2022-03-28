@@ -187,7 +187,7 @@ class DynamicMixModal extends React.Component<Props, State> {
     return (
       <Modal show={show} onHide={!isCreating ? this.onHide : undefined} onExited={this.onExited}>
         <Modal.Header closeButton>
-          <Modal.Title>Criar dynamic mix</Modal.Title>
+          <Modal.Title>Criar mix dinâmica</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <DynamicMixModalForm

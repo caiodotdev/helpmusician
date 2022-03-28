@@ -78,7 +78,7 @@ class Mixer extends React.Component<RouteComponentProps<MatchParams>, State> {
         this.setState({
           isLoaded: true,
           data: undefined,
-          errors: [`Dynamic mix ${mixId} não existe.`],
+          errors: [`Mix Dinâmica ${mixId} não existe.`],
         });
       });
   };

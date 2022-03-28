@@ -96,7 +96,7 @@ class DeleteDynamicMixModal extends React.Component<Props, State> {
     return (
       <Modal show={show} onHide={!isDeleting ? this.onHide : undefined} onExited={this.onExited}>
         <Modal.Header closeButton>
-          <Modal.Title>Remover dynamic mix</Modal.Title>
+          <Modal.Title>Remover mix dinâmica</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {errors.length > 0 && (
@@ -107,7 +107,7 @@ class DeleteDynamicMixModal extends React.Component<Props, State> {
             </Alert>
           )}
           <div>
-          Tem certeza de que deseja remover esta dynamic mix &ldquo;{mix.artist} - {mix.title}&rdquo; (
+          Tem certeza de que deseja remover esta mix dinâmica &ldquo;{mix.artist} - {mix.title}&rdquo; (
             {mix.separator})?
           </div>
         </Modal.Body>

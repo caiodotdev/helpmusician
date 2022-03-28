@@ -19,7 +19,7 @@ export const OriginalBadge = (props: BadgeProps): JSX.Element => {
 export const AllBadge = (): JSX.Element => {
   return (
     <Badge pill variant="primary">
-      Todos (Dynamic Mix)
+      Todos (Mix Dinâmica)
     </Badge>
   );
 };
@@ -28,7 +28,7 @@ export const VocalsBadge = (props: BadgeProps): JSX.Element => {
   const { faded, title } = props;
   return (
     <Badge pill className={props.className} variant={faded ? 'vocals-faded' : 'vocals'} title={title}>
-      Vocal
+      Vocais
     </Badge>
   );
 };
@@ -64,7 +64,7 @@ export const DrumsBadge = (props: BadgeProps): JSX.Element => {
   const { faded, title } = props;
   return (
     <Badge pill className={props.className} variant={faded ? 'drums-faded' : 'drums'} title={title}>
-      Drums
+      Bateria
     </Badge>
   );
 };
@@ -73,7 +73,7 @@ export const BassBadge = (props: BadgeProps): JSX.Element => {
   const { faded, title } = props;
   return (
     <Badge pill className={props.className} variant={faded ? 'bass-faded' : 'bass'} title={title}>
-      Bass
+      Baixo
     </Badge>
   );
 };

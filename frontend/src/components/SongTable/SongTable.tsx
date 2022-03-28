@@ -74,11 +74,11 @@ const spleetColFormatter: ColumnFormatter<SongData> = (cell, row, rowIndex, form
     <div className="d-flex align-items-center justify-content-end">
       <TextButton className="pl-1" variant="primary" disabled={disabled} onClick={onDynamicMixClick} song={row}>
         <Plus className="align-middle" size={24} />
-        <span className="align-middle">Dynamic Mix</span>
+        <span className="align-middle">Mix Dinâmica</span>
       </TextButton>
       <TextButton className="pl-1" variant="light" disabled={disabled} onClick={onStaticMixClick} song={row}>
         <Plus className="align-middle" size={24} />
-        <span className="align-middle">Static Mix</span>
+        <span className="align-middle">Mix Estática</span>
       </TextButton>
       <DeleteTrackButton onClick={onDeleteTrackClick} song={row} />
     </div>
@@ -265,6 +265,7 @@ class SongTable extends React.Component<Props> {
         defaultSorted={sort}
         expandRow={expandRow}
         bordered={false}
+        wrapperClasses="table-responsive"
         cellEdit={cellEditFactory({
           mode: 'click',
           blurToSave: true,

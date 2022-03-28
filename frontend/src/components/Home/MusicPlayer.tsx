@@ -48,11 +48,11 @@ class MusicPlayer extends React.Component<Props> {
         // Remove everything in brackets to save space
         <Badge variant="dark">{separatorLabelMap[staticMix.separator].replace(/ *\([^)]*\) */g, '')}</Badge>
       );
-      const vocalBadge = staticMix.vocals ? <VocalsBadge title="Vocals" /> : null;
+      const vocalBadge = staticMix.vocals ? <VocalsBadge title="Vocais" /> : null;
       const pianoBadge = staticMix.piano ? <PianoBadge title="Piano" /> : null;
       const accompBadge = staticMix.other ? <AccompShortBadge title="Outros (Acomp)" /> : null;
-      const bassBadge = staticMix.bass ? <BassBadge title="Bass" /> : null;
-      const drumsBadge = staticMix.drums ? <DrumsBadge title="Drums" /> : null;
+      const bassBadge = staticMix.bass ? <BassBadge title="Baixo" /> : null;
+      const drumsBadge = staticMix.drums ? <DrumsBadge title="Bateria" /> : null;
       audioTitleExtra = (
         <div className="badge-flex ml-2 mr-2">
           {separatorBadge} {vocalBadge} {pianoBadge} {accompBadge} {bassBadge} {drumsBadge}

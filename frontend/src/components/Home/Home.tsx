@@ -361,11 +361,11 @@ class Home extends React.Component<RouteComponentProps, State> {
             <p className="lead">Comece carregando uma música ou criando uma nova mix.</p>
             <Alert variant="info" style={{ fontSize: '0.9em' }}>
               <p className="mb-0">
-                <b>Em Upload </b>você pode carregar músicas buscando pelo nome ou artista.
+                <b>Upload </b>você pode carregar músicas buscando pelo nome ou artista.
                 <br />
-                <b>A Static Mix </b>mantém apenas os instrumentos selecionadas e descarta completamente as outras partes.
+                <b>A Mix Estática </b>mantém apenas os instrumentos selecionadas e descarta completamente as outras partes.
                 <br />
-                <b>Dynamic Mix</b> oferece uma interface de reprodução com controles para ajustar individualmente os níveis de volume
+                <b>Mix Dinâmica</b> oferece uma interface de reprodução com controles para ajustar individualmente os níveis de volume
                 de todas os instrumentos.
               </p>
             </Alert>

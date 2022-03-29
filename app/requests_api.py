@@ -240,7 +240,7 @@ def do_register(data):
 def do_logout(request):
     try:
         token = get_token(request)
-        response = _do_get(URL_LOGOUT, None, token)
+        response = _do_post(URL_LOGOUT, None, token)
     except UnauthorizedException:
         response = type('Response', (object,), dict(status_code=http.HTTPStatus.UNAUTHORIZED))
     return response

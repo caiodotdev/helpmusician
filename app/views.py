@@ -143,7 +143,7 @@ class RegisterView(FormView):
             messages.success(self.request, "Usuario registrado com sucesso.")
         else:
             messages.error(self.request, "Nao foi possivel registrar. Altere os dados e tente novamente.")
-            self.form_invalid(form)
+            return self.form_invalid(form)
         return super(RegisterView, self).form_valid(form)
 
     def form_invalid(self, form):

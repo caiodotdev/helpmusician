@@ -106,9 +106,6 @@
     }
 
     $(document).ready(function () {
-        $('a, button').click(function () {
-            $('#loading').show();
-        })
 
         $('[name=cep],[name=zipcode]').focusout(function () {
             $('#loading').show();

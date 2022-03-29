@@ -32,6 +32,9 @@
     <link rel="stylesheet" href="{% static 'default/css/sweetalert.min.css' %}">
     <link rel="stylesheet" type="text/css"
           href="{% static 'default/css/datatables.min.css' %}"/>
+    <script src="//code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -103,6 +106,10 @@
     }
 
     $(document).ready(function () {
+        $('a, button').click(function () {
+            $('#loading').show();
+        })
+
         $('[name=cep],[name=zipcode]').focusout(function () {
             $('#loading').show();
             var cep = $('[name=cep],[name=zipcode]');

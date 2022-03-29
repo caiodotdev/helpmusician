@@ -10,13 +10,13 @@
     <hr/>
     <form id="advancedForm" method="post" action="">
         {% csrf_token %}
-        <div class="row">
-            <div class="col-sm-12 text-center">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 align-self-center text-center">
                 <div class="form-group">
                     <label>Insira o nome da música: </label>
                     {{ form.musica }}
                 </div>
-                <button type="submit" class="btn btn-primary" id="search"><i class="fa fa-search"></i> Buscar</button>
+                <button type="submit" class="btn btn-primary clicked" id="search"><i class="fa fa-search"></i> Buscar</button>
             </div>
         </div>
     </form>

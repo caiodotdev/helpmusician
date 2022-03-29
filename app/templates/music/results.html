@@ -9,14 +9,14 @@
     </div> <!-- /#top -->
     <div class="row">
         <div class="col-xs-3">
-            <button class="btn btn-secondary" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
+            <a class="btn btn-secondary clicked" href="{% url 'index' %}"><i class="fa fa-arrow-left"></i> Voltar</a>
         </div>
     </div>
     <hr/>
     <div class="row">
         {% for result in results %}
             <div class="col-12 col-sm-3">
-                <div class="card" style="width: 18rem; margin-top: 16px;">
+                <div class="card" style="margin-top: 16px;">
                     <a href="{% url 'confirm_artist' %}?id={{ result.id }}&title={{ result.title }}&thumb={{ result.thumbnails.0.url }}">
                         <img class="card-img-top" width="100%"
                              src="{{ result.thumbnails.0.url }}"/>
@@ -37,7 +37,8 @@
                             <label>Link:</label>
                             <span><a href="{{ result.link }}" target="_blank">Link</a></span>
                         </div>
-                        <a role="button" href="{% url 'confirm_artist' %}?id={{ result.id }}&title={{ result.title }}&thumb={{ result.thumbnails.0.url }}"
+                        <a role="button"
+                           href="{% url 'confirm_artist' %}?id={{ result.id }}&title={{ result.title }}&thumb={{ result.thumbnails.0.url }}"
                            class="btn btn-secondary btn-block">Selecionar</a>
                     </div>
                 </div>
@@ -46,6 +47,9 @@
         {% endfor %}
     </div>
     <script type="text/javascript">
+
+        $(document).ready(function () {
+        });
     </script>
 
 {% endblock %}

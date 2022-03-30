@@ -317,7 +317,7 @@ class MixTable extends React.Component<Props> {
     } else {
       return (
         <div className="m-4 text-center">
-          <p>Sem mixagens. Clique em &ldquo;Mix Dinâmica&rdquo; ou &ldquo;Mix Estática&rdquo; para criar uma mix.</p>
+          <p>Sem mixagens. Clique em &ldquo;Mix Dinâmica&rdquo; para criar uma mix.</p>
         </div>
       );
     }

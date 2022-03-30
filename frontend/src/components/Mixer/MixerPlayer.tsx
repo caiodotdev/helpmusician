@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Alert } from 'react-bootstrap';
 import * as Tone from 'tone';
+import { Envelope, Loop, Synth, Transport } from 'tone';
 import { FADE_DURATION_S } from '../../Constants';
 import { DynamicMix } from '../../models/DynamicMix';
 import { PartId, PartIds } from '../../models/PartId';
@@ -14,6 +15,7 @@ interface VolumeLevels {
   accomp: number;
   drums: number;
   bass: number;
+  metronome: number;
 }
 
 interface MuteStatus {
@@ -22,6 +24,7 @@ interface MuteStatus {
   accomp: boolean;
   drums: boolean;
   bass: boolean;
+  metronome: boolean;
 }
 
 interface SoloStatus {
@@ -30,6 +33,7 @@ interface SoloStatus {
   accomp: boolean;
   drums: boolean;
   bass: boolean;
+  metronome: boolean;
 }
 
 interface Props {
@@ -60,6 +64,31 @@ class MixerPlayer extends React.Component<Props, State> {
   interval?: number;
   tonePlayers?: Tone.Players;
 
+  metronome_synth = new Synth({
+    oscillator: {
+      type: 'triangle',
+    },
+    envelope: {
+      attack: 0.01,
+      decay: 0.05,
+      sustain: 0.0,
+      release: 1,
+    },
+  }).toDestination();
+
+  loop = new Loop((time) => {
+    Transport.setLoopPoints(0, '1m')
+    console.log('Beat:', Transport.position);
+    const index = Number(Transport.position.split(':')[1]) + 1
+    if (index === 1) {
+      this.metronome_synth.triggerAttackRelease('C6', '16n', time)
+    } else {
+      this.metronome_synth.triggerAttackRelease('C5', '16n', time)
+    }
+  }, '4n');
+
+
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -74,6 +103,7 @@ class MixerPlayer extends React.Component<Props, State> {
         accomp: 0,
         drums: 0,
         bass: 0,
+        metronome: 0,
       },
       muteStatus: {
         vocals: false,
@@ -81,6 +111,7 @@ class MixerPlayer extends React.Component<Props, State> {
         accomp: false,
         drums: false,
         bass: false,
+        metronome: false,
       },
       soloStatus: {
         vocals: false,
@@ -88,6 +119,7 @@ class MixerPlayer extends React.Component<Props, State> {
         accomp: false,
         drums: false,
         bass: false,
+        metronome: false,
       },
     };
   }
@@ -143,9 +175,11 @@ class MixerPlayer extends React.Component<Props, State> {
         accomp: data?.other_url ?? '',
         drums: data?.drums_url ?? '',
         bass: data?.bass_url ?? '',
+        metronome: 'https://dl.dropboxusercontent.com/s/urq77gw3sbpghyt/268822__kwahmah-02__woodblock.wav',
       },
       () => {
         players.toDestination();
+        Tone.Transport.bpm.value = this.props.data?.bpm ?? 0;
         this.tonePlayers = players;
         this.tonePlayers.fadeIn = FADE_DURATION_S;
         this.tonePlayers.fadeOut = FADE_DURATION_S;
@@ -167,6 +201,9 @@ class MixerPlayer extends React.Component<Props, State> {
       this.tonePlayers.stopAll();
       this.tonePlayers.dispose();
     }
+    this.loop.cancel();
+    this.loop.dispose();
+    this.metronome_synth.dispose();
     clearInterval(this.interval);
     document.removeEventListener('keydown', this.onKeyPress, false);
   }
@@ -175,15 +212,18 @@ class MixerPlayer extends React.Component<Props, State> {
    * Handle play/pause button click.
    */
   play = async (): Promise<void> => {
+
     const { isPlaying } = this.state;
     if (isPlaying) {
       // Pause playback and refresh interval
       Tone.Transport.pause();
+      this.loop.stop();
       clearInterval(this.interval);
     } else {
       // If playing for first time, ask browser to start audio context
       if (!this.state.isInit) {
         await Tone.start();
+        this.tonePlayers?.player('metronome').sync().start(0, 0);
         this.tonePlayers?.player('vocals').sync().start(0, 0);
         this.tonePlayers?.player('piano').sync().start(0, 0);
         this.tonePlayers?.player('accomp').sync().start(0, 0);
@@ -193,8 +233,9 @@ class MixerPlayer extends React.Component<Props, State> {
           isInit: true,
         });
       }
-
       // Resume/start playback
+      console.log('BPM:', Tone.Transport.bpm.value);
+      this.loop.start(0);
       Tone.Transport.start();
 
       // Set regular refresh interval
@@ -232,7 +273,7 @@ class MixerPlayer extends React.Component<Props, State> {
   };
 
   isNoneSoloed = (soloStatus: SoloStatus = this.state.soloStatus): boolean => {
-    return !soloStatus.vocals && !soloStatus.piano && !soloStatus.accomp && !soloStatus.bass && !soloStatus.drums;
+    return !soloStatus.metronome && !soloStatus.vocals && !soloStatus.piano && !soloStatus.accomp && !soloStatus.bass && !soloStatus.drums;
   };
 
   /**
@@ -281,6 +322,15 @@ class MixerPlayer extends React.Component<Props, State> {
     const noneSoloed = this.isNoneSoloed(this.state.soloStatus);
     if (noneSoloed || this.state.soloStatus[id]) {
       const player = this.tonePlayers.player(id);
+      if (id === 'metronome') {
+        if (newMuteStatus[id]) {
+          // Mute the player volume
+          this.metronome_synth.volume.value = -Infinity;
+        } else {
+          // Restore volume level to previous value
+          this.metronome_synth.volume.value = this.state.volume[id];
+        }
+      }
       if (newMuteStatus[id]) {
         // Mute the player volume
         player.volume.value = -Infinity;
@@ -311,6 +361,7 @@ class MixerPlayer extends React.Component<Props, State> {
           accomp: false,
           drums: false,
           bass: false,
+          metronome: false,
         }
         : this.state.soloStatus;
 
@@ -321,6 +372,15 @@ class MixerPlayer extends React.Component<Props, State> {
 
     for (const part of PartIds) {
       const player = this.tonePlayers.player(part);
+      if (part === 'metronome') {
+        if (!this.state.muteStatus[part] && (noneSoloed || newSoloStatus[part])) {
+          // Make track audible if none of the tracks are soloed or the track itself is soloed
+          this.metronome_synth.volume.value = this.state.volume[part];
+        } else {
+          // Otherwise mute
+          this.metronome_synth.volume.value = -Infinity;
+        }
+      }
       if (!this.state.muteStatus[part] && (noneSoloed || newSoloStatus[part])) {
         // Make track audible if none of the tracks are soloed or the track itself is soloed
         player.volume.value = this.state.volume[part];
@@ -355,6 +415,9 @@ class MixerPlayer extends React.Component<Props, State> {
     // Adjust player volume only if not muted and is active
     if (!this.state.muteStatus[id] && (this.isNoneSoloed(soloStatus) || soloStatus[id])) {
       // Change player volume
+      if (id === 'metronome') {
+        this.metronome_synth.volume.value = db;
+      }
       this.tonePlayers.player(id).volume.value = db;
     }
   };
@@ -375,6 +438,17 @@ class MixerPlayer extends React.Component<Props, State> {
           onAfterSeek={this.onAfterSeek}
           secondsElapsed={secondsElapsed}
           durationSeconds={durationSeconds}
+        />
+        <VolumeUI
+          id="metronome"
+          url={'https://dl.dropboxusercontent.com/s/urq77gw3sbpghyt/268822__kwahmah-02__woodblock.wav'}
+          disabled={!isReady}
+          isActive={!muteStatus.metronome && (soloStatus.metronome || noneSoloed)}
+          isMuted={muteStatus.metronome}
+          isSoloed={soloStatus.metronome}
+          onMuteClick={this.onMuteClick}
+          onSoloClick={this.onSoloClick}
+          onVolChange={this.onVolChange}
         />
         <VolumeUI
           id="vocals"

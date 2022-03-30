@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as React from 'react';
-import { Alert, Badge, Button, Container, Row, Spinner } from 'react-bootstrap';
+import { Alert, Badge, Button, Card, Container, Row, Spinner } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router';
 import { DynamicMix } from '../../models/DynamicMix';
 import { separatorLabelMap } from '../../models/Separator';
@@ -232,7 +232,7 @@ class Mixer extends React.Component<RouteComponentProps<MatchParams>, State> {
               variant="primary"
               className="mt-3"
               href={`/lista/`}
-              >
+            >
               Voltar
             </Button>
           </p>
@@ -242,8 +242,9 @@ class Mixer extends React.Component<RouteComponentProps<MatchParams>, State> {
                 {data.title} - {data.artist}
               </h4>
               <h5 className="mt-1 text-center">
-                <Badge variant="dark">{separatorLabelMap[data.separator]}</Badge>
                 {extraBadges}
+                <Badge variant="dark">{data.tone}</Badge>
+                <Badge variant="dark">{data.bpm} bpm</Badge>
               </h5>
             </div>
           ) : null}

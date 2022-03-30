@@ -18,6 +18,11 @@
   color: white;
 }
 
+.badge-metronome{
+  background-color: #00dacfc7;
+  color: white;
+}
+
 .badge-bass {
   background-color: #095ba4;
   color: white;
@@ -25,6 +30,11 @@
 
 .badge-vocals-faded {
   background-color: #24da001c;
+  color: white;
+}
+
+.badge-metronome-faded {
+  background-color: #00dacf1c;
   color: white;
 }
 

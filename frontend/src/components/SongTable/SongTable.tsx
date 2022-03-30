@@ -76,10 +76,6 @@ const spleetColFormatter: ColumnFormatter<SongData> = (cell, row, rowIndex, form
         <Plus className="align-middle" size={24} />
         <span className="align-middle">Mix Dinâmica</span>
       </TextButton>
-      <TextButton className="pl-1" variant="light" disabled={disabled} onClick={onStaticMixClick} song={row}>
-        <Plus className="align-middle" size={24} />
-        <span className="align-middle">Mix Estática</span>
-      </TextButton>
       <DeleteTrackButton onClick={onDeleteTrackClick} song={row} />
     </div>
   );
@@ -228,13 +224,6 @@ class SongTable extends React.Component<Props> {
           }
           return true;
         },
-      },
-      {
-        dataField: 'date_created',
-        editable: false,
-        text: 'Carregado',
-        formatter: toRelativeDateSpan,
-        sort: true,
       },
       {
         dataField: 'download_dummy',

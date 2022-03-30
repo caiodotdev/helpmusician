@@ -77,3 +77,12 @@ export const BassBadge = (props: BadgeProps): JSX.Element => {
     </Badge>
   );
 };
+
+export const MetronomeBadge = (props: BadgeProps): JSX.Element => {
+  const { faded, title } = props;
+  return (
+    <Badge pill className={props.className} variant={faded ? 'metronome-faded' : 'metronome'} title={title}>
+      Metrônomo
+    </Badge>
+  );
+};

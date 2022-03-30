@@ -5,6 +5,11 @@ import { TaskStatus } from './TaskStatus';
  * Dynamic mix model from backend.
  */
 export interface DynamicMix {
+  bpm: any;
+  tone: any;
+  bar_length: any;
+  chords: any;
+  notes: any;
   id: string;
   source_track: string;
   separator: Separator;

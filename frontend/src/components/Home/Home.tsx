@@ -363,8 +363,6 @@ class Home extends React.Component<RouteComponentProps, State> {
               <p className="mb-0">
                 <b>Upload </b>você pode carregar músicas buscando pelo nome ou artista.
                 <br />
-                <b>A Mix Estática </b>mantém apenas os instrumentos selecionadas e descarta completamente as outras partes.
-                <br />
                 <b>Mix Dinâmica</b> oferece uma interface de reprodução com controles para ajustar individualmente os níveis de volume
                 de todas os instrumentos.
               </p>

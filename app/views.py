@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import http
-import json
 
 import requests
 from django.conf import settings
@@ -44,6 +43,21 @@ class SearchTemplate(CustomContextMixin, CustomFormView):
         return ''
 
 
+# def duration_is_valid(duration):
+#     dur = datetime.datetime.strptime(str(duration), '%M:%S')
+#     print(dur)
+#     max_dur = datetime.datetime.strptime('08:30', '%M:%S')
+#     return dur <= max_dur
+
+
+# def fix_results_on_time(results):
+#     result_correct = []
+#     for item in results:
+#         if item['type'] == 'video' and duration_is_valid(item['duration']):
+#             result_correct.append(item)
+#     return result_correct
+
+
 class ResultsView(CustomContextMixin, ListView):
     model = Music
     login_url = '/admin/login/'
@@ -58,6 +72,7 @@ class ResultsView(CustomContextMixin, ListView):
         if 'musica' in data:
             musica = data['musica']
             results = get_youtube_search(musica)
+            # context['results'] = fix_results_on_time(results['result'])
             context['results'] = results['result']
             return context
         raise Http404()

@@ -77,14 +77,15 @@ class MixerPlayer extends React.Component<Props, State> {
   }).toDestination();
 
   loop = new Loop((time) => {
-    Transport.setLoopPoints(0, '1m')
-    console.log('Beat:', Transport.position);
-    const index = Number(Transport.position.split(':')[1]) + 1
-    if (index === 1) {
-      this.metronome_synth.triggerAttackRelease('C6', '16n', time)
-    } else {
-      this.metronome_synth.triggerAttackRelease('C5', '16n', time)
-    }
+    Transport.setLoopPoints(0, '1m');
+    this.metronome_synth.triggerAttackRelease('C5', '16n', time);
+    // console.log('Beat:', Transport.position);
+    // const index = Number(Transport.position.split(':')[1]) + 1
+    // if (index === 1) {
+    //   this.metronome_synth.triggerAttackRelease('C6', '16n', time)
+    // } else {
+    //   this.metronome_synth.triggerAttackRelease('C5', '16n', time)
+    // }
   }, '4n');
 
 

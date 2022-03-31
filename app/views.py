@@ -211,3 +211,11 @@ def logout_user(request):
     requests_api.session_clear(request)
     requests_api.do_logout(request)
     return redirect('login')
+
+
+class DrumKit(TemplateView):
+    template_name = 'kits/drumkit.html'
+
+
+class PadContinuous(TemplateView):
+    template_name = 'kits/pad_continuous.html'

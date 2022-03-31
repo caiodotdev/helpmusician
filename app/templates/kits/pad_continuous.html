@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'default/css/drumpad.css' %}">
+    <br/>
+    <div class="row">
+        <div class="col-12 col-sm-12">
+            <h2>Worship Pads</h2>
+        </div>
+    </div>
+    <br/>
+    <div id="worship-pad">
+        <div class="row">
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad1 disabled" onclick="controlPad(pad1)">
+                    <div id="pad1" class="pad-text ">
+                        <span>C</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad2 disabled" onclick="controlPad(pad2)">
+                    <div id="pad2" class="pad-text">
+                        <span>C#</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad3 disabled" onclick="controlPad(pad3)">
+                    <div id="pad3" class="pad-text">
+                        <span>D</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad4 disabled" onclick="controlPad(pad4)">
+                    <div id="pad4" class="pad-text">
+                        <span>D#</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad5 disabled" onclick="controlPad(pad5)">
+                    <div id="pad5" class="pad-text">
+                        <span>E</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+
+                <div class="btn btn-secondary btn-block pad6 disabled" onclick="controlPad(pad6)">
+                    <div id="pad6" class="pad-text">
+                        <span>F</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad7 disabled" onclick="controlPad(pad7)">
+                    <div id="pad7" class="pad-text">
+                        <span>F#</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad8 disabled" onclick="controlPad(pad8)">
+                    <div id="pad8" class="pad-text">
+                        <span>G</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad9 disabled" onclick="controlPad(pad9)">
+                    <div id="pad9" class="pad-text">
+                        <span>G#</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad10 disabled" onclick="controlPad(pad10)">
+                    <div id="pad10" class="pad-text">
+                        <span>A</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad11 disabled" onclick="controlPad(pad11)">
+                    <div id="pad11" class="pad-text">
+                        <span>A#</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 pad">
+                <div class="btn btn-secondary btn-block pad12 disabled" onclick="controlPad(pad12)">
+                    <div id="pad12" class="pad-text">
+                        <span>B</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'default/js/Tone.js' %}"></script>
+    <script>
+        $('#loading').show();
+        var pad1 = new Tone.Player({
+            "url": "{% static 'pads/c.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad1').removeClass('disabled');
+            }
+        }).toMaster();
+        pad1.id = "pad1";
+
+        var pad2 = new Tone.Player({
+            "url": "{% static 'pads/csus.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad2').removeClass('disabled');
+            }
+        }).toMaster();
+        pad2.id = "pad2";
+
+        var pad3 = new Tone.Player({
+            "url": "{% static 'pads/d.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad3').removeClass('disabled');
+            }
+        }).toMaster();
+        pad3.id = "pad3";
+
+        var pad4 = new Tone.Player({
+            "url": "{% static 'pads/dsus.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad4').removeClass('disabled');
+            }
+        }).toMaster();
+        pad4.id = "pad4";
+
+        var pad5 = new Tone.Player({
+            "url": "{% static 'pads/e.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad5').removeClass('disabled');
+            }
+        }).toMaster();
+        pad5.id = "pad5";
+
+        var pad6 = new Tone.Player({
+            "url": "{% static 'pads/f.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad6').removeClass('disabled');
+            }
+        }).toMaster();
+        pad6.id = "pad6";
+
+        var pad7 = new Tone.Player({
+            "url": "{% static 'pads/fsus.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad7').removeClass('disabled');
+            }
+        }).toMaster();
+        pad7.id = "pad7";
+
+        var pad8 = new Tone.Player({
+            "url": "{% static 'pads/g.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad8').removeClass('disabled');
+            }
+        }).toMaster();
+        pad8.id = "pad8";
+
+        var pad9 = new Tone.Player({
+            "url": "{% static 'pads/gsus.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad9').removeClass('disabled');
+            }
+        }).toMaster();
+        pad9.id = "pad9";
+
+        var pad10 = new Tone.Player({
+            "url": "{% static 'pads/a.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad10').removeClass('disabled');
+            }
+        }).toMaster();
+        pad10.id = "pad10";
+
+        var pad11 = new Tone.Player({
+            "url": "{% static 'pads/asus.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad11').removeClass('disabled');
+            }
+        }).toMaster();
+        pad11.id = "pad11";
+
+        var pad12 = new Tone.Player({
+            "url": "{% static 'pads/b.m4a' %}",
+            "loop": true,
+            "fadeIn": '4n',
+            "fadeOut": '4n',
+            "onload": function () {
+                $('.pad12').removeClass('disabled');
+                $('#loading').hide();
+            }
+        }).toMaster();
+        pad12.id = "pad12";
+
+    </script>
+    <script src="{% static 'default/js/pad_continuous.js' %}"></script>
+
+{% endblock %}

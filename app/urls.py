@@ -37,6 +37,16 @@ urlpatterns = [
         'video/',
         views.VideoView.as_view(),
         name='video'
-    )
+    ),
+    path(
+        'drumkit/',
+        views.DrumKit.as_view(),
+        name='drumkit'
+    ),
+    path(
+        'worship-pads/',
+        views.PadContinuous.as_view(),
+        name='worship_pads'
+    ),
 
 ]

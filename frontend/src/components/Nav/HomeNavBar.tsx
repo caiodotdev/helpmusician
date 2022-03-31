@@ -20,6 +20,8 @@ const HomeNavBar = (props: Props): JSX.Element => {
           <Nav className="me-auto">
             <Nav.Link href="/">Inicio</Nav.Link>
             <Nav.Link href="/lista/">Minha Lista</Nav.Link>
+            <Nav.Link href="/drumkit/">Drums Kit</Nav.Link>
+            <Nav.Link href="/worship-pads/">Worship Pads</Nav.Link>
           </Nav>
           <Nav className="ml-auto">
             <Button onClick={props.onUploadClick} variant="success mr-3">

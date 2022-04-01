@@ -13,6 +13,7 @@ from youtubesearchpython import VideosSearch
 from app.custom_mixin import CustomTemplateView, CustomContextMixin
 from app.middleware import UnauthorizedException
 from app.requests_api import _do_get, _do_post, _do_delete, _do_patch, _do_put
+from .DetectMobile import DetectMobileBrowser
 from .serializers import *
 
 """
@@ -29,7 +30,7 @@ class IndexView(CustomContextMixin, CustomTemplateView):
     template_name = 'index.html'
 
 
-class MixerView(CustomContextMixin, CustomTemplateView):
+class MixerView(CustomContextMixin, DetectMobileBrowser, CustomTemplateView):
     template_name = 'index.html'
 
 

@@ -22,6 +22,7 @@ from app.apis.youtube import get_youtube_search, make_youtube_url
 from app.custom_mixin import CustomFormView, CustomContextMixin
 from app.models import Music
 from app.requests_api import _do_post
+from frontend.DetectMobile import DetectMobileBrowser
 
 try:
     from django.core.urlresolvers import reverse_lazy
@@ -217,5 +218,5 @@ class DrumKit(TemplateView):
     template_name = 'kits/drumkit.html'
 
 
-class PadContinuous(TemplateView):
+class PadContinuous(DetectMobileBrowser, TemplateView):
     template_name = 'kits/pad_continuous.html'

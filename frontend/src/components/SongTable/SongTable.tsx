@@ -1,5 +1,7 @@
 import axios from 'axios';
 import * as React from 'react';
+import { Button } from 'react-bootstrap';
+import { Download } from 'react-bootstrap-icons';
 import { CaretDownFill, CaretUpFill, Plus } from 'react-bootstrap-icons';
 import BootstrapTable, {
   ColumnDescription,
@@ -72,10 +74,9 @@ const spleetColFormatter: ColumnFormatter<SongData> = (cell, row, rowIndex, form
 
   return (
     <div className="d-flex align-items-center justify-content-end">
-      <TextButton className="pl-1" variant="primary" disabled={disabled} onClick={onDynamicMixClick} song={row}>
-        <Plus className="align-middle" size={24} />
-        <span className="align-middle">Mix Dinâmica</span>
-      </TextButton>
+      <Button variant="success" disabled={!row.url} href={row.url} target="_blank">
+        <Download />
+      </Button>
       <DeleteTrackButton onClick={onDeleteTrackClick} song={row} />
     </div>
   );

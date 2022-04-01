@@ -1,6 +1,10 @@
 function padOn(pad) {
-    pad.start();
     document.getElementById(pad.id).className += " pad-active";
+    pad.start();
+}
+
+function tap(pad) {
+    pad.start();
 }
 
 function padOff(pad) {

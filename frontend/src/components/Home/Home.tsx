@@ -319,6 +319,9 @@ class Home extends React.Component<RouteComponentProps, State> {
         console.log('song', data);
         if (data) {
           this.setState({ songList: data });
+          this.setState({
+            expandedIds: data.map((i: SongData) => i.id),
+          });
         }
       })
       .catch(error => console.log('API errors:', error));

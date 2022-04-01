@@ -78,14 +78,14 @@ class MixerPlayer extends React.Component<Props, State> {
 
   loop = new Loop((time) => {
     Transport.setLoopPoints(0, '1m');
-    this.metronome_synth.triggerAttackRelease('C5', '16n', time);
-    // console.log('Beat:', Transport.position);
-    // const index = Number(Transport.position.split(':')[1]) + 1
-    // if (index === 1) {
-    //   this.metronome_synth.triggerAttackRelease('C6', '16n', time)
-    // } else {
-    //   this.metronome_synth.triggerAttackRelease('C5', '16n', time)
-    // }
+    // this.metronome_synth.triggerAttackRelease('C5', '16n', time);
+    console.log('Beat:', Transport.position);
+    const index = Number(Transport.position.split(':')[1]) + 1
+    if (index === 1) {
+      this.metronome_synth.triggerAttackRelease('C6', '16n', time)
+    } else {
+      this.metronome_synth.triggerAttackRelease('C5', '16n', time)
+    }
   }, '4n');
 
 
@@ -180,7 +180,10 @@ class MixerPlayer extends React.Component<Props, State> {
       },
       () => {
         players.toDestination();
-        Tone.Transport.bpm.value = this.props.data?.bpm ?? 0;
+        let bpm_on_db = parseInt(this.props.data?.bpm)
+        var value_bpm = bpm_on_db <= 90 ? (bpm_on_db * 2) : this.props.data?.bpm;
+        // Tone.Transport.bpm.value = (parseInt(this.props.data?.bpm)*2) ?? 0;
+        Tone.Transport.bpm.value = value_bpm ?? 0;
         this.tonePlayers = players;
         this.tonePlayers.fadeIn = FADE_DURATION_S;
         this.tonePlayers.fadeOut = FADE_DURATION_S;
@@ -236,8 +239,8 @@ class MixerPlayer extends React.Component<Props, State> {
       }
       // Resume/start playback
       console.log('BPM:', Tone.Transport.bpm.value);
-      this.loop.start(0);
       Tone.Transport.start();
+      this.loop.start();
 
       // Set regular refresh interval
       this.interval = setInterval(() => {

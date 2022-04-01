@@ -1,19 +1,25 @@
 padStarted = undefined;
 
-function controlPad(pad) {
-    console.log(pad.state);
-    if (pad.state === 'stopped') {
-        if (padStarted) {
+function controlPad(id) {
+    var playerAudio = padSamples.player(id);
+    if (padStarted) {
+        if (padStarted.name === id) {
             padStarted.stop();
-            $('#'+padStarted.id).removeClass('pad-active');
+            $('#' + padStarted.name).removeClass('pad-active');
+            padStarted = undefined;
+        } else {
+            padStarted.stop();
+            $('#' + padStarted.name).removeClass('pad-active');
+            padStarted = playerAudio;
+            padStarted.name = id;
+            padStarted.start(0);
+            $('#' + id).addClass('pad-active');
         }
-        padStarted = pad;
-        padStarted.start(0);
-        $('#'+padStarted.id).addClass('pad-active');
     } else {
-        padStarted.stop();
-        $('#'+padStarted.id).removeClass('pad-active');
-        padStarted = undefined;
+        padStarted = playerAudio;
+        padStarted.name = id;
+        padStarted.start(0);
+        $('#' + id).addClass('pad-active');
     }
 
 }

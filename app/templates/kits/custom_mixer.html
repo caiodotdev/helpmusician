@@ -1,0 +1,812 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <script src="{% static 'tone/Tone.min.js' %}"></script>
+    <style>
+        .chordTitle {
+            font-size: 30px;
+            font-weight: bold;
+        }
+    </style>
+    <br/>
+    <div class="row">
+        <div class="col-12 col-sm-12">
+            <h2>Custom Mixer</h2>
+        </div>
+    </div>
+    <br/>
+    <div class="row" id="player">
+        <div class="col-12 col-sm-1">
+            <div class="form-inline pull-right">
+                <button class="btn btn-success disabled" id="play"><i class="fa fa-play"></i></button>
+                <button class="btn btn-secondary" id="pause"><i class="fa fa-pause"></i></button>
+            </div>
+        </div>
+        <div class="col-12 col-sm-10">
+            <div class="form-inline" style="margin-top: 8px;">
+                <input type="range" class="form-control-range" id="player_range" value="0" min="0">
+            </div>
+        </div>
+        <div class="col-12 col-sm-1">
+            <div class="form-inline" style="margin-top: 8px;">
+                <label class="" id="timer"></label>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row text-center" id="options">
+        <div class="col-12 col-sm-3">
+            <div class="form-group">
+                <label>Metronomo</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" id="less_bpm"><i class="fa fa-caret-left"></i>
+                        </button>
+                    </div>
+                    <input id="bpm" name="bpm" class="form-control" value="{{ data.bpm }}" max="250" min="0"/>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="more_bpm"><i class="fa fa-caret-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12 col-sm-3">
+            <div class="form-group">
+                <label>Tom</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" id="less_tone"><i class="fa fa-caret-left"></i>
+                        </button>
+                    </div>
+                    <input id="tone" name="tone" class="form-control" value=""/>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="more_tone"><i class="fa fa-caret-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-3">
+            <div class="form-group">
+                <label>Acorde</label>
+                <div class="form-inline" style="display: block !important;">
+                    <label id="chord" class="chordTitle"></label>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-3">
+            <div class="form-group">
+                <label>Pad Contínuo</label>
+                <div class="form-inline text-center" style="display: block !important;">
+                    <select class="form-control" name="pad" id="pad">
+                        <option value="" selected>Padrão</option>
+                        <option value="shimmer">Shimmer</option>
+                        <option value="guitar">Guitar</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row text-center" id="mixer">
+        <div class="col-12 col-sm-1">
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <input class="ch disable" id="metronome" type="text"
+                           data-slider-min="1" data-slider-max="100"
+                           data-slider-step="1"
+                           data-slider-value="100" data-slider-orientation="vertical"/>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                    <button id="solo_metronome" class="btn btn-block btn-secondary disabled">S</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <button id="mute_metronome" class="btn btn-block btn-secondary disabled">M</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <label class="badge badge-secondary">Metronomo</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-1">
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <input class="ch disabled" id="pad_continuous" name="pad_continuous" type="text"
+                           data-slider-min="1" data-slider-max="100"
+                           data-slider-step="1"
+                           data-slider-value="100" data-slider-orientation="vertical"/>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                    <button id="solo_pad" class="btn btn-block btn-secondary disabled">S</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <button id="mute_pad" class="btn btn-block btn-secondary disabled">M</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <label class="badge badge-secondary">Pad</label>
+                </div>
+                <div class="col-12 col-sm-12">
+                    <a href="#" class="btn btn-success pad_link"><i class="fa fa-download"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-1">
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <input class="ch disabled" id="vocal" type="text"
+                           data-slider-min="1" data-slider-max="100"
+                           data-slider-step="1"
+                           data-slider-value="100" data-slider-orientation="vertical"/>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                    <button id="solo_vocal" class="btn btn-block btn-secondary disabled">S</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <button id="mute_vocal" class="btn btn-block btn-secondary disabled">M</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <label class="badge badge-secondary">Vocal</label>
+                </div>
+                <div class="col-12 col-sm-12">
+                    <a target="_blank" href="{{ data.vocals_url }}" class="btn btn-success vocal_link"><i
+                            class="fa fa-download"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-1">
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <input class="ch disabled" id="piano" type="text"
+                           data-slider-min="1" data-slider-max="100"
+                           data-slider-step="1"
+                           data-slider-value="100" data-slider-orientation="vertical"/>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                    <button id="solo_piano" class="btn btn-block btn-secondary disabled">S</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <button id="mute_piano" class="btn btn-block btn-secondary disabled">M</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <label class="badge badge-secondary">Piano</label>
+                </div>
+                <div class="col-12 col-sm-12">
+                    <a target="_blank" href="{{ data.piano_url }}" class="btn btn-success piano_link"><i
+                            class="fa fa-download"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-1">
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <input class="ch disabled" id="bass" type="text"
+                           data-slider-min="1" data-slider-max="100"
+                           data-slider-step="1"
+                           data-slider-value="100" data-slider-orientation="vertical"/>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                    <button id="solo_bass" class="btn btn-block btn-secondary disabled">S</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <button id="mute_bass" class="btn btn-block btn-secondary disabled">M</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <label class="badge badge-secondary">Baixo</label>
+                </div>
+                <div class="col-12 col-sm-12">
+                    <a target="_blank" href="{{ data.bass_url }}" class="btn btn-success bass_link"><i
+                            class="fa fa-download"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-1">
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <input class="ch disabled" id="drums" type="text"
+                           data-slider-min="1" data-slider-max="100"
+                           data-slider-step="1"
+                           data-slider-value="100" data-slider-orientation="vertical"/>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                    <button id="solo_drums" class="btn btn-block btn-secondary disabled">S</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <button id="mute_drums" class="btn btn-block btn-secondary disabled">M</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <label class="badge badge-secondary">Bateria</label>
+                </div>
+                <div class="col-12 col-sm-12">
+                    <a target="_blank" href="{{ data.drums_url }}" class="btn btn-success drums_link"><i
+                            class="fa fa-download"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-1">
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <input class="ch disabled" id="other" type="text"
+                           data-slider-min="1" data-slider-max="100"
+                           data-slider-step="1"
+                           data-slider-value="100" data-slider-orientation="vertical"/>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                    <button id="solo_other" class="btn btn-block btn-secondary disabled">S</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <button id="mute_other" class="btn btn-block btn-secondary disabled">M</button>
+                </div>
+                <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                    <label class="badge badge-secondary">Outros</label>
+                </div>
+                <div class="col-12 col-sm-12">
+                    <a target="_blank" href="{{ data.other_url }}" class="btn btn-success other_link"><i
+                            class="fa fa-download"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-5">
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#loading').show();
+        $('#pause').hide();
+        var listTone = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+        var padSamples = {
+            'C': "https://dl.dropboxusercontent.com/s/l7hw16rn8a53vy1/c.m4a",
+            'C#': "https://dl.dropboxusercontent.com/s/8dh5xlf6y9q82es/csus.m4a",
+            'D': "https://dl.dropboxusercontent.com/s/t4cshdx0ofpj50b/d.m4a",
+            'D#': "https://dl.dropboxusercontent.com/s/nkmwp0v0x9xqeqo/dsus.m4a",
+            'E': "https://dl.dropboxusercontent.com/s/slzc8xfsqq9uyov/e.m4a",
+            'F': "https://dl.dropboxusercontent.com/s/12v05cvm23dvwu9/f.m4a",
+            'F#': "https://dl.dropboxusercontent.com/s/br55k1ekbyx2sbo/fsus.m4a",
+            'G': "https://dl.dropboxusercontent.com/s/fqxm3xsvu3281cj/g.m4a",
+            'G#': "https://dl.dropboxusercontent.com/s/suhsxnf96ek4e00/gsus.m4a",
+            'A': "https://dl.dropboxusercontent.com/s/uicc62ooows8v0o/a.m4a",
+            'A#': "https://dl.dropboxusercontent.com/s/ea4mq99i6jfwbiw/asus.m4a",
+            'B': "https://dl.dropboxusercontent.com/s/67hworai3uj6cnf/b.m4a"
+        }
+        var mapTone = {
+            'C:maj': 'C',
+            'Db:maj': 'C#',
+            'D:maj': 'D',
+            'Eb:maj': 'D#',
+            'E:maj': 'E',
+            'F:maj': 'F',
+            'Gb:maj': 'F#',
+            'G:maj': 'G',
+            'Ab:maj': 'G#',
+            'A:maj': 'A',
+            'Bb:maj': 'A#',
+            'B:maj': 'B'
+        }
+        $('#tone').val(mapTone["{{ data.tone }}"]);
+        var tone_index = listTone.indexOf(mapTone["{{ data.tone }}"]);
+        var tone = $('#tone').val();
+        var chords = {{ chords|safe }};
+        var arrayNote = chords[0];
+
+        var bpm_on_db = parseInt('{{ data.bpm }}')
+        var value_bpm = bpm_on_db <= 90 ? (bpm_on_db * 2) : bpm_on_db;
+        Tone.Transport.bpm.value = value_bpm ?? 0;
+        console.log('bpm', Tone.Transport.bpm.value);
+
+        var interval = 0;
+        var isPlaying = false;
+        var durationSeconds = 0;
+        var secondsElapsed = 0;
+
+        var metronome_synth = new Tone.Synth({
+            oscillator: {
+                type: 'triangle',
+            },
+            envelope: {
+                attack: 0.01,
+                decay: 0.05,
+                sustain: 0.0,
+                release: 1,
+            },
+        }).toDestination();
+
+        var metronome_channel = new Tone.Channel({
+            name: 'metronomo'
+        }).toDestination();
+        metronome_synth.connect(metronome_channel);
+
+        var loop = new Tone.Loop((time) => {
+            Tone.Transport.setLoopPoints(0, '1m');
+            // this.metronome_synth.triggerAttackRelease('C5', '16n', time);
+            var position = Tone.Transport.position;
+            console.log('Beat:', position);
+            var index = Number(position.split(':')[1]) + 1
+            if (index === 1) {
+                metronome_synth.triggerAttackRelease('C6', '16n', time)
+            } else {
+                metronome_synth.triggerAttackRelease('C5', '16n', time)
+            }
+        }, '4n');
+
+
+        $('#metronome').removeClass('disabled');
+        $('#solo_metronome').removeClass('disabled');
+        $('#mute_metronome').removeClass('disabled');
+
+
+        function calcVolumeDecibels(pct) {
+            var db = 20 * Math.log10(pct / 100.0);
+            return db;
+        }
+
+        function calcVolumePct(db) {
+            var pct = Math.pow(10, db / 20);
+            return pct
+        }
+
+        function zeroPadNumber(number) {
+            return number < 10 ? '0' + number : number.toString();
+        }
+
+        function formatTime(seconds) {
+            if (typeof seconds === 'number') {
+                seconds = Math.floor(seconds);
+                if (seconds > 0) {
+                    const m = Math.floor(seconds / 60);
+                    const s = Math.floor(seconds - m * 60);
+                    return zeroPadNumber(m) + ':' + zeroPadNumber(s);
+                }
+            }
+            return '00:00';
+        }
+
+        function onBeforeSeek() {
+            clearInterval(interval);
+        }
+
+        function onAfterSeek(seconds) {
+            if (typeof seconds === 'number') {
+                Tone.Transport.seconds = seconds;
+                interval = setInterval(() => {
+                    onUpdate();
+                }, 200);
+            }
+        }
+
+        function onSeeking(seconds) {
+
+            console.log('change to', seconds);
+            if (typeof seconds === 'number') {
+                secondsElapsed = seconds;
+                $('#timer').text(formatTime(secondsElapsed));
+            }
+
+        }
+
+        function seeking(seconds) {
+            clearInterval(interval);
+            secondsElapsed = seconds;
+            $('#timer').text(formatTime(secondsElapsed));
+            Tone.Transport.seconds = seconds;
+            interval = setInterval(() => {
+                onUpdate();
+            }, 200);
+        }
+
+        function nextItem() {
+            tone_index = tone_index + 1; // increase i by one
+            tone_index = tone_index % listTone.length; // if we've gone too high, start from `0` again
+            return listTone[tone_index]; // give us back the item of where we are now
+        }
+
+
+        function prevItem() {
+            if (tone_index === 0) { // i would become 0
+                tone_index = listTone.length; // so put it at the other end of the array
+            }
+            tone_index = tone_index - 1; // decrease by one
+            return listTone[tone_index]; // give us back the item of where we are now
+        }
+
+        function changeBpm() {
+            var new_val = $('#bpm').val();
+            //Tone.Transport.bpm.value = parseInt(new_val);
+            Tone.getTransport().bpm.rampTo(new_val);
+            console.log('bpm', new_val);
+        }
+
+        function drawNote() {
+            $('#chord').text(arrayNote[1]);
+        }
+
+
+        function isMinor(value, index_time) {
+            return value >= index_time;
+        }
+
+
+        function changeArrayNote() {
+            if (secondsElapsed === 0) {
+                arrayNote = chords[0];
+                drawNote();
+            } else {
+                arrayNote = chords.filter(ele => ele[2] > secondsElapsed)[0]
+                drawNote();
+            }
+        }
+
+        function onUpdate() {
+            // Arbitrarily use vocals track as source of truth (they should all have same duration anyways)
+            durationSeconds = vocal_player.buffer.duration;
+            secondsElapsed = Math.min(durationSeconds, Tone.Transport.seconds);
+
+            if (secondsElapsed === durationSeconds) {
+                Tone.Transport.stop();
+            }
+            isPlaying = Tone.Transport.state === 'started';
+
+            $('#player_range').val(Math.floor(secondsElapsed));
+            $('#timer').text(formatTime(secondsElapsed));
+
+            changeArrayNote();
+
+            if (!isPlaying) {
+                clearInterval(interval);
+            }
+        }
+
+        function checkAllLoaded() {
+            return pad_player.loaded && vocal_player.loaded && piano_player.loaded && bass_player.loaded && drums_player.loaded && other_player.loaded;
+        }
+
+        $(document).ready(function () {
+            $('.ch').slider({
+                reversed: true
+            });
+            $('#player_range').on('change', function (obj) {
+                seeking(parseInt(obj.target.value));
+            });
+
+
+            $('#metronome').on('slide', function (slideEvt) {
+                console.log('val', slideEvt.value);
+                metronome_synth.volume.value = calcVolumeDecibels(slideEvt.value);
+            });
+
+            $('#play').click(function () {
+                Tone.Transport.start();
+                loop.start();
+                $('#pause').show();
+                $(this).hide();
+                interval = setInterval(() => {
+                    onUpdate();
+                }, 100);
+            });
+
+            $('#pause').click(function () {
+                Tone.Transport.stop();
+                loop.stop();
+                $('#play').show();
+                $(this).hide();
+                clearInterval(interval);
+            });
+
+            $('#less_bpm').click(function () {
+                var val = parseInt($('#bpm').val());
+                $('#bpm').val(val - 1);
+                changeBpm();
+            });
+            $('#more_bpm').click(function () {
+                var val = parseInt($('#bpm').val());
+                $('#bpm').val(val + 1);
+                changeBpm();
+            });
+            $('#bpm').change(function () {
+                var val = parseInt($('#bpm').val());
+                $('#bpm').val(val);
+                changeBpm();
+            })
+
+
+            $('#less_tone').click(function () {
+                $('#tone').val(prevItem());
+                pitchShift.pitch = pitchShift.pitch - 1;
+            });
+
+            $('#more_tone').click(function () {
+                $('#tone').val(nextItem());
+                pitchShift.pitch = pitchShift.pitch + 1;
+            });
+
+            //Mutes
+
+            $('#mute_metronome').click(function () {
+                metronome_channel.mute = !metronome_channel.mute;
+                console.log('mute Metronome', metronome_channel.mute);
+                if (metronome_channel.mute) {
+                    metronome_synth.volume.value = -Infinity;
+                    $(this).addClass('btn-danger');
+                } else {
+                    metronome_synth.volume.value = calcVolumeDecibels(100);
+                    $(this).removeClass('btn-danger');
+                }
+            });
+
+            $('#mute_vocal').click(function () {
+                vocal_channel.mute = !vocal_channel.mute;
+                console.log('mute Vocal', vocal_channel.mute);
+                if (vocal_channel.mute) {
+                    $(this).addClass('btn-danger');
+                } else {
+                    $(this).removeClass('btn-danger');
+                }
+            });
+            $('#mute_piano').click(function () {
+                piano_channel.mute = !piano_channel.mute;
+                console.log('mute Piano', piano_channel.mute);
+                if (piano_channel.mute) {
+                    $(this).addClass('btn-danger');
+                } else {
+                    $(this).removeClass('btn-danger');
+                }
+            });
+            $('#mute_bass').click(function () {
+                bass_channel.mute = !bass_channel.mute;
+                console.log('mute Bass', bass_channel.mute);
+                if (bass_channel.mute) {
+                    $(this).addClass('btn-danger');
+                } else {
+                    $(this).removeClass('btn-danger');
+                }
+            });
+            $('#mute_drums').click(function () {
+                drums_channel.mute = !drums_channel.mute;
+                console.log('mute Drums', drums_channel.mute);
+                if (drums_channel.mute) {
+                    $(this).addClass('btn-danger');
+                } else {
+                    $(this).removeClass('btn-danger');
+                }
+            });
+            $('#mute_other').click(function () {
+                other_channel.mute = !other_channel.mute;
+                console.log('mute Other', other_channel.mute);
+                if (other_channel.mute) {
+                    $(this).addClass('btn-danger');
+                } else {
+                    $(this).removeClass('btn-danger');
+                }
+            });
+            $('#mute_pad').click(function () {
+                pad_channel.mute = !pad_channel.mute;
+                console.log('mute Pad', pad_channel.mute);
+                if (pad_channel.mute) {
+                    $(this).addClass('btn-danger');
+                } else {
+                    $(this).removeClass('btn-danger');
+                }
+            });
+
+            // Solos
+            $('#solo_metronome').click(function () {
+                metronome_channel.solo = !metronome_channel.solo;
+                console.log('solo Metronome', metronome_channel.solo);
+                if (metronome_channel.solo) {
+                    metronome_synth.volume.value = calcVolumeDecibels(100);
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).removeClass('btn-warning');
+                }
+            });
+
+            $('#solo_vocal').click(function () {
+                vocal_channel.solo = !vocal_channel.solo;
+                console.log('solo Vocal', vocal_channel.solo);
+                if (vocal_channel.solo) {
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).removeClass('btn-warning');
+                }
+            });
+            $('#solo_piano').click(function () {
+                piano_channel.solo = !piano_channel.solo;
+                console.log('solo Piano', piano_channel.solo);
+                if (piano_channel.solo) {
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).removeClass('btn-warning');
+                }
+            });
+            $('#solo_bass').click(function () {
+                bass_channel.solo = !bass_channel.solo;
+                console.log('solo Bass', bass_channel.solo);
+                if (bass_channel.solo) {
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).removeClass('btn-warning');
+                }
+            });
+            $('#solo_drums').click(function () {
+                drums_channel.solo = !drums_channel.solo;
+                console.log('solo Drums', drums_channel.solo);
+                if (drums_channel.solo) {
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).removeClass('btn-warning');
+                }
+            });
+            $('#solo_other').click(function () {
+                other_channel.solo = !other_channel.solo;
+                console.log('solo Other', other_channel.solo);
+                if (other_channel.solo) {
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).removeClass('btn-warning');
+                }
+            });
+            $('#solo_pad').click(function () {
+                pad_channel.solo = !pad_channel.solo;
+                console.log('solo Pad', pad_channel.solo);
+                if (pad_channel.solo) {
+                    $(this).addClass('btn-warning');
+                } else {
+                    $(this).removeClass('btn-warning');
+                }
+            });
+
+            // Volumes
+            $('#pad_continuous').on('slide', function (slideEvt) {
+                console.log('val', slideEvt.value);
+                pad_channel.volume.value = calcVolumeDecibels(slideEvt.value);
+            });
+
+            $('#vocal').on('slide', function (slideEvt) {
+                console.log('val', slideEvt.value);
+                vocal_channel.volume.value = calcVolumeDecibels(slideEvt.value);
+            });
+            $('#piano').on('slide', function (slideEvt) {
+                console.log('val', slideEvt.value);
+                piano_channel.volume.value = calcVolumeDecibels(slideEvt.value);
+            });
+            $('#bass').on('slide', function (slideEvt) {
+                console.log('val', slideEvt.value);
+                bass_channel.volume.value = calcVolumeDecibels(slideEvt.value);
+            });
+            $('#drums').on('slide', function (slideEvt) {
+                console.log('val', slideEvt.value);
+                drums_channel.volume.value = calcVolumeDecibels(slideEvt.value);
+            });
+            $('#other').on('slide', function (slideEvt) {
+                console.log('val', slideEvt.value);
+                other_channel.volume.value = calcVolumeDecibels(slideEvt.value);
+            });
+        });
+    </script>
+    <script>
+        console.log('pad to load', padSamples[tone]);
+        var pitchShift = new Tone.PitchShift().toDestination();
+        var pad_channel = new Tone.Channel({
+            name: 'pad'
+        }).toDestination();
+        var pad_player = new Tone.GrainPlayer({
+            url: padSamples[tone],
+            name: 'pad',
+            fadeOut: '4n',
+            onload: function () {
+                $('#pad_continuous, #solo_pad, #mute_pad').removeClass('disabled');
+                $('.pad_link').attr('href', padSamples[tone]);
+                if (checkAllLoaded()) {
+                    $('#play').removeClass('disabled');
+                    $('#loading').hide();
+                }
+            }
+        }).sync().start(0, 0);
+        pad_player.connect(pad_channel);
+        pad_channel.connect(pitchShift);
+
+        var vocal_channel = new Tone.Channel({
+            name: 'vocal'
+        }).toDestination();
+        var vocal_player = new Tone.GrainPlayer({
+            url: '{{ data.vocals_url }}',
+            name: 'vocal',
+            fadeOut: '4n',
+            onload: function () {
+                $('#vocal, #solo_vocal, #mute_vocal').removeClass('disabled');
+                durationSeconds = vocal_player.buffer.duration;
+                $('#player_range').attr('max', durationSeconds);
+                if (checkAllLoaded()) {
+                    $('#play').removeClass('disabled');
+                    $('#loading').hide();
+                }
+            }
+        }).sync().start(0, 0);
+        vocal_player.connect(vocal_channel);
+        vocal_channel.connect(pitchShift);
+
+        var piano_channel = new Tone.Channel({
+            name: 'piano'
+        }).toDestination();
+        var piano_player = new Tone.Player({
+            url: '{{ data.piano_url }}',
+            name: 'piano',
+            fadeOut: '4n',
+            onload: function () {
+                $('#piano, #solo_piano, #mute_piano').removeClass('disabled');
+                if (checkAllLoaded()) {
+                    $('#play').removeClass('disabled');
+                    $('#loading').hide();
+                }
+            }
+        }).sync().start(0, 0);
+        piano_player.connect(piano_channel);
+        piano_channel.connect(pitchShift);
+
+        var bass_channel = new Tone.Channel({
+            name: 'bass'
+        }).toDestination();
+        var bass_player = new Tone.Player({
+            url: '{{ data.bass_url }}',
+            name: 'bass',
+            fadeOut: '4n',
+            onload: function () {
+                $('#bass, #solo_bass, #mute_bass').removeClass('disabled');
+                if (checkAllLoaded()) {
+                    $('#play').removeClass('disabled');
+                    $('#loading').hide();
+                }
+            }
+        }).sync().start(0, 0);
+        bass_player.connect(bass_channel);
+        bass_channel.connect(pitchShift);
+
+        var drums_channel = new Tone.Channel({
+            name: 'drums'
+        }).toDestination();
+        var drums_player = new Tone.Player({
+            url: '{{ data.drums_url }}',
+            name: 'drums',
+            fadeOut: '4n',
+            onload: function () {
+                $('#drums, #solo_drums, #mute_drums').removeClass('disabled');
+                if (checkAllLoaded()) {
+                    $('#play').removeClass('disabled');
+                    $('#loading').hide();
+                }
+            }
+        }).sync().start(0, 0);
+        drums_player.connect(drums_channel);
+        drums_channel.connect(pitchShift);
+
+        var other_channel = new Tone.Channel({
+            name: 'other'
+        }).toDestination();
+        var other_player = new Tone.GrainPlayer({
+            url: '{{ data.other_url }}',
+            name: 'other',
+            fadeOut: '4n',
+            onload: function () {
+                $('#other, #solo_other, #mute_other').removeClass('disabled');
+                if (checkAllLoaded()) {
+                    $('#play').removeClass('disabled');
+                    $('#loading').hide();
+                }
+            }
+        }).sync().start(0, 0);
+        other_player.connect(other_channel);
+        other_channel.connect(pitchShift);
+
+        // create a meter on the destination node
+        const toneMeter = new Tone.Meter({channels: 2});
+        Tone.Destination.chain(toneMeter);
+
+
+    </script>
+
+
+{% endblock %}

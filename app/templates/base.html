@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{% static 'default/css/sweetalert.min.css' %}">
     <link rel="stylesheet" type="text/css"
           href="{% static 'default/css/datatables.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'tone/bootstrap-slider.min.css' %}"/>
 
     <style>
         .hidden {
@@ -51,6 +52,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link clicked" href="{% url 'worship_pads' %}">Worship Pads</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link clicked" href="{% url 'custom_mixer' %}">Custom Mixer</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
@@ -116,6 +120,8 @@
 
 <script type="text/javascript"
         src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.min.js"></script>
+
+<script src="{% static 'tone/bootstrap-slider.min.js' %}"></script>
 
 <script src="{% static 'default/js/customTour.js' %}"></script>
 

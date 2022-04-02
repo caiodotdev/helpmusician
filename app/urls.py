@@ -48,5 +48,10 @@ urlpatterns = [
         views.PadContinuous.as_view(),
         name='worship_pads'
     ),
+    path(
+        'custom-mixer/',
+        views.CustomMixer.as_view(),
+        name='custom_mixer'
+    ),
 
 ]

@@ -21,7 +21,7 @@ from app.apis.chordify import get_chordify, get_notes
 from app.apis.youtube import get_youtube_search, make_youtube_url
 from app.custom_mixin import CustomFormView, CustomContextMixin
 from app.models import Music
-from app.requests_api import _do_post
+from app.requests_api import _do_post, _do_get
 from frontend.DetectMobile import DetectMobileBrowser
 
 try:
@@ -220,3 +220,19 @@ class DrumKit(TemplateView):
 
 class PadContinuous(DetectMobileBrowser, TemplateView):
     template_name = 'kits/pad_continuous.html'
+
+
+SERVER_URL = settings.SERVER_URL
+
+
+class CustomMixer(DetectMobileBrowser, TemplateView):
+    template_name = 'kits/custom_mixer.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomMixer, self).get_context_data()
+        token = self.request.session['token']
+        id_mix = '8016f359-21c7-48b0-b990-a137df88e6b1'
+        req = _do_get(SERVER_URL + '/api/mix/dynamic/' + id_mix + '/', None, token)
+        context['data'] = req.json()
+        context['chords'] = [clause.split(';') for clause in req.json()['chords'].split('\n')]
+        return context

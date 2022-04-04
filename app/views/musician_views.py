@@ -135,7 +135,11 @@ class ConfirmMusic(LoginRequiredMixin, CreateView):
         if 'id' in data:
             id_video = data['id']
             youtube_link = make_youtube_url(id_video)
-            artist, title = get_artist_title(data['title'])
+            if get_artist_title(data['title']):
+                artist, title = get_artist_title(data['title'])
+            else:
+                artist = ''
+                title = ''
             youtube_link = make_youtube_url(data['id'])
             context['id'] = data['id']
             context['thumb'] = data['thumb']

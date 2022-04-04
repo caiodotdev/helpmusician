@@ -17,7 +17,7 @@
                                 <button class="btn btn-secondary" id="pause"><i class="fa fa-pause"></i></button>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-10">
+                        <div class="col-12 col-sm-9">
                             <div class="form-inline" style="margin-top: 8px;">
                                 <input type="range" class="form-control-range" id="player_range" value="0" min="0">
                             </div>
@@ -25,6 +25,14 @@
                         <div class="col-12 col-sm-1">
                             <div class="form-inline" style="margin-top: 8px;">
                                 <label class="" id="timer"></label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-1">
+                            <div class="form-inline" >
+                                <a href="{{ track.source_file.file_url  }}" target="_blank"
+                                   class="btn btn-info">
+                                    Download <i class="fa fa-download"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

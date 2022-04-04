@@ -104,6 +104,7 @@
 
     <script src="{% static 'default/js/Tone.js' %}"></script>
     <script>
+        $('#drumkit').addClass('active');
         var pad1 = new Tone.Player({
             "url": "{% static 'drums/kick.mp3' %}",
             // "loop": true

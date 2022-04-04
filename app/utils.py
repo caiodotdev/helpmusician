@@ -1,3 +1,10 @@
+import csv
+import random
+import string
+from base64 import b64encode
+
+import pyimgur
+from appdirs import unicode
 from django.db.models import (
     CharField,
     TextField,
@@ -16,26 +23,16 @@ from django.forms.widgets import (
     Textarea,
     NumberInput,
     EmailInput,
-    Input,
     Select,
     TextInput,
-    FileInput,
-    DateTimeInput,
-    DateInput,
     HiddenInput,
     CheckboxInput,
     CheckboxSelectMultiple,
 )
+from django.utils import timezone
 
-import random
-import string
-import csv
-import json
+from app.youtubedl import get_meta_info
 
-from base64 import b64encode
-
-import pyimgur
-import requests
 
 def generate_random_string(n):
     """
@@ -126,31 +123,97 @@ def upload_image(request, attribute='file'):
         return 'http://placehold.it/1024x800'
 
 
-def upload_file(request, attribute='file'):
-    try:
-        url_upload = "https://content.dropboxapi.com/2/files/upload"
-        name = "/" + str(request.FILES[attribute].name)
-        headers_upload = {
-            "Authorization": "Bearer M6iN1nYzh_YAAAAAAACHm34PsRKmgPWvVI6uSALYMTqZxGUcopC4pr7K7OkfFfaZ",
-            "Content-Type": "application/octet-stream",
-            "Dropbox-API-Arg": "{\"path\":\"" + name + "\"}"
-        }
-        data_upload = b64encode(request.FILES[attribute].read())
-        response = requests.post(url_upload, headers=headers_upload, data=data_upload)
-        print(response.json())
-        if response.status_code == 200 or response.status_code == 201:
-            url_link = "https://api.dropboxapi.com/2/sharing/create_shared_link"
-            headers_link = {
-                "Authorization": "Bearer M6iN1nYzh_YAAAAAAACHmqe-TsJhb-Dur_EB09HNKaguknUwnq2a_PprLOwiSS3W",
-                "Content-Type": "application/json"
-            }
-            data_link = {
-                "path": "/Apps/pagseguroarquivos" + name,
-                "short_url": False
-            }
-            response_link = requests.post(url_link, headers=headers_link, data=json.dumps(data_link))
-            return response_link.json()['url']
-        return 'http://placehold.it/1024x800'
-    except (Exception,):
-        return 'http://placehold.it/1024x800'
+def get_valid_filename(s):
+    """
+    Return the given string converted to a string that can be used for a clean
+    filename. Remove leading and trailing spaces; remove anything that is not an
+    alphanumeric, dash, whitespace, comma, bracket, underscore, or dot.
+    >>> get_valid_filename("john's portrait in 2004.jpg")
+    'johns_portrait_in_2004.jpg'
+    """
+    s = text_to_id(s)
+    s = remove_spaces(s)
+    return re.sub(r'(?u)[^-\w\s.,[\]()]', '', s)
 
+
+def remove_spaces(s):
+    s = str(s).strip()
+    s = str(s).replace(' ', '').replace(',', '_')
+    return s
+
+
+import re
+
+import unicodedata
+
+
+def strip_accents(text):
+    """
+    Strip accents from input String.
+
+    :param text: The input string.
+    :type text: String.
+
+    :returns: The processed String.
+    :rtype: String.
+    """
+    try:
+        text = unicode(text, 'utf-8')
+    except (TypeError, NameError):  # unicode is a default on python 3
+        pass
+    text = unicodedata.normalize('NFD', text)
+    text = text.encode('ascii', 'ignore')
+    text = text.decode("utf-8")
+    return str(text)
+
+
+def text_to_id(text):
+    """
+    Convert input text to id.
+
+    :param text: The input string.
+    :type text: String.
+
+    :returns: The processed String.
+    :rtype: String.
+    """
+    text = strip_accents(text.lower())
+    text = re.sub('[ ]+', '_', text)
+    text = re.sub('[^0-9a-zA-Z_-]', '', text)
+    return text
+
+
+def get_artist_and_title(link):
+    info = get_meta_info(link)
+    url = info['url']
+    # Parse artist and title info
+    if info['embedded_artist'] and info['embedded_title']:
+        # Embedded meta info takes precedence
+        artist = info['embedded_artist']
+        title = info['embedded_title']
+    elif info['parsed_artist'] and info['parsed_title']:
+        # Followed by parsing the artist and title from the video title
+        artist = info['parsed_artist']
+        title = info['parsed_title']
+    else:
+        # Followed by uploader name and video title
+        artist = info['uploader']
+        title = info['title']
+    return artist, title, url
+
+
+def save_dynamic_mix_copy(dynamic, dynamic_on_db):
+    dynamic.status = 2
+    dynamic.date_finished = timezone.now()
+    dynamic.vocals_url = dynamic_on_db.vocals_url
+    dynamic.vocals_path = dynamic_on_db.vocals_path
+    dynamic.piano_url = dynamic_on_db.piano_url
+    dynamic.piano_path = dynamic_on_db.piano_path
+    dynamic.bass_url = dynamic_on_db.bass_url
+    dynamic.bass_path = dynamic_on_db.bass_path
+    dynamic.drums_url = dynamic_on_db.drums_url
+    dynamic.drums_path = dynamic_on_db.drums_path
+    dynamic.other_url = dynamic_on_db.other_url
+    dynamic.other_path = dynamic_on_db.other_path
+    dynamic.folder_path_on_dropbox = dynamic_on_db.folder_path_on_dropbox
+    dynamic.save()

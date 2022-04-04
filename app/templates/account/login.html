@@ -9,7 +9,8 @@
                 <div class="col-12 col-xs-12 col-sm-6 align-self-center">
                     <div class="panel panel-default">
                         <div class="panel-heading text-center">
-                            <img src="{% static 'default/logo02.png' %}" class="img-responsive" style="max-height: 180px;"/>
+                            <img src="{% static 'default/logo02.png' %}" class="img-responsive"
+                                 style="max-height: 180px;"/>
                         </div>
                         <div class="panel-body">
                             <br/>
@@ -31,6 +32,11 @@
                             <center><h4>OU</h4></center>
                             <a class="btn btn-lg btn-primary btn-block" href="{% url 'register' %}">Registrar</a>
                             {#                            <input class="btn btn-lg btn-facebook btn-block" type="submit" value="Login via facebook">#}
+                            <br/>
+                            <a class="btn btn-dark btn-block"
+                               href="{% url 'selected_out' %}">
+                                Músicas da Semana
+                            </a>
                         </div>
                     </div>
                 </div>

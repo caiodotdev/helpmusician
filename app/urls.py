@@ -1,57 +1,75 @@
-from django.urls import path, include
-from . import views
+from django.urls import path
+
+from .views.auth import LoginView, LogoutUser, RegisterView
+from .views.musician_views import ListTracks, ResultsView, ConfirmMusic, DrumKit, PadContinuous, CustomMixer, \
+    DeleteDynamic, PlayerView, SelectedView, SelectedOut
 
 urlpatterns = [
     path(
         'login/',
-        views.LoginView.as_view(),
+        LoginView.as_view(),
         name='login'
     ),
     path(
         'logout/',
-        views.logout_user,
+        LogoutUser.as_view(),
         name='logout'
     ),
     path(
         'register/',
-        views.RegisterView.as_view(),
+        RegisterView.as_view(),
         name='register'
     ),
     # music
     path(
         '',
-        views.SearchTemplate.as_view(),
+        ListTracks.as_view(),
         name='index'
     ),
     path(
         'results/',
-        views.ResultsView.as_view(),
+        ResultsView.as_view(),
         name='results'
     ),
     path(
-        'confirm-artist',
-        views.ConfirmMusic.as_view(),
+        'confirm-artist/',
+        ConfirmMusic.as_view(),
         name='confirm_artist'
     ),
     path(
-        'video/',
-        views.VideoView.as_view(),
-        name='video'
-    ),
-    path(
         'drumkit/',
-        views.DrumKit.as_view(),
+        DrumKit.as_view(),
         name='drumkit'
     ),
     path(
         'worship-pads/',
-        views.PadContinuous.as_view(),
+        PadContinuous.as_view(),
         name='worship_pads'
     ),
     path(
-        'custom-mixer/',
-        views.CustomMixer.as_view(),
-        name='custom_mixer'
+        'custom-mix/<uuid:id>/',
+        CustomMixer.as_view(),
+        name='custom_mix'
     ),
+    path(
+        'custom-mix/<uuid:id>/delete/',
+        DeleteDynamic.as_view(),
+        name='delete_mix'
+    ),
+    path(
+        'track/<uuid:id>/',
+        PlayerView.as_view(),
+        name='player_view'
+    ),
+    path(
+        'selected/',
+        SelectedView.as_view(),
+        name='selected'
+    ),
+    path(
+        'music-selected/',
+        SelectedOut.as_view(),
+        name='selected_out'
+    )
 
 ]

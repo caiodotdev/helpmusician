@@ -1,12 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.forms import ModelForm, inlineformset_factory
-from app.utils import generate_bootstrap_widgets_for_all_fields
+from django.forms import ModelForm
 
+from app.utils import generate_bootstrap_widgets_for_all_fields
 from . import (
     models
 )
+from .models import SourceTrack, SourceFile
 
 
 class BaseForm(forms.Form):
@@ -20,42 +20,40 @@ class BaseForm(forms.Form):
                 field.widget.attrs['class'] = 'form-control cep'
 
 
-class MusicForm(BaseForm, ModelForm):
+class SourceTrackForm(BaseForm, ModelForm):
     class Meta:
-        model = models.Music
-        fields = ("id", "youtube_url", "chordInfo", "derivedKey", "derivedBpm", "barLength", "versionId", "chords")
-        widgets = generate_bootstrap_widgets_for_all_fields(models.Music)
+        model = SourceTrack
+        fields = ("user",)
+        widgets = generate_bootstrap_widgets_for_all_fields(models.SourceTrack)
 
     def __init__(self, *args, **kwargs):
-        super(MusicForm, self).__init__(*args, **kwargs)
-
-
-class ArtistForm(BaseForm, ):
-    artist = forms.CharField(max_length=255)
-    title = forms.CharField(max_length=255)
-
-
-class MusicFormToInline(BaseForm, ModelForm):
-    class Meta:
-        model = models.Music
-        fields = ("id", "youtube_url", "chordInfo", "derivedKey", "derivedBpm", "barLength", "versionId")
-        widgets = generate_bootstrap_widgets_for_all_fields(models.Music)
-
-    def __init__(self, *args, **kwargs):
-        super(MusicFormToInline, self).__init__(*args, **kwargs)
+        super(SourceTrackForm, self).__init__(*args, **kwargs)
 
 
 class SearchForm(BaseForm):
     musica = forms.CharField(max_length=255, label='Musica')
 
 
-class NewUserForm(BaseForm):
-    email = forms.EmailField(required=True)
-    username = forms.CharField(required=True, max_length=255)
-    first_name = forms.CharField(max_length=255)
+class NewUserForm(BaseForm, ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password', 'first_name')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'],
+                                        **{'first_name': validated_data['first_name']})
+        return user
 
 
 class LoginForm(BaseForm):
     username = forms.CharField(required=True, max_length=255)
     password = forms.CharField(widget=forms.PasswordInput())
+
+
+class UploadForm(BaseForm, ModelForm):
+    class Meta:
+        model = SourceFile
+        fields = ['file']

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load form_utils %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-sm-12">
+            <div class="jumbotron jumbotron-fluid bg-transparent">
+                <div class="container secondary-color">
+                    <h2 class="display-5">Músicas da Semana</h2>
+                    <p class="lead">Abaixo estão as músicas selecionadas da semana
+                    <p>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        {% for track in tracks %}
+                            <div class="col-12 col-sm-4">
+                                <div class="card" style="margin-top: 16px;">
+                                    <img class="card-img-top" width="100%"
+                                         src="{{ track.thumb }}"/>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <b>{{ track.title|truncatechars:30 }}</b>
+                                        </h5>
+                                        <div class="form-group">
+                                            <label>Artista:</label>
+                                            <span>{{ track.artist }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#selected').addClass('active');
+        });
+
+    </script>
+
+{% endblock %}

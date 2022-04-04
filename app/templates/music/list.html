@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% load form_utils %}
+{% load static %}
+{% block content %}
+    <script src="{% static 'tone/Tone.min.js' %}"></script>
+    <div class="row">
+        <div class="col-12 col-sm-12">
+            <div class="jumbotron jumbotron-fluid bg-transparent">
+                <div class="container secondary-color">
+                    <h2 class="display-5">Lista de Músicas</h2>
+                    <p class="lead">Comece carregando uma música ou criando uma nova mix.</p>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <form method="get" action="{% url 'results' %}">
+                                {% csrf_token %}
+                                <div class="input-group mb-3">
+                                    <input class="form-control" name="search" placeholder="Insira o nome da música"/>
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary" id="search_btn">
+                                            <i class="fa fa-search"></i> Buscar
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div id="list" class="row">
+                        <div class="col-md-12">
+                            <header>
+                                <div class="form-group form-inline pull-right">
+                                    <input type="text" class="hidden" name="ordering" id="ordering"
+                                           value="{{ ordering }}"/>
+                                    {#                    <label>Search:</label>#}
+                                    {#                    <div class="input-group mb-3">#}
+                                    {#                        <input type="text" id="search" name="search" placeholder="" value="{{ search }}"/>#}
+                                    {#                        <div class="input-group-append">#}
+                                    {#                            <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>#}
+                                    {#                        </div>#}
+                                    {#                    </div>#}
+                                </div>
+                            </header>
+                            <table id="table" class="table table-striped" cellspacing="0" cellpadding="0">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>ARTISTA</th>
+                                    <th>TITULO</th>
+                                    <th>TOM</th>
+                                    <th>BPM</th>
+                                    <th>STATUS</th>
+                                    <th></th>
+                                    <th class="actions">Ações</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for track in object_list %}
+                                    <tr>
+                                        <td>
+                                            {% if track.source_file.file_url %}
+                                                <a href="{% url 'player_view' track.id %}" class="btn btn-success play">
+                                                    <i class="fa fa-play"></i>
+                                                </a>
+                                            {% else %}
+                                                <button type="button" class="btn btn-info">
+                                                    <i class="fa fa-refresh" data-toggle="tooltip" data-placement="top"
+                                                       title="Baixando Música..."></i>
+                                                </button>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ track.artist }}</td>
+                                        <td>{{ track.title }}</td>
+                                        <td>{{ track.tone }}</td>
+                                        <td>{{ track.bpm }}</td>
+                                        <td>
+                                            {% if track.dynamic.first.status == 0 %}
+                                                <i class="fa fa-warning fa-2x" style="color: #eaea23"
+                                                   data-toggle="tooltip" data-placement="top" title="Em Fila"
+                                                ></i>
+                                            {% elif track.dynamic.first.status == 1 %}
+                                                <i class="fa fa-refresh fa-2x"
+                                                   data-toggle="tooltip" data-placement="top" title="Processando..."
+                                                   style="color: #2aabd2"></i>
+                                            {% elif track.dynamic.first.status == 2 %}
+                                                <i class="fa fa-check-circle fa-2x" style="color: green"
+                                                   data-toggle="tooltip" data-placement="top" title="Pronto"
+                                                > </i>
+
+                                            {% elif track.dynamic.first.status == 2 %}
+                                                <i class="fa fa-close fa-2x" style="color: red"
+                                                   data-toggle="tooltip" data-placement="top" title="Erro"></i>
+                                            {% else %}
+                                                <i class="fa fa-warning fa-2x"
+                                                   data-toggle="tooltip" data-placement="top" title="Criando Mix..."
+                                                   style="color: #a2a2a2"></i>
+                                            {% endif %}
+
+                                        </td>
+                                        <td>
+                                            {% if track.dynamic.first %}
+                                                {% if track.dynamic.first.status == 2 %}
+                                                    <a href="{% url 'custom_mix' track.dynamic.first.id %}"
+                                                       class="btn btn-secondary">
+                                                        Mixer
+                                                    </a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if track.dynamic.first %}
+                                                <a href="{% url 'delete_mix' track.dynamic.first.id %}"
+                                                   class="btn btn-danger">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-sm-12">
+                        <span class="current pull-left">
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}. ({{ page_obj.start_index }}—{{ page_obj.end_index }})
+                        </span>
+                                    {% if is_paginated %}
+                                        <ul class="pagination pagination-flat pull-right">
+                                            {% if page_obj.has_previous %}
+                                                <li class="page-item"><a class="page-link"
+                                                                         href="?{% param_replace page=page_obj.previous_page_number %}">&laquo;</a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item disabled"><span>&laquo;</span></li>
+                                            {% endif %}
+                                            {% if page_obj.number|add:'-4' > 1 %}
+                                                <li>
+                                                    <a href="?{% param_replace page=page_obj.number|add:'-5' %}">&hellip;</a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for i in page_obj.paginator.page_range %}
+                                                {% if page_obj.number == i %}
+                                                    <li class="page-item active"><span>{{ i }} <span
+                                                            class="sr-only">(current)</span></span>
+                                                    </li>
+                                                {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                                                    <li class="page-item"><a class="page-link"
+                                                                             href="?{% param_replace page=i %}">{{ i }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+                                                <li class="page-item"><a class="page-link"
+                                                                         href="?{% param_replace page=page_obj.number|add:'5' %}">&hellip;</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if page_obj.has_next %}
+                                                <li class="page-item"><a class="page-link"
+                                                                         href="?{% param_replace page=page_obj.next_page_number %}">&raquo;</a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item disabled"><span>&raquo;</span></li>
+                                            {% endif %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div> <!-- /#list -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#home_link').addClass('active');
+
+        });
+        var timer = setInterval(function () {
+            window.location.href = '';
+            clearInterval(timer);
+        }, 60000);
+
+    </script>
+
+{% endblock %}

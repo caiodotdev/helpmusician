@@ -1,0 +1,57 @@
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
+from django.views.generic import FormView, RedirectView
+
+from app.forms import NewUserForm, LoginForm
+
+
+class RegisterView(FormView):
+    template_name = 'account/signup.html'
+    form_class = NewUserForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        form.create(data)
+        messages.success(self.request, "Usuario registrado com sucesso.")
+        return super(RegisterView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Nao foi possivel registrar. Altere os dados e tente novamente.")
+        return super(RegisterView, self).form_invalid(form)
+
+
+class LoginView(FormView):
+    template_name = 'account/login.html'
+    form_class = LoginForm
+    success_url = '/'
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return "%s" % next_url
+        else:
+            return reverse('index')
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        user = authenticate(self.request, username=data['username'], password=data['password'])
+        if user is not None:
+            login(self.request, user)
+            return super(LoginView, self).form_valid(form)
+        else:
+            messages.error(self.request, 'Credenciais invalidas, Tente novamente')
+            return super(LoginView, self).form_invalid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Usuario ou senha invalidos.')
+        return super(LoginView, self).form_invalid(form)
+
+
+class LogoutUser(RedirectView):
+    url = '/'
+
+    def get(self, request, *args, **kwargs):
+        logout(self.request)
+        return super(LogoutUser, self).get(request, *args, **kwargs)

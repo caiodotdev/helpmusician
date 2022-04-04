@@ -281,24 +281,34 @@
             'C:min': 'Cm',
             'Db:maj': 'C#',
             'Db:min': 'C#m',
+            'C#:maj': 'C#',
+            'C#:min': 'C#m',
             'D:maj': 'D',
             'D:min': 'Dm',
             'Eb:maj': 'D#',
             'Eb:min': 'D#m',
+            'D#:maj': 'D#',
+            'D#:min': 'D#m',
             'E:maj': 'E',
             'E:min': 'Em',
             'F:maj': 'F',
             'F:min': 'Fm',
             'Gb:maj': 'F#',
             'Gb:min': 'F#m',
+            'F#:min': 'F#m',
+            'F#:maj': 'F#',
             'G:maj': 'G',
             'G:min': 'Gm',
             'Ab:maj': 'G#',
             'Ab:min': 'G#m',
+            'G#:min': 'G#m',
+            'G#:maj': 'G#',
             'A:maj': 'A',
             'A:min': 'Am',
             'Bb:maj': 'A#',
             'Bb:min': 'A#m',
+            'A#:min': 'A#m',
+            'A#:maj': 'A#',
             'B:maj': 'B',
             'B:min': 'Bm'
         }
@@ -359,11 +369,11 @@
 
         function humanitizeChord(chord, pitch_index) {
             var p_index = 0;
-            if (pitch_index > 0) {
-                p_index = pitch_index *2;
-                p_index = p_index % keys.length;
-                console.log(p_index)
-            }
+            //if (pitch_index > 0) {
+            //    p_index = pitch_index * 2;
+            //    p_index = p_index % keys.length;
+            //    console.log(p_index)
+            //}
             for (i = 0; i <= keys.length; i++) {
                 if (chord.includes(keys[i])) {
                     var chord_full = chord.replace(keys[i], mapTone[keys[i + p_index]]);

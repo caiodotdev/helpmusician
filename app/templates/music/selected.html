@@ -26,6 +26,14 @@
                                             <span>{{ track.artist }}</span>
                                         </div>
                                     </div>
+                                    {% if track|not_contains_track:user %}
+                                        <div class="card-footer">
+                                            <a class="btn btn-secondary btn-block"
+                                               href="{% url 'confirm_add_music' %}?title={{ track.title }}&artist={{ track.artist }}&thumb={{ track.thumb }}&link={{ track.youtube_link }}">
+                                                Adicionar
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endfor %}

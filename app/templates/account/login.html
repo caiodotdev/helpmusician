@@ -46,6 +46,11 @@
     <script>
         $(document).ready(function () {
             $('input').addClass('form-control');
+             $('input[name=username]').keyup(function () {
+                var val = $(this).val().toLowerCase();
+                $(this).val(val.replace(/\s/g, ""));
+                console.log($(this).val());
+            });
         });
     </script>
 {% endblock %}

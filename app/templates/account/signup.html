@@ -2,6 +2,31 @@
 {% load static %}
 {% load form_utils %}
 {% block content %}
+    <style>
+        input[name="username"] {
+            text-transform: lowercase;
+        }
+
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            text-transform: none;
+        }
+
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            text-transform: none;
+        }
+
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+            text-transform: none;
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10+ */
+            text-transform: none;
+        }
+
+        ::placeholder { /* Recent browsers */
+            text-transform: none;
+        }
+    </style>
 
     <div class="row">
         <div class="col-12 col-sm-12 text-center">
@@ -61,6 +86,11 @@
     <script>
         $(document).ready(function () {
             $('input').addClass('form-control');
+            $('input[name=username]').keyup(function () {
+                var val = $(this).val().toLowerCase();
+                $(this).val(val.replace(/\s/g, ""));
+                console.log($(this).val());
+            });
         })
     </script>
 {% endblock %}

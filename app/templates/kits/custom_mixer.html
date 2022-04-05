@@ -587,6 +587,14 @@
             return pad_player.loaded && vocal_player.loaded && piano_player.loaded && bass_player.loaded && drums_player.loaded && other_player.loaded;
         }
 
+        function pause() {
+            Tone.Transport.stop();
+            loop.stop();
+            $('#play').show();
+            clearInterval(interval);
+            $('#pause').hide();
+        }
+
         $(document).ready(function () {
             $('.ch').slider({
                 reversed: true
@@ -612,15 +620,12 @@
             });
 
             $('#pause').click(function () {
-                Tone.Transport.stop();
-                loop.stop();
-                $('#play').show();
-                $(this).hide();
-                clearInterval(interval);
+                pause();
             });
 
             // Change Pad
             $('#pad').change(function () {
+                pause();
                 pad_choosed = $(this).val();
                 samples_choosed = pad_types[pad_choosed]
                 console.log(pad_choosed);

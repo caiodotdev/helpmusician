@@ -1,4 +1,5 @@
 from django import template
+from django.contrib.auth.models import User
 from django.template.loader import get_template
 
 register = template.Library()
@@ -44,3 +45,10 @@ def param_replace(context, **kwargs):
     for k in [k for k, v in d.items() if not v]:
         del d[k]
     return d.urlencode()
+
+
+@register.filter(name="not_contains_track")
+def not_contains_track(track, user):
+    link = track.source_file.youtube_link
+    qs = user.sourcetrack_set.filter(source_file__youtube_link=link)
+    return (not qs.exists())

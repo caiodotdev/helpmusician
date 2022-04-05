@@ -16,7 +16,8 @@
                             <form method="get" action="{% url 'results' %}">
                                 {% csrf_token %}
                                 <div class="input-group mb-3">
-                                    <input class="form-control" name="search" placeholder="Insira o nome da música"/>
+                                    <input id="search" class="form-control" name="search"
+                                           placeholder="Insira o nome da música"/>
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-primary" id="search_btn">
                                             <i class="fa fa-search"></i> Buscar
@@ -182,10 +183,61 @@
             $('#home_link').addClass('active');
 
         });
+        var steps = [
+            {
+                element: "#navbar",
+                backdrop: true,
+                placement: "bottom",
+                content: 'Esta é nossa barra de ferramentas. Aqui você irá navegar por todas nossas funcionalidades.'
+            },
+            {
+                element: "#drumkit",
+                placement: "top",
+                content: 'Aqui nós temos uma seleção de Drums Pad para você.'
+            },
+            {
+                element: "#padkit",
+                placement: "top",
+                content: 'Aqui fica nossos Pads Contínuos para você testar.'
+            },
+            {
+                element: "#selected",
+                placement: "top",
+                content: 'Neste link você encontra as Músicas da Semana, onde você poderá baixar para sua ' +
+                    'lista de músicas "automágicamente".'
+            },
+            {
+                element: "#table",
+                 backdrop: true,
+                placement: "top",
+                content: 'Aqui ficará sua lista de músicas baixadas. Você poderá buscar por uma música nova ' +
+                    'ou pegar das Músicas da Semana.'
+            },
+            {
+                element: "form",
+                 backdrop: true,
+                placement: "top",
+                content: 'Agora, você pode buscar sua música favorita, digitando o nome dela ou link do Youtube,' +
+                    'ou selecionar alguma de nossas Musicas da Semana.',
+                onNext: function () {
+                    typing('', document.getElementById('search'), false, 100);
+                },
+                onPrev: function () {
+                    typing('', document.getElementById('search'), false, 100);
+                },
+                onShown: function () {
+                    typing('Gabriela Rocha', document.getElementById('search'), true, 100);
+                },
+                onHidden: function () {
+                    typing('', document.getElementById('search'), false, 900);
+                }
+            },
+        ];
+        init_tour('listing', steps);
         var timer = setInterval(function () {
             window.location.href = '';
             clearInterval(timer);
-        }, 60000);
+        }, 120000);
 
     </script>
 

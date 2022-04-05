@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views.auth import LoginView, LogoutUser, RegisterView
 from .views.musician_views import ListTracks, ResultsView, ConfirmMusic, DrumKit, PadContinuous, CustomMixer, \
-    DeleteDynamic, PlayerView, SelectedView, SelectedOut
+    DeleteDynamic, PlayerView, SelectedView, SelectedOut, ConfirmAddMusic
 
 urlpatterns = [
     path(
@@ -70,6 +70,11 @@ urlpatterns = [
         'music-selected/',
         SelectedOut.as_view(),
         name='selected_out'
+    ),
+    path(
+        'confirm-add-music/',
+        ConfirmAddMusic.as_view(),
+        name='confirm_add_music'
     )
 
 ]

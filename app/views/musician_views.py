@@ -310,3 +310,54 @@ class SelectedOut(ListView):
     model = SourceTrack
     queryset = SourceTrack.objects.filter(user__username='caiomarinho')
     context_object_name = 'tracks'
+
+
+class ConfirmAddMusic(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
+    model = SourceTrack
+    form_class = SourceTrackForm
+    template_name = 'music/confirm_music.html'
+    success_url = '/'
+
+    def get_initial(self):
+        return {
+            'user': self.request.user,
+        }
+
+    def get_context_data(self, **kwargs):
+        context = super(ConfirmAddMusic, self).get_context_data()
+        data = self.request.GET
+        if 'link' in data:
+            context['artist'] = data['artist']
+            context['title'] = data['title']
+            context['thumb'] = data['thumb']
+            context['youtube_link'] = data['link']
+        return context
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        data['youtube_link'] = self.request.POST['youtube_link']
+        try:
+            qs = SourceFile.objects.filter(youtube_link=data['youtube_link'])
+            source_file = qs.first()
+            source_track_copy = source_file.sourcetrack_set.first()
+            source_track = form.save()
+            source_track.artist = self.request.POST['artist']
+            source_track.title = self.request.POST['title']
+            source_track.thumb = source_track_copy.thumb
+            source_track.source_file = source_file
+            source_track.notes = source_track_copy.notes
+            source_track.tone = source_track_copy.tone
+            source_track.bpm = source_track_copy.bpm
+            source_track.bar_length = source_track_copy.bar_length
+            source_track.chords = source_track_copy.chords
+            source_track.save()
+            create_dynamic_mix(source_track)
+            messages.success(self.request, 'Música adicionada com sucesso.')
+            return super(ConfirmAddMusic, self).form_valid(form)
+        except (Exception,):
+            messages.error(self.request, 'Erro Desconhecido, tente mais tarde.')
+            return super(ConfirmAddMusic, self).form_invalid(form)
+
+    def get_success_url(self):
+        return '/'

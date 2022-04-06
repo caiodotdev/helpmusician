@@ -11,7 +11,8 @@
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col text-center">
-                    <img class="masthead-logo mb-4" src="{% static 'files/img/logo-masthead.svg' %}" alt="">
+                    <img class="masthead-logo mb-4" src="{% static 'files/img/logo_white.png' %}"
+                         style="max-height: 208px;" alt="">
                     <div class="masthead-title text-uppercase">Help</div>
                     <div class="masthead-title text-uppercase">Musician</div>
                     <hr class="primary small">
@@ -230,8 +231,7 @@
                     <div id="mc_embed_signup">
                         <div class="row justify-content-center">
                             <div class="col-12 col-sm-4 align-content-center">
-                                <a href="#" class="btn btn-primary btn-block"
-                                   name="subscribe">Entrar
+                                <a href="{% url 'index' %}" class="btn btn-primary btn-block">Entrar
                                 </a>
                             </div>
                         </div>

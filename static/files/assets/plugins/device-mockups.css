@@ -1396,7 +1396,6 @@
 
 .device[data-device=HuaweiP8][data-orientation=landscape][data-color=gold] {
     padding-bottom: 47.67789%;
-    background-image: url(../device-mockups/HuaweiP8/landscape_gold.png)
 }
 
 .device[data-device=HuaweiP8][data-orientation=landscape][data-color=gold] .screen {
@@ -1416,7 +1415,6 @@
 
 .device[data-device=SurfacePro3][data-orientation=landscape][data-color=black] {
     padding-bottom: 68.15797%;
-    background-image: url(../device-mockups/SurfacePro3/landscape_black.png)
 }
 
 .device[data-device=SurfacePro3][data-orientation=landscape][data-color=black] .screen {
@@ -1475,7 +1473,6 @@
 
 .device[data-device=iPhone7][data-orientation=portrait][data-color=white] {
     padding-bottom: 203.10345%;
-    background-image: url(../device-mockups/iPhone7/portrait_white.png)
 }
 
 .device[data-device=iPhone7][data-orientation=portrait][data-color=white] .screen {
@@ -1494,7 +1491,6 @@
 
 .device[data-device=iPhone7][data-orientation=portrait][data-color=gold] {
     padding-bottom: 203.10345%;
-    background-image: url(../device-mockups/iPhone7/portrait_gold.png)
 }
 
 .device[data-device=iPhone7][data-orientation=portrait][data-color=gold] .screen {
@@ -1513,7 +1509,6 @@
 
 .device[data-device=iPhone7][data-orientation=portrait][data-color=pink] {
     padding-bottom: 203.10345%;
-    background-image: url(../device-mockups/iPhone7/portrait_pink.png)
 }
 
 .device[data-device=iPhone7][data-orientation=portrait][data-color=pink] .screen {
@@ -1532,7 +1527,6 @@
 
 .device[data-device=iPhone7][data-orientation=portrait][data-color=red] {
     padding-bottom: 201.91083%;
-    background-image: url(../device-mockups/iPhone7/portrait_red.png)
 }
 
 .device[data-device=iPhone7][data-orientation=portrait][data-color=red] .screen {
@@ -1551,7 +1545,6 @@
 
 .device[data-device=iPhone7][data-orientation=landscape][data-color=black] {
     padding-bottom: 49.23599%;
-    background-image: url(../device-mockups/iPhone7/landscape_black.png)
 }
 
 .device[data-device=iPhone7][data-orientation=landscape][data-color=black] .screen {
@@ -1570,7 +1563,6 @@
 
 .device[data-device=iPhone7][data-orientation=landscape][data-color=white] {
     padding-bottom: 49.23599%;
-    background-image: url(../device-mockups/iPhone7/landscape_white.png)
 }
 
 .device[data-device=iPhone7][data-orientation=landscape][data-color=white] .screen {
@@ -1589,7 +1581,6 @@
 
 .device[data-device=iPhone7][data-orientation=landscape][data-color=gold] {
     padding-bottom: 49.23599%;
-    background-image: url(../device-mockups/iPhone7/landscape_gold.png)
 }
 
 .device[data-device=iPhone7][data-orientation=landscape][data-color=gold] .screen {
@@ -1608,7 +1599,6 @@
 
 .device[data-device=iPhone7][data-orientation=landscape][data-color=pink] {
     padding-bottom: 49.23599%;
-    background-image: url(../device-mockups/iPhone7/landscape_pink.png)
 }
 
 .device[data-device=iPhone7][data-orientation=landscape][data-color=pink] .screen {
@@ -1627,7 +1617,6 @@
 
 .device[data-device=iPhone7][data-orientation=landscape][data-color=red] {
     padding-bottom: 49.52681%;
-    background-image: url(../device-mockups/iPhone7/landscape_red.png)
 }
 
 .device[data-device=iPhone7][data-orientation=landscape][data-color=red] .screen {
@@ -1646,7 +1635,6 @@
 
 .device[data-device=Pixel][data-orientation=portrait][data-color=white] {
     padding-bottom: 202.62009%;
-    background-image: url(../device-mockups/Pixel/portrait_white.png)
 }
 
 .device[data-device=Pixel][data-orientation=portrait][data-color=white] .screen {

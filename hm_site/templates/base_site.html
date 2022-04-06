@@ -36,7 +36,7 @@
 <!-- * * * * * * * *-->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar-main">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top"><img class="navbar-brand-logo"
+        <a class="navbar-brand js-scroll-trigger" href="{% url 'index_site' %}"><img class="navbar-brand-logo"
                                                                         src="{% static 'files/img/logo-navbar.svg' %}"
                                                                         alt=""></a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
@@ -44,10 +44,10 @@
                 aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#produto">Produto</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#info">Info</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#processo">Processo</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contato">Contato</a>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'index_site' %}#produto">Produto</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'index_site' %}#info">Info</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'index_site' %}#processo">Processo</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'index_site' %}#contato">Contato</a>
                 </li>
                 <li class="nav-item"><a class="btn btn-secondary" href="{% url 'index' %}">Entrar</a></li>
             </ul>
@@ -87,23 +87,29 @@
                 background-attachment: scroll;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 mb-5 mb-lg-0">
+            <div class="col-lg-3 mb-5 mb-lg-0">
                 <h5 class="text-uppercase">
                     <i class="fa fa-envelope fa-fw"></i>
                     Email
                 </h5>
                 <a class="text-white-50" href="mailto:helpmusicial.suporte2022@gmail.com">helpmusicial.suporte2022@gmail.com</a>
             </div>
-            <div class="col-lg-4 mb-5 mb-lg-0">
+            <div class="col-lg-3 mb-5 mb-lg-0">
                 <h5 class="text-uppercase">
                     <i class="fa fa-paperclip fa-fw"></i>
-                    <a href="#">Termos de Uso</a>
+                    <a href="{% url 'terms' %}">Termos de Uso</a>
                 </h5>
             </div>
-            <div class="col-lg-4 mb-5 mb-lg-0">
+            <div class="col-lg-3 mb-5 mb-lg-0">
+                <h5 class="text-uppercase">
+                    <i class="fa fa-check-circle fa-fw"></i>
+                    <a href="{% url 'cookies' %}">Políticas de Cookies</a>
+                </h5>
+            </div>
+            <div class="col-lg-3 mb-5 mb-lg-0">
                 <h5 class="text-uppercase">
                     <i class="fa fa-building fa-fw"></i>
-                    <a href="#">Políticas de Privacidade</a>
+                    <a href="{% url 'privacy' %}">Políticas de Privacidade</a>
                 </h5>
             </div>
         </div>

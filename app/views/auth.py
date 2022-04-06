@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.views.generic import FormView, RedirectView
 
+from app.apis.DetectMobile import DetectMobileBrowser
 from app.forms import NewUserForm, LoginForm
 
 
@@ -22,7 +23,7 @@ class RegisterView(FormView):
         return super(RegisterView, self).form_invalid(form)
 
 
-class LoginView(FormView):
+class LoginView(DetectMobileBrowser, FormView):
     template_name = 'account/login.html'
     form_class = LoginForm
     success_url = '/app/'
@@ -50,7 +51,7 @@ class LoginView(FormView):
 
 
 class LogoutUser(RedirectView):
-    url = '/app/'
+    url = '/'
 
     def get(self, request, *args, **kwargs):
         logout(self.request)

@@ -6,7 +6,7 @@ from multiprocessing import cpu_count
 # SECURITY WARNING: don't run with debug turned on in production!
 from celery.schedules import crontab
 
-DEBUG = True
+DEBUG = False
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

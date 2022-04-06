@@ -22,7 +22,7 @@ urlpatterns = [
     ),
     # music
     path(
-        '',
+        'app/',
         ListTracks.as_view(),
         name='index'
     ),

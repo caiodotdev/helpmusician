@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'app.apps.AppConfig',
+    'hm_site.apps.HmSiteConfig',
     'rest_framework',
     'knox',
     'corsheaders',
@@ -73,7 +74,8 @@ ROOT_URLCONF = 'django_react.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'app', 'templates'), ],
+        'DIRS': [os.path.join(BASE_DIR, 'app', 'templates'),
+                 os.path.join(BASE_DIR, 'hm_site', 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

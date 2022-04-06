@@ -122,7 +122,7 @@ class ConfirmMusic(LoginRequiredMixin, CreateView):
     model = SourceTrack
     form_class = SourceTrackForm
     template_name = 'music/confirm_music.html'
-    success_url = '/'
+    success_url = '/app/'
 
     def get_initial(self):
         return {
@@ -209,7 +209,7 @@ class ConfirmMusic(LoginRequiredMixin, CreateView):
             return super(ConfirmMusic, self).form_invalid(form)
 
     def get_success_url(self):
-        return '/'
+        return '/app/'
 
 
 class CustomMixer(LoginRequiredMixin, DetectMobileBrowser, DetailView):
@@ -237,7 +237,7 @@ class PlayerView(LoginRequiredMixin, DetailView):
     template_name = 'music/player.html'
     context_object_name = 'track'
     pk_url_kwarg = 'id'
-    success_url = '/'
+    success_url = '/app/'
 
     def get_object(self, queryset=None):
         return SourceTrack.objects.get(id=self.kwargs['id'])
@@ -249,7 +249,7 @@ class DeleteDynamic(LoginRequiredMixin, DeleteView):
     template_name = 'music/delete.html'
     context_object_name = 'movie'
     pk_url_kwarg = 'id'
-    success_url = '/'
+    success_url = '/app/'
 
     def get_object(self, queryset=None):
         return DynamicMix.objects.get(id=self.kwargs['id'])
@@ -317,7 +317,7 @@ class ConfirmAddMusic(LoginRequiredMixin, CreateView):
     model = SourceTrack
     form_class = SourceTrackForm
     template_name = 'music/confirm_music.html'
-    success_url = '/'
+    success_url = '/app/'
 
     def get_initial(self):
         return {
@@ -360,4 +360,4 @@ class ConfirmAddMusic(LoginRequiredMixin, CreateView):
             return super(ConfirmAddMusic, self).form_invalid(form)
 
     def get_success_url(self):
-        return '/'
+        return '/app/'

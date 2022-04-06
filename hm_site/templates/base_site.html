@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Help Musician</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="{% static 'default/favicon.ico' %}">
+    <!-- Custom fonts for this theme -->
+    <link href="{% static 'files/assets/plugins/all.css' %}" rel="stylesheet" crossorigin="anonymous">
+    <link href="{% static 'files/assets/plugins/css_002.css' %}" rel="stylesheet">
+    <link href="{% static 'files/assets/plugins/css.css' %}" rel="stylesheet">
+    <!-- Plugin styles-->
+    <link href="{% static 'files/assets/plugins/jquery.css' %}" rel="stylesheet">
+    <link href="{% static 'files/assets/plugins/device-mockups.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="{% static 'default/css/sweetalert.min.css' %}">
+    <!-- Custom styles for this theme-->
+    <link href="{% static 'files/assets/plugins/styles.css' %}" rel="stylesheet">
+    <!-- Bootstrap core JavaScript-->
+
+    <script src="{% static 'files/assets/plugins/jquery_002.js' %}"></script>
+    <script src="{% static 'files/assets/plugins/bootstrap.js' %}"></script>
+
+</head>
+
+<body id="page-top">
+
+<!-- * * * * * * * *-->
+<!-- * Navigation  *-->
+<!-- * * * * * * * *-->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar-main">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top"><img class="navbar-brand-logo"
+                                                                        src="{% static 'files/img/logo-navbar.svg' %}"
+                                                                        alt=""></a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#produto">Produto</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#info">Info</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#processo">Processo</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contato">Contato</a>
+                </li>
+                <li class="nav-item"><a class="btn btn-secondary" href="{% url 'index' %}">Entrar</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% include 'loading.html' %}
+{% block content %}
+{% endblock %}
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <script>
+                $(document).ready(function () {
+                    swal("Erro", "{{ message|safe }}", "error")
+                });
+            </script>
+        {% else %}
+            <script>
+                $(document).ready(function () {
+                    swal("Sucesso", "{{ message|safe }}", "success")
+                });
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+<!-- * * * * * *-->
+<!-- * Footer  *-->
+<!-- * * * * * *-->
+<footer class="footer text-center text-white-50"
+        style="  background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('{% static 'files/img/guitar_study.jpg' %}');
+                background-size: cover;
+                background-position: center;
+                background-attachment: scroll;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h5 class="text-uppercase">
+                    <i class="fa fa-envelope fa-fw"></i>
+                    Email
+                </h5>
+                <a class="text-white-50" href="mailto:helpmusicial.suporte2022@gmail.com">helpmusicial.suporte2022@gmail.com</a>
+            </div>
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h5 class="text-uppercase">
+                    <i class="fa fa-paperclip fa-fw"></i>
+                    <a href="#">Termos de Uso</a>
+                </h5>
+            </div>
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h5 class="text-uppercase">
+                    <i class="fa fa-building fa-fw"></i>
+                    <a href="#">Políticas de Privacidade</a>
+                </h5>
+            </div>
+        </div>
+        <div class="footer-social">
+            <a class="px-3 text-white-50" href="#"><i class="fa fa-facebook-f fa-2x fa-fw"></i></a>
+            <a class="px-3 text-white-50" href="#"><i class="fa fa-twitter fa-2x fa-fw"></i></a>
+            <a class="px-3 text-white-50" href="#"><i class="fa fa-instagram fa-2x fa-fw"></i></a>
+        </div>
+        <div class="footer-copyright">© 2022 Help Musician</div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="{% static 'default/js/sweetalert.min.js' %}"></script>
+<!-- Plugin JavaScript-->
+<script src="{% static 'files/assets/plugins/jquery.js' %}"></script>
+<script src="{% static 'files/assets/plugins/jquery_003.js' %}"></script>
+<!-- Custom scripts for this theme-->
+<script src="{% static 'files/js/scripts.js' %}"></script>
+
+</body>
+
+</html>

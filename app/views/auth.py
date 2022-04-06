@@ -9,7 +9,7 @@ from app.forms import NewUserForm, LoginForm
 class RegisterView(FormView):
     template_name = 'account/signup.html'
     form_class = NewUserForm
-    success_url = '/'
+    success_url = '/app/'
 
     def form_valid(self, form):
         data = form.cleaned_data
@@ -25,7 +25,7 @@ class RegisterView(FormView):
 class LoginView(FormView):
     template_name = 'account/login.html'
     form_class = LoginForm
-    success_url = '/'
+    success_url = '/app/'
 
     def get_success_url(self):
         next_url = self.request.GET.get('next')
@@ -50,7 +50,7 @@ class LoginView(FormView):
 
 
 class LogoutUser(RedirectView):
-    url = '/'
+    url = '/app/'
 
     def get(self, request, *args, **kwargs):
         logout(self.request)

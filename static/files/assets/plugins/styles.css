@@ -10372,21 +10372,6 @@ hr.small {
   }
 }
 
-#portfolio-modal-1 {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("./files/img/item-1-bg.jpg");
-}
-
-#portfolio-modal-2 {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("./files/img/item-2-bg.jpg");
-}
-
-#portfolio-modal-3 {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("./files/img/item-3-bg.jpg");
-}
-
-#portfolio-modal-4 {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("./files/img/item-4-bg.jpg");
-}
 
 .portfolio-modal {
   background-repeat: no-repeat;

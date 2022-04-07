@@ -14,6 +14,8 @@ before_install:
   - export PYTHONPATH=$HOME/builds/caiodotdev/helpmusician
   - export PIP_USE_MIRRORS=true
   - psql -c 'CREATE DATABASE travisci;' -U postgres
+  - export LT_USERNAME=caio.barbosa
+  - export LT_ACCESS_KEY=NaNNdBDJGhzbKMsigjJ2213wRT75vQDYqxtc9m7miNzzvMqV4P
 install:
   - pip install -U pip wheel
   - pip install -r requirements.txt

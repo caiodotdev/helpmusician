@@ -6,7 +6,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 BROWSERSTACK_LOCAL_IDENTIFIER = settings.BROWSERSTACK_LOCAL_IDENTIFIER
 BROWSERSTACK_USERNAME = settings.BROWSERSTACK_USERNAME
 BROWSERSTACK_ACCESSKEY = settings.BROWSERSTACK_ACCESSKEY
-LOCAL = True
+LOCAL = False
+
+LT_USERNAME = settings.LT_USERNAME
+LT_ACCESS_TOKEN = settings.LT_ACCESS_TOKEN
 
 
 class BaseSeleniumTestCase(LiveServerTestCase):
@@ -20,16 +23,19 @@ class BaseSeleniumTestCase(LiveServerTestCase):
         else:
             print('----- eleee')
             caps = {
-                'browserstack.local': 'true',
-                'browserstack.localIdentifier': BROWSERSTACK_LOCAL_IDENTIFIER,
-                'os': "Windows",
-                'os_version': "11",
-                'browser': "Chrome",
-                'browser_version': "99.0",
-                'browserstack.selenium_version': "3.14.0"
+                'platform': "win10",
+                'browserName': "chrome",
+                'version': "67.0",
+                "resolution": "1024x768",
+                "network": True,
+                "video": True,
+                "visual": True,
+                "console": True,
             }
+            gridUrl = "hub.lambdatest.com/wd/hub"
+            url = "https://" + LT_USERNAME + ":" + LT_ACCESS_TOKEN + "@" + gridUrl
             self.driver = webdriver.Remote(
-                command_executor='https://' + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESSKEY + '@hub-cloud.browserstack.com/wd/hub',
+                command_executor=url,
                 desired_capabilities=caps)
             self.driver.get(self.live_server_url)
         super(BaseSeleniumTestCase, self).setUp()

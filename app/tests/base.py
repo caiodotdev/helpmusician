@@ -53,8 +53,11 @@ class BaseSeleniumTestCase(LiveServerTestCase):
             self.driver = webdriver.Remote(
                 command_executor='https://' + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESSKEY + '@hub-cloud.browserstack.com/wd/hub',
                 desired_capabilities=caps)
-            self.driver.maximize_window()
             self.driver.get(self.live_server_url)
+            size = self.driver.get_window_size()
+            print(size)
+            self.driver.set_window_size(1920, 1200)
+
 
     def tearDown(self) -> None:
         self.driver.quit()

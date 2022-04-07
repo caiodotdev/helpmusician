@@ -24,7 +24,7 @@ class TestRegisterbase(BaseSeleniumTestCase):
         # 1 | open | http://localhost:8080/register/ |
         self.driver.get("http://localhost:8080/register/")
         # 2 | setWindowSize | 1382x744 |
-        self.driver.set_window_size(1382, 744)
+        self.driver.maximize_window()
         # 3 | click | id=id_username |
         self.driver.find_element(By.ID, "id_username").click()
         # 4 | type | id=id_username | caiomarin

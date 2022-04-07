@@ -18,7 +18,7 @@ class TestLogin(BaseSeleniumTestCase):
         super(TestLogin, self).tearDown()
 
     def test_login(self):
-        self.driver.set_window_size(1382, 744)
+        self.driver.maximize_window()
         self.driver.get('http://localhost:8080/login/')
         self.driver.find_element(By.ID, "id_username").click()
         self.driver.find_element(By.ID, "id_username").send_keys(USERNAME_USER_DEFAULT)

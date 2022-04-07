@@ -19,9 +19,7 @@ class TestLogin(BaseSeleniumTestCase):
 
     def test_login(self):
         self.driver.set_window_size(1382, 744)
-        elements = self.driver.find_elements(By.CSS_SELECTOR, ".btn-secondary")
-        assert len(elements) > 0
-        self.driver.find_element(By.CSS_SELECTOR, ".btn-secondary").click()
+        self.driver.get('http://localhost:8080/login/')
         self.driver.find_element(By.ID, "id_username").click()
         self.driver.find_element(By.ID, "id_username").send_keys(USERNAME_USER_DEFAULT)
         self.driver.find_element(By.ID, "id_password").send_keys(PASSWORD_USER_DEFAULT)

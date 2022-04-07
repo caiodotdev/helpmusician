@@ -23,29 +23,32 @@ class BaseSeleniumTestCase(LiveServerTestCase):
             self.driver.get(self.live_server_url)
         else:
             print('----- Remoto')
-            # caps = {
-            #     'platform': "win10",
-            #     'browserName': "chrome",
-            #     'version': "99.0",
-            #     "resolution": "1024x768",
-            #     "network": True,
-            #     "video": True,
-            #     "visual": True,
-            #     "console": True,
-            # }
-            # gridUrl = "hub.lambdatest.com/wd/hub"
-            # url = "https://" + LT_USERNAME + ":" + LT_ACCESS_TOKEN + "@" + gridUrl
-            # self.driver = webdriver.Remote(
-            #     command_executor=url,
-            #     desired_capabilities=caps)
             caps = {
-                'browserstack.local': 'true',
-                'browserstack.localIdentifier': BROWSERSTACK_LOCAL_IDENTIFIER,
+                "resolution": "1024x768",
+                'selenium_version': "3.13.0",
+                "network": True,
+                "video": True,
+                "visual": True,
+                "console": True,
+                "tunnel": True,
+                'LT:Options': {
+                    "platformName": "Windows 10"
+                },
+                "browserName": "Chrome",
+                "browserVersion": "latest",
             }
+            gridUrl = "hub.lambdatest.com/wd/hub"
+            url = "https://" + LT_USERNAME + ":" + LT_ACCESS_TOKEN + "@" + gridUrl
             self.driver = webdriver.Remote(
-                command_executor='https://' + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESSKEY + '@hub-cloud.browserstack.com/wd/hub',
+                command_executor=url,
                 desired_capabilities=caps)
-            self.driver.get(self.live_server_url)
+            # caps = {
+            #     'browserstack.local': 'true',
+            #     'browserstack.localIdentifier': BROWSERSTACK_LOCAL_IDENTIFIER,
+            # }
+            # self.driver = webdriver.Remote(
+            #     command_executor='https://' + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESSKEY + '@hub-cloud.browserstack.com/wd/hub',
+            #     desired_capabilities=caps)
             self.driver.get(self.live_server_url)
 
 

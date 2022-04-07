@@ -1,10 +1,20 @@
 # Spleeter Frontend (Help Musician)
 
-Spleeter Web is a web application for isolating or removing the vocal, accompaniment, bass, and/or drum components of any song. For example, you can use it to isolate the vocals of a track, or you can use it remove the vocals to get an instrumental version of a song.
+[![Build Status](https://app.travis-ci.com/caiodotdev/helpmusician.svg?token=Wqun3tsuTnjrikiN1Qat&branch=main)](https://app.travis-ci.com/caiodotdev/helpmusician)
 
-It supports a number of different source separation models: [Spleeter](https://github.com/deezer/spleeter) (`4stems-model`), [Demucs](https://github.com/facebookresearch/demucs), [Tasnet](https://github.com/facebookresearch/demucs), [CrossNet-Open-Unmix](https://github.com/sony/ai-research-code/tree/master/x-umx), and [D3Net](https://github.com/sony/ai-research-code/tree/master/d3net).
+Spleeter Web is a web application for isolating or removing the vocal, accompaniment, bass, and/or drum components of
+any song. For example, you can use it to isolate the vocals of a track, or you can use it remove the vocals to get an
+instrumental version of a song.
 
-The app uses [Django](https://www.djangoproject.com/) for the backend API and [React](https://reactjs.org/) for the frontend. [Celery](https://docs.celeryproject.org/en/stable/getting-started/introduction.html) is used for the task queue. Docker images are available, including ones with GPU support.
+It supports a number of different source separation
+models: [Spleeter](https://github.com/deezer/spleeter) (`4stems-model`)
+, [Demucs](https://github.com/facebookresearch/demucs), [Tasnet](https://github.com/facebookresearch/demucs)
+, [CrossNet-Open-Unmix](https://github.com/sony/ai-research-code/tree/master/x-umx),
+and [D3Net](https://github.com/sony/ai-research-code/tree/master/d3net).
+
+The app uses [Django](https://www.djangoproject.com/) for the backend API and [React](https://reactjs.org/) for the
+frontend. [Celery](https://docs.celeryproject.org/en/stable/getting-started/introduction.html) is used for the task
+queue. Docker images are available, including ones with GPU support.
 
 ## Table of Contents
 
@@ -22,6 +32,7 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
 - [License](#license)
 
 ## Features
+
 - Supports Spleeter, Demucs, Tasnet, and CrossNet-Open-Unmix (X-UMX) source separation models
     - Each model supports a different set of user-configurable parameters in the UI
 - Dynamic Mixes lets you control the outputs of each component while playing back the track in real-time
@@ -34,13 +45,15 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
 - Support for GPU separation
 - Fully Dockerized
 
-
 ## Getting started with Docker
+
 ### Requirements
+
 * 4 GB+ of memory (source separation is memory-intensive)
 * [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Instructions
+
 1. Clone repo:
     ```sh
     $ git clone https://github.com/JeffreyCA/spleeter-web.git
@@ -48,18 +61,20 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
     ```
 2. (Optional) Set the YouTube Data API key (for YouTube search functionality):
 
-    You can skip this step, but you would not be able to import songs by searching with a query. You would still be able to import songs via YouTube links though.
+   You can skip this step, but you would not be able to import songs by searching with a query. You would still be able
+   to import songs via YouTube links though.
 
-    Create an `.env` file at the project root with the following contents:
+   Create an `.env` file at the project root with the following contents:
     ```
     YOUTUBE_API_KEY=<YouTube Data API key>
     ```
 3. (Optional) Setup for GPU support:
-    Source separation can be accelerated with a GPU (however only NVIDIA GPUs are supported).
+   Source separation can be accelerated with a GPU (however only NVIDIA GPUs are supported).
 
     1. Install NVIDIA drivers for your GPU.
 
-    2. [Install the NVIDIA Container Toolkit.](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) If on Windows, refer to [this](https://docs.nvidia.com/cuda/wsl-user-guide/index.html).
+    2. [Install the NVIDIA Container Toolkit.](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
+       If on Windows, refer to [this](https://docs.nvidia.com/cuda/wsl-user-guide/index.html).
 
     3. Verify Docker works with your GPU by running `sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi`
 
@@ -71,7 +86,7 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
     spleeter-web$ docker-compose -f docker-compose.gpu.yml -f docker-compose.prod.yml -f docker-compose.prod.selfhost.yml up
     ```
 
-    Alternatively, you can build the Docker images from source:
+   Alternatively, you can build the Docker images from source:
     ```sh
     # CPU separation
     spleeter-web$ docker-compose -f docker-compose.yml -f docker-compose.build.yml -f docker-compose.prod.yml -f docker-compose.prod.selfhost.yml up --build
@@ -81,12 +96,16 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
 
 5. Launch **Spleeter Web**
 
-    Navigate to [http://127.0.0.1:80](http://127.0.0.1:80) in your browser. Uploaded tracks and generated mixes will appear in `media/uploads` and `media/separate` respectively on your host machine.
+   Navigate to [http://127.0.0.1:80](http://127.0.0.1:80) in your browser. Uploaded tracks and generated mixes will
+   appear in `media/uploads` and `media/separate` respectively on your host machine.
 
 ## Getting started without Docker
-**If you are on Windows, it's recommended to follow the Docker instructions above. Celery is not well-supported on Windows.**
+
+**If you are on Windows, it's recommended to follow the Docker instructions above. Celery is not well-supported on
+Windows.**
 
 ### Requirements
+
 * 4 GB+ of memory (source separation is memory-intensive)
 * Python 3.6+ ([link](https://www.python.org/downloads/))
 * Node.js 12+ ([link](https://nodejs.org/en/download/))
@@ -96,9 +115,10 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
     * On Windows, you can follow [this guide](http://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/)
 
 ### Instructions
+
 1. Set environment variables
 
-    **Make sure these variables are set in every terminal session prior to running the commands below.**
+   **Make sure these variables are set in every terminal session prior to running the commands below.**
 
     ```sh
     # Unix/macOS:
@@ -125,7 +145,8 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
     ```
 5. Ensure Redis server is running on `localhost:6379` (needed for Celery)
 
-    You can run it on a different host or port, but make sure to update `CELERY_BROKER_URL` and `CELERY_RESULT_BACKEND` in `settings.py`. It must be follow the format: `redis://host:port/db`.
+   You can run it on a different host or port, but make sure to update `CELERY_BROKER_URL` and `CELERY_RESULT_BACKEND`
+   in `settings.py`. It must be follow the format: `redis://host:port/db`.
 
 6. Apply migrations
     ```sh
@@ -142,7 +163,7 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
 
 9. Start Celery workers in separate terminal
 
-    **Unix/macOS:**
+   **Unix/macOS:**
     ```sh
     # Start fast worker
     (env) spleeter-web$ celery -A api worker -l INFO -Q fast_queue -c 3
@@ -151,11 +172,15 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
     (env) spleeter-web$ celery -A api worker -l INFO -Q slow_queue -c 1
     ```
 
-    This launches two Celery workers: one processes fast tasks like YouTube imports and the other processes slow tasks like source separation. The one working on fast tasks can work on 3 tasks concurrently, while the one working on slow tasks only handles a single task at a time (since it's memory-intensive). Feel free to adjust these values to your fitting.
+   This launches two Celery workers: one processes fast tasks like YouTube imports and the other processes slow tasks
+   like source separation. The one working on fast tasks can work on 3 tasks concurrently, while the one working on slow
+   tasks only handles a single task at a time (since it's memory-intensive). Feel free to adjust these values to your
+   fitting.
 
-    **Windows:**
+   **Windows:**
 
-    You'll first need to install `gevent`. Note however that you will not be able to abort in-progress tasks if using Celery on Windows.
+   You'll first need to install `gevent`. Note however that you will not be able to abort in-progress tasks if using
+   Celery on Windows.
 
     ```sh
     (env) spleeter-web$ pip install gevent
@@ -171,7 +196,8 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
 
 10. Launch **Spleeter Web**
 
-    Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser. Uploaded and mixed tracks will appear in `media/uploads` and `media/separate` respectively.
+    Navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser. Uploaded and mixed tracks will appear
+    in `media/uploads` and `media/separate` respectively.
 
 ## Configuration
 
@@ -180,11 +206,14 @@ The app uses [Django](https://www.djangoproject.com/) for the backend API and [R
 | Settings file | Description |
 |---|---|
 | `django_react/settings.py` | The base Django settings used when launched in non-Docker context. |
-| `django_react/settings_dev.py` | Contains the **override** settings used when run in development mode (i.e. `DJANGO_DEVELOPMENT` is set). |
+| `django_react/settings_dev.py` | Contains the **
+override** settings used when run in development mode (i.e. `DJANGO_DEVELOPMENT` is set). |
 | `django_react/settings_docker.py` | The base Django settings used when launched using Docker. |
-| `django_react/settings_docker_dev.py` | Contains the **override** settings used when run in development mode using Docker (i.e. `docker-compose.dev.yml`). |
+| `django_react/settings_docker_dev.py` | Contains the **
+override** settings used when run in development mode using Docker (i.e. `docker-compose.dev.yml`). |
 
 ### Environment variables
+
 Here is a list of all the environment variables you can use to further customize Spleeter Web:
 
 | Name | Description |
@@ -214,28 +243,36 @@ Here is a list of all the environment variables you can use to further customize
 
 ## Using cloud storage (Azure Storage, AWS S3, etc.)
 
-By default, **Spleeter Web** uses the local filesystem to store uploaded files and mixes. It uses [django-storages](https://django-storages.readthedocs.io/en/latest/), so you can also configure it to use other storage backends like Azure Storage or AWS S3.
+By default, **Spleeter Web** uses the local filesystem to store uploaded files and mixes. It
+uses [django-storages](https://django-storages.readthedocs.io/en/latest/), so you can also configure it to use other
+storage backends like Azure Storage or AWS S3.
 
-You can set the environment variable `DEFAULT_FILE_STORAGE` (`.env` if using Docker) to either `FILE` (for local storage), `AWS` (S3 storage), or `AZURE` (Azure Storage).
+You can set the environment variable `DEFAULT_FILE_STORAGE` (`.env` if using Docker) to either `FILE` (for local
+storage), `AWS` (S3 storage), or `AZURE` (Azure Storage).
 
 Then, depending on which backend you're using, set these additional variables:
 
 **AWS S3:**
+
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_STORAGE_BUCKET_NAME`
 
 **Azure Storage:**
+
 - `AZURE_ACCOUNT_KEY`
 - `AZURE_ACCOUNT_NAME`
 - `AZURE_CONTAINER`
 
 ### CORS
 
-To play back a dynamic mix, you may need to configure your storage service's CORS settings to allow the `Access-Control-Allow-Origin` header.
+To play back a dynamic mix, you may need to configure your storage service's CORS settings to allow
+the `Access-Control-Allow-Origin` header.
 
 ## Deployment
-**Spleeter Web** can be deployed on a VPS or a cloud server such as Azure VMs, AWS EC2, DigitalOcean, etc. Deploying to cloud container services like ECS is not yet supported out of the box.
+
+**Spleeter Web** can be deployed on a VPS or a cloud server such as Azure VMs, AWS EC2, DigitalOcean, etc. Deploying to
+cloud container services like ECS is not yet supported out of the box.
 
 1. Clone this git repo
     ```sh
@@ -243,11 +280,12 @@ To play back a dynamic mix, you may need to configure your storage service's COR
     $ cd spleeter-web
     ```
 
-2. (Optional) If self-hosting, update `docker-compose.prod.selfhost.yml` and replace `./media` with the path where media files should be stored on the server.
+2. (Optional) If self-hosting, update `docker-compose.prod.selfhost.yml` and replace `./media` with the path where media
+   files should be stored on the server.
 
 3. In `spleeter-web`, create an `.env` file with the production environment variables
 
-    `.env` file:
+   `.env` file:
     ```
     APP_HOST=<domain name or public IP of server>
     DEFAULT_FILE_STORAGE=<FILE or AWS or AZURE>       # Optional (default = FILE)
@@ -265,13 +303,15 @@ To play back a dynamic mix, you may need to configure your storage service's COR
     YOUTUBE_API_KEY=<youtube api key>                 # Optional
     ```
 
-    These values are referenced in `django_react/settings_docker.py` and `docker-compose.yml`, so you can also edit those files directly to set your production settings.
+   These values are referenced in `django_react/settings_docker.py` and `docker-compose.yml`, so you can also edit those
+   files directly to set your production settings.
 
 4. Build and start production containers
 
-    **For GPU separation, replace `docker-compose.yml` and `docker-compose.build.yml` below for `docker-compose.gpu.yml` and `docker-compose.build.gpu.yml` respectively.**
+   **For GPU separation, replace `docker-compose.yml` and `docker-compose.build.yml` below for `docker-compose.gpu.yml`
+   and `docker-compose.build.gpu.yml` respectively.**
 
-    If you are self-hosting media files:
+   If you are self-hosting media files:
     ```sh
     # Use prebuilt images
     spleeter-web$ sudo docker-compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.prod.selfhost.yml up -d
@@ -279,7 +319,7 @@ To play back a dynamic mix, you may need to configure your storage service's COR
     spleeter-web$ sudo docker-compose -f docker-compose.yml -f docker-compose.build.yml -f docker-compose.prod.yml -f docker-compose.prod.selfhost.yml up --build -d
     ```
 
-    Otherwise if using a storage provider:
+   Otherwise if using a storage provider:
     ```sh
     # Use prebuilt images
     spleeter-web$ sudo docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
@@ -292,6 +332,7 @@ To play back a dynamic mix, you may need to configure your storage service's COR
 ## [Common issues & FAQs](https://github.com/JeffreyCA/spleeter-web/wiki/Common-issues-&-FAQs)
 
 ## Credits
+
 Special thanks to:
 
 * [tone.js](https://github.com/Tonejs/Tone.js/)
@@ -309,4 +350,5 @@ And to all the researchers and devs behind the supported source separation model
 Turntable icon made from [Icon Fonts](https://www.onlinewebfonts.com/icon/497039) is licensed by CC BY 3.0.
 
 ## License
+
 [MIT](./LICENSE)

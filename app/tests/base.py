@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 BROWSERSTACK_LOCAL_IDENTIFIER = settings.BROWSERSTACK_LOCAL_IDENTIFIER
 BROWSERSTACK_USERNAME = settings.BROWSERSTACK_USERNAME
 BROWSERSTACK_ACCESSKEY = settings.BROWSERSTACK_ACCESSKEY
-LOCAL = True
+LOCAL = False
 
 LT_USERNAME = settings.LT_USERNAME
 LT_ACCESS_TOKEN = settings.LT_ACCESS_TOKEN
@@ -26,7 +26,7 @@ class BaseSeleniumTestCase(LiveServerTestCase):
             caps = {
                 'platform': "win10",
                 'browserName': "chrome",
-                'version': "67.0",
+                'version': "99.0",
                 "resolution": "1024x768",
                 "network": True,
                 "video": True,

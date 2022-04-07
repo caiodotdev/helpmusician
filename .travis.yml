@@ -14,7 +14,6 @@ install:
   - pip install -U pip wheel
   - pip install -r requirements.txt
 before_script:
-  - flake8 .
   - python manage.py violations
 script:
   - psql -c 'CREATE DATABASE spleeter-web;' -U postgres

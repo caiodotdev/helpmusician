@@ -7,8 +7,8 @@ services:
 before_install:
   - sudo apt-get update
   - sudo apt-get install libevent-dev daemontools
-  - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
+  - wget https://chromedriver.storage.googleapis.com/99.0.4844.51/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip
   - export CHROME_BIN=chromium-browser
   - export DJANGO_SETTINGS_MODULE=django_react.settings
   - export PYTHONPATH=$HOME/builds/caiodotdev/helpmusician

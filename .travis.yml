@@ -28,7 +28,7 @@ install:
 before_script:
   - python manage.py violations
 script:
-  - LT  --user caio.barbosa@virtus.ufcg.edu.br --key NaNNdBDJGhzbKMsigjJ2213wRT75vQDYqxtc9m7miNzzvMqV4P
+  - ./LT  --user caio.barbosa@virtus.ufcg.edu.br --key NaNNdBDJGhzbKMsigjJ2213wRT75vQDYqxtc9m7miNzzvMqV4P
   - python manage.py test
 cache: pip
 addons:

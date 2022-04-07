@@ -64,7 +64,6 @@ youtube-search-python==1.6.2
 youtube-title-parse==1.0.0
 youtube-dl
 yt-dlp==2022.3.8.2
-percy
 
 
 

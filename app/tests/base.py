@@ -24,18 +24,16 @@ class BaseSeleniumTestCase(LiveServerTestCase):
         else:
             print('----- Remoto')
             caps = {
-                "resolution": "1024x768",
-                'selenium_version': "3.13.0",
+                "platform": "Windows 10",
+                "browserName": "Chrome",
+                "version": "99.0",
+                "resolution": "1280x800",
+                "selenium_version": "3.141.0",
+                "tunnel": True,
+                "console": "true",
                 "network": True,
                 "video": True,
-                "visual": True,
-                "console": True,
-                "tunnel": True,
-                'LT:Options': {
-                    "platformName": "Windows 10"
-                },
-                "browserName": "Chrome",
-                "browserVersion": "latest",
+                "driver_version": "99.0"
             }
             gridUrl = "hub.lambdatest.com/wd/hub"
             url = "https://" + LT_USERNAME + ":" + LT_ACCESS_TOKEN + "@" + gridUrl

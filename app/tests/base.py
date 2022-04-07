@@ -20,8 +20,13 @@ class BaseSeleniumTestCase(LiveServerTestCase):
             self.driver.get(self.live_server_url)
         else:
             caps = {
-                'browserstack.local': 'true',
+                'browserstack.local': 'false',
                 'browserstack.localIdentifier': BROWSERSTACK_LOCAL_IDENTIFIER,
+                'os': "Windows",
+                'os_version': "11",
+                'browser': "Chrome",
+                'browser_version': "99.0",
+                'browserstack.selenium_version': "3.14.0"
             }
             self.driver = webdriver.Remote(
                 command_executor='https://' + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESSKEY + '@hub-cloud.browserstack.com/wd/hub',

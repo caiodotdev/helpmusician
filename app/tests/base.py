@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 BROWSERSTACK_LOCAL_IDENTIFIER = settings.BROWSERSTACK_LOCAL_IDENTIFIER
 BROWSERSTACK_USERNAME = settings.BROWSERSTACK_USERNAME
 BROWSERSTACK_ACCESSKEY = settings.BROWSERSTACK_ACCESSKEY
-LOCAL = False
+LOCAL = True
 
 
 class BaseSeleniumTestCase(LiveServerTestCase):

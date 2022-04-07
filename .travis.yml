@@ -29,3 +29,8 @@ addons:
   browserstack:
     username: "caiodotdev_irwadE"
     access_key: "Ke15XkyiQ6qp9XryA26w"
+
+env:
+  global:
+    - LT_USERNAME=${LAMBDATEST_USERNAME}
+    - LT_ACCESS_KEY=${LAMBDATEST_ACCESS_KEY}

@@ -1,0 +1,22 @@
+dist: xenial
+language: python
+python:
+  - 3.8
+services:
+  - postgresql
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install libevent-dev daemontools
+  - export DJANGO_SETTINGS_MODULE=django_react.settings
+  - export PYTHONPATH=$HOME/builds/caiodotdev/helpmusician
+  - export PIP_USE_MIRRORS=true
+install:
+  - pip install -U pip wheel
+  - pip install -r requirements.txt
+before_script:
+  - flake8 .
+  - python manage.py violations
+script:
+  - psql -c 'CREATE DATABASE spleeter-web;' -U postgres
+  - python manage.py test
+cache: pip

@@ -1,6 +1,3 @@
-import os
-
-import percy
 from django.test import LiveServerTestCase
 from selenium import webdriver
 

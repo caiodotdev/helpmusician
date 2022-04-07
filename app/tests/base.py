@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 BROWSERSTACK_LOCAL_IDENTIFIER = settings.BROWSERSTACK_LOCAL_IDENTIFIER
 BROWSERSTACK_USERNAME = settings.BROWSERSTACK_USERNAME
 BROWSERSTACK_ACCESSKEY = settings.BROWSERSTACK_ACCESSKEY
-LOCAL = False
+LOCAL = True
 
 LT_USERNAME = settings.LT_USERNAME
 LT_ACCESS_TOKEN = settings.LT_ACCESS_TOKEN
@@ -16,12 +16,13 @@ class BaseSeleniumTestCase(LiveServerTestCase):
     port = 8080
 
     def setUp(self):
+        super(BaseSeleniumTestCase, self).setUp()
         if LOCAL:
-            print('----- euu')
+            print('----- Local')
             self.driver = webdriver.Chrome(ChromeDriverManager().install())
             self.driver.get(self.live_server_url)
         else:
-            print('----- eleee')
+            print('----- Remoto')
             caps = {
                 'platform': "win10",
                 'browserName': "chrome",
@@ -38,7 +39,7 @@ class BaseSeleniumTestCase(LiveServerTestCase):
                 command_executor=url,
                 desired_capabilities=caps)
             self.driver.get(self.live_server_url)
-        super(BaseSeleniumTestCase, self).setUp()
+
 
     def tearDown(self) -> None:
         self.driver.quit()

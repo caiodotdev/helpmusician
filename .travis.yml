@@ -11,7 +11,7 @@ before_install:
   - unzip chromedriver_linux64.zip
   - wget https://downloads.lambdatest.com/tunnel/linux/64bit/LT_Linux.zip
   - unzip LT_Linux.zip
-  - LT  --user caio.barbosa@virtus.ufcg.edu.br --key NaNNdBDJGhzbKMsigjJ2213wRT75vQDYqxtc9m7miNzzvMqV4P
+  - ls
   - export CHROME_BIN=chromium-browser
   - export DJANGO_SETTINGS_MODULE=django_react.settings
   - export PYTHONPATH=$HOME/builds/caiodotdev/helpmusician
@@ -28,6 +28,7 @@ install:
 before_script:
   - python manage.py violations
 script:
+  - LT  --user caio.barbosa@virtus.ufcg.edu.br --key NaNNdBDJGhzbKMsigjJ2213wRT75vQDYqxtc9m7miNzzvMqV4P
   - python manage.py test
 cache: pip
 addons:

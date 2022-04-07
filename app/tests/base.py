@@ -43,12 +43,6 @@ class BaseSeleniumTestCase(LiveServerTestCase):
             caps = {
                 'browserstack.local': 'true',
                 'browserstack.localIdentifier': BROWSERSTACK_LOCAL_IDENTIFIER,
-                "os": "Windows",
-                "os_version": "10",
-                "browser": "Chrome",
-                "browser_version": "99.0",
-                "resolution": "1920x1200",
-                "browserstack.selenium_version": "3.141.0"
             }
             self.driver = webdriver.Remote(
                 command_executor='https://' + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESSKEY + '@hub-cloud.browserstack.com/wd/hub',

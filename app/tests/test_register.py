@@ -22,7 +22,7 @@ class TestRegisterbase(BaseSeleniumTestCase):
         # Test name: register_base
         # Step # | name | target | value
         # 1 | open | http://localhost:8080/register/ |
-        self.driver.get("http://localhost:8080/register/")
+        self.get("http://localhost:8080/register/")
         # 3 | click | id=id_username |
         self.driver.find_element(By.ID, "id_username").click()
         # 4 | type | id=id_username | caiomarin

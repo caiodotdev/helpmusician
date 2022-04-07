@@ -18,18 +18,12 @@ class TestLogin(BaseSeleniumTestCase):
         super(TestLogin, self).tearDown()
 
     def test_login(self):
-
-        self.driver.get('http://localhost:8080/login/')
+        self.get('http://localhost:8080/login/')
         self.driver.find_element(By.ID, "id_username").click()
         self.driver.find_element(By.ID, "id_username").send_keys(USERNAME_USER_DEFAULT)
         self.driver.find_element(By.ID, "id_password").send_keys(PASSWORD_USER_DEFAULT)
         self.driver.find_element(By.CSS_SELECTOR, ".btn-success").click()
         time.sleep(1)
-        # self.driver.find_element(By.CSS_SELECTOR, ".btn-group > .btn:nth-child(2)").click()
-        # self.driver.find_element(By.CSS_SELECTOR, ".btn-group > .btn:nth-child(2)").click()
-        # self.driver.find_element(By.CSS_SELECTOR, ".btn-group > .btn:nth-child(2)").click()
-        # self.driver.find_element(By.CSS_SELECTOR, ".btn-group > .btn:nth-child(2)").click()
-        # self.driver.find_element(By.CSS_SELECTOR, ".btn-group > .btn:nth-child(2)").click()
         self.driver.find_element(By.CSS_SELECTOR, ".popover-navigation > .btn").click()
         self.driver.find_element(By.CSS_SELECTOR, ".jumbotron").click()
         assert self.driver.find_element(By.CSS_SELECTOR, ".display-5").text == "Lista de Músicas"

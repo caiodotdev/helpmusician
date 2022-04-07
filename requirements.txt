@@ -59,6 +59,7 @@ tqdm==4.36.1
 typing-extensions==3.7.4.3
 unittest-xml-reporting
 whitenoise==6.0.0
+webdriver-manager
 youtube-search==2.1.0
 youtube-search-python==1.6.2
 youtube-title-parse==1.0.0

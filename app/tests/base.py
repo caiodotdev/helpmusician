@@ -20,7 +20,7 @@ class BaseSeleniumTestCase(LiveServerTestCase):
             self.driver.get(self.live_server_url)
         else:
             caps = {
-                'browserstack.local': 'false',
+                'browserstack.local': 'true',
                 'browserstack.localIdentifier': BROWSERSTACK_LOCAL_IDENTIFIER,
                 'os': "Windows",
                 'os_version': "11",

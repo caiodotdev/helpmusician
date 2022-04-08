@@ -16,9 +16,12 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="{% static 'default/css/sweetalert.min.css' %}">
     <link rel="stylesheet" type="text/css"
-          href="{% static 'default/css/datatables.min.css' %}"/>
+          href="https://cdn.datatables.net/v/bs4-4.6.0/jq-3.6.0/dt-1.11.5/b-2.2.2/r-2.2.9/datatables.min.css"/>
+
+
     <link rel="stylesheet" href="{% static 'tone/bootstrap-slider.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'default/tour/bootstrap-tourist.css' %}"/>
+
 
     <style>
         .hidden {
@@ -26,7 +29,7 @@
             visibility: hidden;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-2.2.4.js"
+    <script src="//code.jquery.com/jquery-2.2.4.js"
             integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -54,6 +57,9 @@
                     <li id="home_link" class="nav-item">
                         <a class="nav-link clicked" href="{% url 'index' %}">Inicio</a>
                     </li>
+                    <li id="processed_link" class="nav-item">
+                        <a class="nav-link clicked" href="{% url 'processed_list' %}">Musicas Processadas</a>
+                    </li>
                     <li id="drumkit" class="nav-item">
                         <a class="nav-link clicked" href="{% url 'drumkit' %}">Drum Kit</a>
                     </li>
@@ -63,6 +69,7 @@
                     <li id="selected" class="nav-item">
                         <a class="nav-link clicked" href="{% url 'selected' %}">Musicas da Semana</a>
                     </li>
+
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
@@ -109,8 +116,6 @@
 
 
 <script type="text/javascript" src="{% static 'default/js/sweetalert.min.js' %}"></script>
-
-<script type="text/javascript" src="{% static 'default/js/datatables.min.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'default/js/moment-with-locales.min.js' %}"></script>
 
@@ -162,5 +167,20 @@
         });
     });
 </script>
+<script type="text/javascript" id="cookieinfo"
+        src="//cookieinfoscript.com/js/cookieinfo.min.js"
+        data-bg="#645862"
+        data-fg="#FFFFFF"
+        data-link="#F1D600"
+        data-message="Usamos cookies para melhorar sua experiência. Ao continuar a visitar este site, você concorda com a nossa utilização de cookies."
+        data-linkmsg="Mais Informações"
+        data-moreinfo="{% url 'cookies' %}"
+        data-cookie="CookieInfoScript"
+        data-text-align="left"
+        data-close-text="Aceitar!">
+</script>
+
+
+
 </body>
 </html>

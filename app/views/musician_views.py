@@ -3,6 +3,7 @@ from sys import platform
 import django_filters
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
+from django_datatables_view.base_datatable_view import BaseDatatableView
 
 from app.celery import app
 from django.contrib import messages
@@ -361,3 +362,54 @@ class ConfirmAddMusic(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return '/app/'
+
+
+class ProcessedList(LoginRequiredMixin, ListView):
+    """
+    List all Movies
+    """
+    login_url = '/login/'
+    template_name = 'music/processed.html'
+    model = SourceTrack
+    context_object_name = 'tracks'
+    paginate_by = 1
+
+    def get_context_data(self, **kwargs):
+        context = super(ProcessedList, self).get_context_data(**kwargs)
+        queryset = self.get_queryset()
+        filter = SourceTrackFilter(self.request.GET, queryset)
+        context["filter"] = filter
+        return context
+
+
+class SourceTrackFilter(django_filters.FilterSet):
+    class Meta:
+        model = SourceTrack
+        fields = ["id", "user__username", "source_file__file_url", "artist", "thumb", "title", "date_created", "tone", "bpm",
+                  "bar_length", ]
+
+
+class ProcessedListJson(BaseDatatableView):
+    model = SourceTrack
+    columns = ("id", "thumb", "artist", "title", "tone", "bpm", "link")
+    order_columns = ["id", "thumb", "artist", "title", "tone", "bpm", ]
+    max_display_length = 500
+
+    def render_column(self, row, column):
+        # We want to render user as a custom column
+        if column == 'link':
+            return '%s' % (row.source_file.youtube_link)
+        else:
+            return super(ProcessedListJson, self).render_column(row, column)
+
+    def get_initial_queryset(self):
+        qs = SourceTrack.objects.filter(dynamic__status=TaskStatus.DONE).distinct()
+        return qs
+
+    def filter_queryset(self, qs):
+        search = self.request.GET.get('search[value]', None)
+        if search:
+            qs = qs.filter(Q(id__icontains=search) | Q(artist__icontains=search) | Q(title__icontains=search) | Q(
+                tone__icontains=search) | Q(bpm__icontains=search))
+        filter = SourceTrackFilter(self.request.GET, qs)
+        return filter.qs

@@ -3,33 +3,41 @@
 {% load static %}
 {% block content %}
     <script src="{% static 'tone/Tone.min.js' %}"></script>
-    <div class="row">
+    <div id="content" class="row">
         <div class="col-12 col-sm-12">
             <div class="jumbotron jumbotron-fluid bg-transparent">
-                <div class="container secondary-color">
-                    <h2 class="display-5">{{ track.artist }} - {{ track.title }}</h2>
+                <div class="container secondary-color text-center">
+                    <img class="img-responsive" style="max-height: 300px;"
+                         src="{{ track.thumb }}"/>
                 </div>
+                <br/>
+                <div class="container secondary-color">
+                    <h3 class="display-5">{{ track.artist }} - {{ track.title }}</h3>
+                </div>
+                <br/>
                 <div class="container">
                     <div class="row" id="player">
-                        <div class="col-12 col-sm-1">
+                        <div class="col-1 col-xs-1">
                             <div class="form-inline pull-right">
-                                <button class="btn btn-success disabled" id="play"><i class="fa fa-play"></i></button>
-                                <button class="btn btn-secondary" id="pause"><i class="fa fa-pause"></i></button>
+                                <button class="btn btn-success rounded-circle disabled" id="play"><i
+                                        class="fa fa-play"></i></button>
+                                <button class="btn btn-secondary rounded-circle" id="pause"><i class="fa fa-pause"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-9">
+                        <div class="col-9 col-xs-9">
                             <div class="form-inline" style="margin-top: 8px;">
                                 <input type="range" class="form-control-range" id="player_range" value="0" min="0">
                             </div>
                         </div>
-                        <div class="col-12 col-sm-1">
+                        <div class="col-1 col-xs-1">
                             <div class="form-inline" style="margin-top: 8px;">
-                                <label class="" id="timer"></label>
+                                <label class="" id="timer">00:00</label>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-1">
-                            <div class="form-inline" >
-                                <a href="{{ track.source_file.file_url  }}" target="_blank"
+                        <div class="col-1 col-xs-1">
+                            <div class="form-inline">
+                                <a href="{{ track.source_file.file_url }}" target="_blank"
                                    class="btn btn-info">
                                     Download <i class="fa fa-download"></i>
                                 </a>
@@ -37,6 +45,7 @@
                         </div>
                     </div>
                     <br/>
+                    <hr/>
                     <div class="row">
                         <div class="col-12 col-sm-12">
                             <a href="{% url 'index' %}" class="btn btn-secondary">
@@ -48,9 +57,11 @@
             </div>
         </div>
     </div>
+    {% include 'loader.html' %}
 
     <script type="text/javascript">
-        $('#loading').show();
+        $('#content').hide();
+        $('#loader').show();
         var interval = 0;
         var isPlaying = false;
         var durationSeconds = 0;
@@ -62,7 +73,8 @@
             onload: function (evt) {
                 console.log(evt);
                 $('#play').removeClass('disabled');
-                $('#loading').hide();
+                $('#loader').hide();
+                $('#content').show();
             }
         }).sync().start(0, 0).toDestination();
 

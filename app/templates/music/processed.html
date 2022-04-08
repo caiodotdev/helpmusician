@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-12 col-sm-12">
+            <div class="jumbotron jumbotron-fluid bg-transparent">
+                <div class="container secondary-color">
+                    <h2 class="display-5">Músicas Processadas</h2>
+                    <p class="lead">Para adicionar à sua playlist, basta clicar em selecionar.</p>
+                </div>
+                <div class="container">
+                    <div id="list" class="row">
+                        <div class="col-xs-12">
+                            <table id="table" class="table table-striped" cellspacing="0" cellpadding="0">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>IMAGEM</th>
+                                    <th>ARTISTA</th>
+                                    <th>MUSICA</th>
+                                    <th>TOM</th>
+                                    <th>BPM</th>
+                                    <th class="actions">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div> <!-- /#list -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bs4-4.6.0/jq-3.6.0/dt-1.11.5/b-2.2.2/r-2.2.9/datatables.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#processed_link').addClass('active');
+            var table = $('#table').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "ordering": false,
+                "ajax": {
+                    "url": "{% url 'processed_json' %}",
+                },
+                columnDefs: [
+                    {
+                        targets: 0,
+                        "render": function (data, type, row, meta) {
+                            return '<a href="/track/' + row[0] + '/" class="btn btn-success play"><i class="fa fa-play"></i></a>';
+                        }
+                    },
+                    {
+                        targets: 1,
+                        "render": function (data, type, row, meta) {
+                            return '<img style="max-height: 50px;" class="img-thumbnail" src="' + row[1] + '"/>';
+                        }
+                    },
+                    {
+                        targets: -1,
+                        "render": function (data, type, row, meta) {
+                            return '<a href="/confirm-add-music/?title=' + row[3] + '&artist=' +
+                                row[2] + '&thumb=' + row[1] + '&link=' + row[6] +
+                                '" class="btn btn-secondary">Selecionar</a>';
+                        }
+                    }
+                ],
+                order: [[0, "desc"]],
+                "language": {
+                    "lengthMenu": "Exibir _MENU_ registros por página",
+                    "zeroRecords": "Nenhum item encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "emptyTable": "Sem dados disponíveis na tabela",
+                    "infoFiltered": "(filtrado do total de _MAX_ registros)",
+                    "thousands": ".",
+                    "loadingRecords": "Carregando...",
+                    "processing": "Processando...",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": ativar para classificar a coluna ascendente",
+                        "sortDescending": ": ativar para classificar a coluna descendente"
+                    }
+                },
+                "pageLength": 10
+            });
+
+        });
+    </script>
+
+{% endblock %}

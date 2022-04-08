@@ -34,16 +34,10 @@
                                 <div class="form-group form-inline pull-right">
                                     <input type="text" class="hidden" name="ordering" id="ordering"
                                            value="{{ ordering }}"/>
-                                    {#                    <label>Search:</label>#}
-                                    {#                    <div class="input-group mb-3">#}
-                                    {#                        <input type="text" id="search" name="search" placeholder="" value="{{ search }}"/>#}
-                                    {#                        <div class="input-group-append">#}
-                                    {#                            <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>#}
-                                    {#                        </div>#}
-                                    {#                    </div>#}
                                 </div>
                             </header>
-                            <table id="table" class="table table-striped table-responsive" cellspacing="0" cellpadding="0">
+                            <table id="table" class="table table-striped table-responsive" cellspacing="0"
+                                   cellpadding="0">
                                 <thead>
                                 <tr>
                                     <th></th>
@@ -60,15 +54,15 @@
                                 {% for track in object_list %}
                                     <tr>
                                         <td>
-                                            {% if track.source_file.file_url %}
-                                                <a href="{% url 'player_view' track.id %}" class="btn btn-success play">
-                                                    <i class="fa fa-play"></i>
-                                                </a>
-                                            {% else %}
-                                                <button type="button" class="btn btn-info">
-                                                    <i class="fa fa-refresh" data-toggle="tooltip" data-placement="top"
-                                                       title="Baixando Música..."></i>
-                                                </button>
+                                            {% if track.dynamic.first %}
+                                                {% if track.dynamic.first.status == 2 %}
+                                                    <a href="{% url 'custom_mix' track.dynamic.first.id %}"
+                                                       class="btn btn-success rounded-circle play">
+                                                        <i class="fa fa-play"></i>
+                                                    </a>
+                                                {% else %}
+                                                    <i class="fa fa-spinner fa-2x"></i>
+                                                {% endif %}
                                             {% endif %}
                                         </td>
                                         <td>{{ track.artist }}</td>
@@ -100,13 +94,16 @@
 
                                         </td>
                                         <td>
-                                            {% if track.dynamic.first %}
-                                                {% if track.dynamic.first.status == 2 %}
-                                                    <a href="{% url 'custom_mix' track.dynamic.first.id %}"
-                                                       class="btn btn-secondary">
-                                                        Mixer
-                                                    </a>
-                                                {% endif %}
+                                            {% if track.source_file.file_url %}
+                                                <a href="{% url 'player_view' track.id %}"
+                                                   class="btn btn-secondary">
+                                                    <i class="fa fa-headphones"></i> Original
+                                                </a>
+                                            {% else %}
+                                                <button type="button" class="btn btn-info">
+                                                    <i class="fa fa-refresh" data-toggle="tooltip" data-placement="top"
+                                                       title="Baixando Música..."></i>
+                                                </button>
                                             {% endif %}
                                         </td>
                                         <td>
@@ -124,50 +121,72 @@
                             </table>
                             <div class="row">
                                 <div class="col-sm-12">
-                        <span class="current pull-left">
-                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}. ({{ page_obj.start_index }}—{{ page_obj.end_index }})
-                        </span>
+                                    <span class="current pull-left">
+                                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}. ({{ page_obj.start_index }}—{{ page_obj.end_index }})
+                                    </span>
                                     {% if is_paginated %}
-                                        <ul class="pagination pagination-flat pull-right">
-                                            {% if page_obj.has_previous %}
-                                                <li class="page-item"><a class="page-link"
-                                                                         href="?{% param_replace page=page_obj.previous_page_number %}">&laquo;</a>
-                                                </li>
-                                            {% else %}
-                                                <li class="page-item disabled"><span>&laquo;</span></li>
-                                            {% endif %}
-                                            {% if page_obj.number|add:'-4' > 1 %}
-                                                <li>
-                                                    <a href="?{% param_replace page=page_obj.number|add:'-5' %}">&hellip;</a>
-                                                </li>
-                                            {% endif %}
-
-                                            {% for i in page_obj.paginator.page_range %}
-                                                {% if page_obj.number == i %}
-                                                    <li class="page-item active"><span>{{ i }} <span
-                                                            class="sr-only">(current)</span></span>
+                                        <nav aria-label="Page navigation example ">
+                                            <ul class="pagination pagination-flat pull-right">
+                                                {% if page_obj.has_previous %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?{% param_replace page=page_obj.previous_page_number %}">
+                                                            <span>&laquo;</span>
+                                                        </a>
                                                     </li>
-                                                {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
-                                                    <li class="page-item"><a class="page-link"
-                                                                             href="?{% param_replace page=i %}">{{ i }}</a>
+                                                {% else %}
+                                                    <li class="page-item disabled"><a class="page-link"
+                                                                                      href="#">
+                                                        <span>&laquo;</span>
+                                                    </a>
+                                                    </li></li>
+                                                {% endif %}
+                                                {% if page_obj.number|add:'-4' > 1 %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?{% param_replace page=page_obj.number|add:'-5' %}">&hellip;</a>
                                                     </li>
                                                 {% endif %}
-                                            {% endfor %}
 
-                                            {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
-                                                <li class="page-item"><a class="page-link"
-                                                                         href="?{% param_replace page=page_obj.number|add:'5' %}">&hellip;</a>
-                                                </li>
-                                            {% endif %}
-                                            {% if page_obj.has_next %}
-                                                <li class="page-item"><a class="page-link"
-                                                                         href="?{% param_replace page=page_obj.next_page_number %}">&raquo;</a>
-                                                </li>
-                                            {% else %}
-                                                <li class="page-item disabled"><span>&raquo;</span></li>
-                                            {% endif %}
-                                        </ul>
+                                                {% for i in page_obj.paginator.page_range %}
+                                                    {% if page_obj.number == i %}
+                                                        <li class="page-item active">
+                                                            <a class="page-link"
+                                                               href="#"><span>{{ i }} <span
+                                                                    class="sr-only">(current)</span></span>
+                                                            </a>
+                                                        </li>
+                                                    {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                                                        <li class="page-item">
+                                                            <a class="page-link"
+                                                               href="?{% param_replace page=i %}">{{ i }}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?{% param_replace page=page_obj.number|add:'5' %}">&hellip;</a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if page_obj.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?{% param_replace page=page_obj.next_page_number %}">&raquo;</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="page-item disabled">
+                                                        <a href="#" class="page-link">
+                                                            <span>&raquo;</span>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </nav>
                                     {% endif %}
+
+
                                 </div>
                             </div>
                         </div>
@@ -191,6 +210,11 @@
                 content: 'Esta é nossa barra de ferramentas. Aqui você irá navegar por todas nossas funcionalidades.'
             },
             {
+                element: "#processed_link",
+                placement: "top",
+                content: 'Para baixar rapidamente voce pode buscar 1 música aqui e adicionar à sua playlist instantâneamente.'
+            },
+            {
                 element: "#drumkit",
                 placement: "top",
                 content: 'Aqui nós temos uma seleção de Drums Pad para você.'
@@ -208,14 +232,14 @@
             },
             {
                 element: "#table",
-                 backdrop: true,
+                backdrop: true,
                 placement: "top",
                 content: 'Aqui ficará sua lista de músicas baixadas. Você poderá buscar por uma música nova ' +
                     'ou pegar das Músicas da Semana.'
             },
             {
                 element: "form",
-                 backdrop: true,
+                backdrop: true,
                 placement: "top",
                 content: 'Agora, você pode buscar sua música favorita, digitando o nome dela ou link do Youtube,' +
                     'ou selecionar alguma de nossas Musicas da Semana.',

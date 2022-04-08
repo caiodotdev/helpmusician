@@ -7,259 +7,323 @@
             font-size: 30px;
             font-weight: bold;
         }
+
+        .dangerous {
+            background: rgba(255, 103, 103, 0.7);
+        }
+
+        .warningg {
+            background: rgba(255, 234, 105, 0.81);
+        }
+
+        .okk {
+            background: rgba(0, 255, 21, 0.43);
+        }
+
+        .progress-bar-vertical {
+            width: 20px;
+            min-height: 200px;
+            margin-right: 20px;
+            background: #d0cece;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            align-items: flex-end;
+            -webkit-align-items: flex-end
+        }
+
+        .progress-bar-vertical .progress-bar {
+            width: 100%;
+            height: 0;
+            -webkit-transition: height 0.6s ease;
+            -o-transition: height 0.6s ease;
+            transition: height 0.6s ease
+        }
+
     </style>
+
     <br/>
-    <div class="row">
+    <div class="row" id="content">
         <div class="col-12 col-sm-12">
-            <h2>Custom Mixer</h2>
-            <h5>{{ data.artist }} - {{ data.title }}</h5>
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <h2>Mixer</h2>
+                    <h5>{{ data.artist }} - {{ data.title }}</h5>
+                </div>
+            </div>
+            <br/>
+            <div class="row" id="player">
+                <div class="col-12 col-sm-1">
+                    <div class="form-inline pull-right">
+                        <button class="btn btn-success rounded-circle disabled" id="play"><i class="fa fa-play"></i>
+                        </button>
+                        <button class="btn btn-secondary rounded-circle" id="pause"><i class="fa fa-pause"></i></button>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-10">
+                    <div class="form-inline" style="margin-top: 8px;">
+                        <input type="range" class="form-control-range" id="player_range" value="0" min="0">
+                    </div>
+                </div>
+                <div class="col-12 col-sm-1">
+                    <div class="form-inline" style="margin-top: 8px;">
+                        <label class="" id="timer">00:00</label>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row text-center" id="options">
+                <div class="col-12 col-sm-3">
+                    <div class="form-group">
+                        <label>Metronomo</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" id="less_bpm"><i class="fa fa-caret-left"></i>
+                                </button>
+                            </div>
+                            <input id="bpm" name="bpm" class="form-control" value="{{ data.bpm }}" max="250" min="0"/>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" id="more_bpm"><i
+                                        class="fa fa-caret-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-3">
+                    <div class="form-group">
+                        <label>Tom</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" id="less_tone"><i
+                                        class="fa fa-caret-left"></i>
+                                </button>
+                            </div>
+                            <input id="tone" name="tone" class="form-control" value=""/>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" id="more_tone"><i
+                                        class="fa fa-caret-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-3">
+                    <div class="form-group">
+                        <label>Acorde</label>
+                        <div class="form-inline" style="display: block !important;">
+                            <label id="chord" class="chordTitle">-</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-3">
+                    <div class="form-group">
+                        <label>Pad Contínuo</label>
+                        <div class="form-inline text-center" style="display: block !important;">
+                            <select class="form-control" name="pad" id="pad">
+                                <option value="default" selected>Padrão</option>
+                                <option value="shimmer">Shimmer</option>
+                                <option value="guitar">Guitar</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row text-center" id="mixer">
+                <div class="col-12 col-sm-2">
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-1 ">
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            <input class="ch disable" id="metronome" type="text"
+                                   data-slider-min="1" data-slider-max="100"
+                                   data-slider-step="1"
+                                   data-slider-value="100" data-slider-orientation="vertical"/>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                            <button id="solo_metronome" class="btn btn-block btn-secondary disabled">S</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <button id="mute_metronome" class="btn btn-block btn-secondary disabled">M</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <label class="badge badge-secondary">Metronomo</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-1">
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            <input class="ch disabled" id="pad_continuous" name="pad_continuous" type="text"
+                                   data-slider-min="1" data-slider-max="100"
+                                   data-slider-step="1"
+                                   data-slider-value="100" data-slider-orientation="vertical"/>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                            <button id="solo_pad" class="btn btn-block btn-secondary disabled">S</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <button id="mute_pad" class="btn btn-block btn-secondary disabled">M</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <label class="badge badge-secondary">Pad</label>
+                        </div>
+                        <div class="col-12 col-sm-12">
+                            <a href="#" target="_blank" class="btn btn-success pad_link"><i class="fa fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-1">
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            <input class="ch disabled" id="vocal" type="text"
+                                   data-slider-min="1" data-slider-max="100"
+                                   data-slider-step="1"
+                                   data-slider-value="100" data-slider-orientation="vertical"/>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                            <button id="solo_vocal" class="btn btn-block btn-secondary disabled">S</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <button id="mute_vocal" class="btn btn-block btn-secondary disabled">M</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <label class="badge badge-secondary">Vocal</label>
+                        </div>
+                        <div class="col-12 col-sm-12">
+                            <a target="_blank" href="{{ data.vocals_url }}" class="btn btn-success vocal_link"><i
+                                    class="fa fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-1">
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            <input class="ch disabled" id="piano" type="text"
+                                   data-slider-min="1" data-slider-max="100"
+                                   data-slider-step="1"
+                                   data-slider-value="100" data-slider-orientation="vertical"/>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                            <button id="solo_piano" class="btn btn-block btn-secondary disabled">S</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <button id="mute_piano" class="btn btn-block btn-secondary disabled">M</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <label class="badge badge-secondary">Piano</label>
+                        </div>
+                        <div class="col-12 col-sm-12">
+                            <a target="_blank" href="{{ data.piano_url }}" class="btn btn-success piano_link"><i
+                                    class="fa fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-1">
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            <input class="ch disabled" id="bass" type="text"
+                                   data-slider-min="1" data-slider-max="100"
+                                   data-slider-step="1"
+                                   data-slider-value="100" data-slider-orientation="vertical"/>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                            <button id="solo_bass" class="btn btn-block btn-secondary disabled">S</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <button id="mute_bass" class="btn btn-block btn-secondary disabled">M</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <label class="badge badge-secondary">Baixo</label>
+                        </div>
+                        <div class="col-12 col-sm-12">
+                            <a target="_blank" href="{{ data.bass_url }}" class="btn btn-success bass_link"><i
+                                    class="fa fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-1">
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            <input class="ch disabled" id="drums" type="text"
+                                   data-slider-min="1" data-slider-max="100"
+                                   data-slider-step="1"
+                                   data-slider-value="100" data-slider-orientation="vertical"/>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                            <button id="solo_drums" class="btn btn-block btn-secondary disabled">S</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <button id="mute_drums" class="btn btn-block btn-secondary disabled">M</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <label class="badge badge-secondary">Bateria</label>
+                        </div>
+                        <div class="col-12 col-sm-12">
+                            <a target="_blank" href="{{ data.drums_url }}" class="btn btn-success drums_link"><i
+                                    class="fa fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-1">
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            <input class="ch disabled" id="other" type="text"
+                                   data-slider-min="1" data-slider-max="100"
+                                   data-slider-step="1"
+                                   data-slider-value="100" data-slider-orientation="vertical"/>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 16px;">
+                            <button id="solo_other" class="btn btn-block btn-secondary disabled">S</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <button id="mute_other" class="btn btn-block btn-secondary disabled">M</button>
+                        </div>
+                        <div class="col-12 col-sm-12" style="margin-top: 8px;">
+                            <label class="badge badge-secondary">Outros</label>
+                        </div>
+                        <div class="col-12 col-sm-12">
+                            <a target="_blank" href="{{ data.other_url }}" class="btn btn-success other_link"><i
+                                    class="fa fa-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-1">
+                    <div class="row">
+                        <div class="col-6 col-sm-6">
+                            <div class="progress progress-bar-vertical" data-toggle="tooltip" data-placement="top"
+                                 title="Master">
+                                <div id="m1" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+                            </div>
+
+                        </div>
+                        <div class="col-6 col-sm-6" data-toggle="tooltip" data-placement="top" title="Master">
+                            <div class="progress progress-bar-vertical">
+                                <div id="m2" class="progress-bar" role="progressbar" aria-valuenow="0"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <br/>
-    <div class="row" id="player">
-        <div class="col-12 col-sm-1">
-            <div class="form-inline pull-right">
-                <button class="btn btn-success disabled" id="play"><i class="fa fa-play"></i></button>
-                <button class="btn btn-secondary" id="pause"><i class="fa fa-pause"></i></button>
-            </div>
-        </div>
-        <div class="col-12 col-sm-10">
-            <div class="form-inline" style="margin-top: 8px;">
-                <input type="range" class="form-control-range" id="player_range" value="0" min="0">
-            </div>
-        </div>
-        <div class="col-12 col-sm-1">
-            <div class="form-inline" style="margin-top: 8px;">
-                <label class="" id="timer">00:00</label>
-            </div>
-        </div>
-    </div>
-    <hr/>
-    <div class="row text-center" id="options">
-        <div class="col-12 col-sm-3">
-            <div class="form-group">
-                <label>Metronomo</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <button class="btn btn-outline-secondary" id="less_bpm"><i class="fa fa-caret-left"></i>
-                        </button>
-                    </div>
-                    <input id="bpm" name="bpm" class="form-control" value="{{ data.bpm }}" max="250" min="0"/>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" id="more_bpm"><i class="fa fa-caret-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="col-12 col-sm-3">
-            <div class="form-group">
-                <label>Tom</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <button class="btn btn-outline-secondary" id="less_tone"><i class="fa fa-caret-left"></i>
-                        </button>
-                    </div>
-                    <input id="tone" name="tone" class="form-control" value=""/>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" id="more_tone"><i class="fa fa-caret-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-3">
-            <div class="form-group">
-                <label>Acorde</label>
-                <div class="form-inline" style="display: block !important;">
-                    <label id="chord" class="chordTitle">-</label>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-3">
-            <div class="form-group">
-                <label>Pad Contínuo</label>
-                <div class="form-inline text-center" style="display: block !important;">
-                    <select class="form-control" name="pad" id="pad">
-                        <option value="default" selected>Padrão</option>
-                        <option value="shimmer">Shimmer</option>
-                        <option value="guitar">Guitar</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br/>
-    <div class="row text-center" id="mixer">
-        <div class="col-12 col-sm-2">
-            <div class="row">
-                <div class="col-12 col-sm-12">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-1 ">
-            <div class="row">
-                <div class="col-12 col-sm-12">
-                    <input class="ch disable" id="metronome" type="text"
-                           data-slider-min="1" data-slider-max="100"
-                           data-slider-step="1"
-                           data-slider-value="100" data-slider-orientation="vertical"/>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 16px;">
-                    <button id="solo_metronome" class="btn btn-block btn-secondary disabled">S</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <button id="mute_metronome" class="btn btn-block btn-secondary disabled">M</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <label class="badge badge-secondary">Metronomo</label>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-1">
-            <div class="row">
-                <div class="col-12 col-sm-12">
-                    <input class="ch disabled" id="pad_continuous" name="pad_continuous" type="text"
-                           data-slider-min="1" data-slider-max="100"
-                           data-slider-step="1"
-                           data-slider-value="100" data-slider-orientation="vertical"/>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 16px;">
-                    <button id="solo_pad" class="btn btn-block btn-secondary disabled">S</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <button id="mute_pad" class="btn btn-block btn-secondary disabled">M</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <label class="badge badge-secondary">Pad</label>
-                </div>
-                <div class="col-12 col-sm-12">
-                    <a href="#" class="btn btn-success pad_link"><i class="fa fa-download"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-1">
-            <div class="row">
-                <div class="col-12 col-sm-12">
-                    <input class="ch disabled" id="vocal" type="text"
-                           data-slider-min="1" data-slider-max="100"
-                           data-slider-step="1"
-                           data-slider-value="100" data-slider-orientation="vertical"/>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 16px;">
-                    <button id="solo_vocal" class="btn btn-block btn-secondary disabled">S</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <button id="mute_vocal" class="btn btn-block btn-secondary disabled">M</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <label class="badge badge-secondary">Vocal</label>
-                </div>
-                <div class="col-12 col-sm-12">
-                    <a target="_blank" href="{{ data.vocals_url }}" class="btn btn-success vocal_link"><i
-                            class="fa fa-download"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-1">
-            <div class="row">
-                <div class="col-12 col-sm-12">
-                    <input class="ch disabled" id="piano" type="text"
-                           data-slider-min="1" data-slider-max="100"
-                           data-slider-step="1"
-                           data-slider-value="100" data-slider-orientation="vertical"/>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 16px;">
-                    <button id="solo_piano" class="btn btn-block btn-secondary disabled">S</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <button id="mute_piano" class="btn btn-block btn-secondary disabled">M</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <label class="badge badge-secondary">Piano</label>
-                </div>
-                <div class="col-12 col-sm-12">
-                    <a target="_blank" href="{{ data.piano_url }}" class="btn btn-success piano_link"><i
-                            class="fa fa-download"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-1">
-            <div class="row">
-                <div class="col-12 col-sm-12">
-                    <input class="ch disabled" id="bass" type="text"
-                           data-slider-min="1" data-slider-max="100"
-                           data-slider-step="1"
-                           data-slider-value="100" data-slider-orientation="vertical"/>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 16px;">
-                    <button id="solo_bass" class="btn btn-block btn-secondary disabled">S</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <button id="mute_bass" class="btn btn-block btn-secondary disabled">M</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <label class="badge badge-secondary">Baixo</label>
-                </div>
-                <div class="col-12 col-sm-12">
-                    <a target="_blank" href="{{ data.bass_url }}" class="btn btn-success bass_link"><i
-                            class="fa fa-download"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-1">
-            <div class="row">
-                <div class="col-12 col-sm-12">
-                    <input class="ch disabled" id="drums" type="text"
-                           data-slider-min="1" data-slider-max="100"
-                           data-slider-step="1"
-                           data-slider-value="100" data-slider-orientation="vertical"/>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 16px;">
-                    <button id="solo_drums" class="btn btn-block btn-secondary disabled">S</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <button id="mute_drums" class="btn btn-block btn-secondary disabled">M</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <label class="badge badge-secondary">Bateria</label>
-                </div>
-                <div class="col-12 col-sm-12">
-                    <a target="_blank" href="{{ data.drums_url }}" class="btn btn-success drums_link"><i
-                            class="fa fa-download"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-1">
-            <div class="row">
-                <div class="col-12 col-sm-12">
-                    <input class="ch disabled" id="other" type="text"
-                           data-slider-min="1" data-slider-max="100"
-                           data-slider-step="1"
-                           data-slider-value="100" data-slider-orientation="vertical"/>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 16px;">
-                    <button id="solo_other" class="btn btn-block btn-secondary disabled">S</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <button id="mute_other" class="btn btn-block btn-secondary disabled">M</button>
-                </div>
-                <div class="col-12 col-sm-12" style="margin-top: 8px;">
-                    <label class="badge badge-secondary">Outros</label>
-                </div>
-                <div class="col-12 col-sm-12">
-                    <a target="_blank" href="{{ data.other_url }}" class="btn btn-success other_link"><i
-                            class="fa fa-download"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    {% include 'loader.html' %}
     <script>
         $('#home_link').addClass('active');
 
-        $('#loading').show();
+        $('#content').hide();
+        $('#loader').show();
         $('#pause').hide();
         var listTone = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
         var padSamples = {
@@ -383,7 +447,7 @@
         }
         var pad_choosed = 'default'
         var samples_choosed = pad_types['default']
-
+        var masterVol = 0;
 
         $('#tone').val(mapTone["{{ data.tone }}"]);
         var tone_index = listTone.indexOf(mapTone["{{ data.tone }}"]);
@@ -393,7 +457,7 @@
         var arrayNote = chords[0];
 
         var bpm_on_db = parseInt('{{ data.bpm }}')
-        var value_bpm = bpm_on_db <= 90 ? (bpm_on_db * 2) : bpm_on_db;
+        var value_bpm = bpm_on_db <= 70 ? (bpm_on_db * 2) : bpm_on_db;
         $('#bpm').val(value_bpm);
         Tone.Transport.bpm.value = value_bpm ?? 0;
         console.log('bpm', Tone.Transport.bpm.value);
@@ -581,6 +645,21 @@
             if (!isPlaying) {
                 clearInterval(interval);
             }
+            drawMasterVol()
+        }
+
+        function drawMasterVol(val) {
+            if (val <= 0) {
+                masterVol = val;
+                $('#m1').attr('style', 'height: ' + masterVol + '%').attr('aria-valuenow', masterVol);
+                $('#m2').attr('style', 'height: ' + masterVol + '%').attr('aria-valuenow', masterVol);
+            } else {
+                masterVol = parseInt(toneMeter.getValue() * 100);
+                masterVol = masterVol < 30 ? masterVol + 35 : masterVol
+                $('#m1').attr('style', 'height: ' + masterVol + '%').attr('aria-valuenow', masterVol);
+                $('#m2').attr('style', 'height: ' + masterVol + '%').attr('aria-valuenow', masterVol);
+            }
+
         }
 
         function checkAllLoaded() {
@@ -593,11 +672,15 @@
             $('#play').show();
             clearInterval(interval);
             $('#pause').hide();
+            drawMasterVol(0);
         }
 
         $(document).ready(function () {
             $('.ch').slider({
-                reversed: true
+                reversed: true,
+                tooltip: 'always',
+                rangeHighlights: [{"start": 2, "end": 15, "class": "dangerous"},
+                    {"start": 16, "end": 30, "class": "warningg"}, {"start": 30, "end": 100, "class": "okk"}]
             });
             $('#player_range').on('change', function (obj) {
                 seeking(parseInt(obj.target.value));
@@ -629,7 +712,8 @@
                 pad_choosed = $(this).val();
                 samples_choosed = pad_types[pad_choosed]
                 console.log(pad_choosed);
-                $('#loading').show();
+                $('#loader').show();
+                $('#content').hide();
                 pad_player.disconnect();
                 pad_player.dispose();
                 $('#play').addClass('disabled');
@@ -640,7 +724,8 @@
                     onload: function () {
                         $('.pad_link').attr('href', samples_choosed[mapTone["{{ data.tone }}"]]);
                         $('#play').removeClass('disabled');
-                        $('#loading').hide();
+                        $('#loader').hide();
+                        $('#content').show();
                     }
                 }).sync().start(0, 0);
                 pad_player.connect(pad_channel);
@@ -853,7 +938,8 @@
                 $('.pad_link').attr('href', samples_choosed[tone]);
                 if (checkAllLoaded()) {
                     $('#play').removeClass('disabled');
-                    $('#loading').hide();
+                    $('#loader').hide();
+                    $('#content').show();
                 }
             }
         }).sync().start(0, 0);
@@ -873,7 +959,8 @@
                 $('#player_range').attr('max', durationSeconds);
                 if (checkAllLoaded()) {
                     $('#play').removeClass('disabled');
-                    $('#loading').hide();
+                    $('#loader').hide();
+                    $('#content').show();
                 }
             }
         }).sync().start(0, 0);
@@ -891,7 +978,8 @@
                 $('#piano, #solo_piano, #mute_piano').removeClass('disabled');
                 if (checkAllLoaded()) {
                     $('#play').removeClass('disabled');
-                    $('#loading').hide();
+                    $('#loader').hide();
+                    $('#content').show();
                 }
             }
         }).sync().start(0, 0);
@@ -909,7 +997,8 @@
                 $('#bass, #solo_bass, #mute_bass').removeClass('disabled');
                 if (checkAllLoaded()) {
                     $('#play').removeClass('disabled');
-                    $('#loading').hide();
+                    $('#loader').hide();
+                    $('#content').show();
                 }
             }
         }).sync().start(0, 0);
@@ -927,7 +1016,8 @@
                 $('#drums, #solo_drums, #mute_drums').removeClass('disabled');
                 if (checkAllLoaded()) {
                     $('#play').removeClass('disabled');
-                    $('#loading').hide();
+                    $('#loader').hide();
+                    $('#content').show();
                 }
             }
         }).sync().start(0, 0);
@@ -945,7 +1035,8 @@
                 $('#other, #solo_other, #mute_other').removeClass('disabled');
                 if (checkAllLoaded()) {
                     $('#play').removeClass('disabled');
-                    $('#loading').hide();
+                    $('#loader').hide();
+                    $('#content').show();
                 }
             }
         }).sync().start(0, 0);
@@ -953,7 +1044,7 @@
         other_channel.connect(pitchShift);
 
         // create a meter on the destination node
-        const toneMeter = new Tone.Meter({channels: 2});
+        const toneMeter = new Tone.Meter({channels: 2, normalRange: true});
         Tone.Destination.chain(toneMeter);
 
 

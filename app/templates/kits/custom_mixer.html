@@ -320,12 +320,36 @@
     <br/>
     {% include 'loader.html' %}
     <script>
+        //Init
         $('#home_link').addClass('active');
-
         $('#content').hide();
         $('#loader').show();
         $('#pause').hide();
-        var listTone = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+
+        var gabarito = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        // para os casos que vem bemois.
+        var mapTransform = {
+            'Db': 'C#',
+            'Eb': 'D#',
+            'Gb': 'F#',
+            'Ab': 'G#',
+            'Bb': 'A#'
+        };
+        // para os casos em que os tons vem menores
+        var mapToneTransform = {
+            'Cm': "D#",
+            'C#m': "E",
+            'Dm': 'F',
+            'D#m': "F#",
+            'Em': "G",
+            'Fm': "G#",
+            'F#m': "A",
+            'Gm': "A#",
+            'G#m': "B",
+            'Am': "C",
+            'A#m': "C#",
+            'Bm': "D"
+        }
         var padSamples = {
             'C': "https://dl.dropboxusercontent.com/s/l7hw16rn8a53vy1/c.m4a",
             'Cm': "https://dl.dropboxusercontent.com/s/nkmwp0v0x9xqeqo/dsus.m4a",
@@ -404,42 +428,6 @@
             'B': "https://dl.dropboxusercontent.com/s/oi0c2nl5jof45zo/guitar_b.mp3",
             'Bm': "https://dl.dropboxusercontent.com/s/5cbad7iksmye1ag/guitar_d.mp3"
         }
-        var mapTone = {
-            'C:maj': 'C',
-            'C:min': 'Cm',
-            'Db:maj': 'C#',
-            'Db:min': 'C#m',
-            'C#:maj': 'C#',
-            'C#:min': 'C#m',
-            'D:maj': 'D',
-            'D:min': 'Dm',
-            'Eb:maj': 'D#',
-            'Eb:min': 'D#m',
-            'D#:maj': 'D#',
-            'D#:min': 'D#m',
-            'E:maj': 'E',
-            'E:min': 'Em',
-            'F:maj': 'F',
-            'F:min': 'Fm',
-            'Gb:maj': 'F#',
-            'Gb:min': 'F#m',
-            'F#:min': 'F#m',
-            'F#:maj': 'F#',
-            'G:maj': 'G',
-            'G:min': 'Gm',
-            'Ab:maj': 'G#',
-            'Ab:min': 'G#m',
-            'G#:min': 'G#m',
-            'G#:maj': 'G#',
-            'A:maj': 'A',
-            'A:min': 'Am',
-            'Bb:maj': 'A#',
-            'Bb:min': 'A#m',
-            'A#:min': 'A#m',
-            'A#:maj': 'A#',
-            'B:maj': 'B',
-            'B:min': 'Bm'
-        }
         var pad_types = {
             'default': padSamples,
             'shimmer': shimmerSamples,
@@ -448,10 +436,10 @@
         var pad_choosed = 'default'
         var samples_choosed = pad_types['default']
         var masterVol = 0;
-
-        $('#tone').val(mapTone["{{ data.tone }}"]);
-        var tone_index = listTone.indexOf(mapTone["{{ data.tone }}"]);
+        $('#tone').val(get_tone_correct("{{ data.tone }}"));
         var tone = $('#tone').val();
+        var tone_index = gabarito.indexOf(tone);
+
         var playbackRate = 1;
         var chords = {{ chords|safe }};
         var arrayNote = chords[0];
@@ -488,7 +476,6 @@
             Tone.Transport.setLoopPoints(0, '1m');
             this.metronome_synth.triggerAttackRelease('C5', '16n', time);
             var position = Tone.Transport.position;
-            console.log('Beat:', position);
             var index = Number(position.split(':')[1]) + 1
             //if (index === 1) {
             //    metronome_synth.triggerAttackRelease('C6', '16n', time)
@@ -502,21 +489,62 @@
         $('#solo_metronome').removeClass('disabled');
         $('#mute_metronome').removeClass('disabled');
 
-        var keys = Object.keys(mapTone);
-
-        function humanitizeChord(chord, pitch_index) {
-            var p_index = 0;
-            //if (pitch_index > 0) {
-            //    p_index = pitch_index * 2;
-            //    p_index = p_index % keys.length;
-            //    console.log(p_index)
-            //}
-            for (i = 0; i <= keys.length; i++) {
-                if (chord.includes(keys[i])) {
-                    var chord_full = chord.replace(keys[i], mapTone[keys[i + p_index]]);
-                    return chord_full;
-                }
+        //retorna um tone to show in input
+        function get_tone_correct(chord) {
+            var note_tranform = transform_note(chord);
+            if (note_tranform in mapToneTransform) {
+                return mapToneTransform[note_tranform];
+            } else {
+                return note_tranform;
             }
+        }
+
+        // Retorna 1 nota que está no gabarito (legivel).
+        function note_transform_human(note) {
+            var arr_split = note.split(':');
+            var note_original = arr_split[0]
+            var note_transform = '';
+            if (note_original in mapTransform) {
+                note_transform = mapTransform[note_original];
+            } else {
+                note_transform = note_original;
+            }
+            return note_transform;
+        }
+
+        // retorna um complemento legivel
+        function complement_transform_human(note) {
+            var arr_split = note.split(':');
+            var complement_original = arr_split[1];
+            var complement_transform = '';
+            if (complement_original.includes('min')) {
+                complement_transform = complement_original.replace('min', 'm');
+            } else if (complement_original.includes('maj')) {
+                complement_transform = complement_original.replace('maj', '');
+            } else {
+                complement_transform = complement_original;
+            }
+            return complement_transform;
+        }
+
+        // retorna Chord Full (tone + complement) transformed.
+        function transform_note(note) {
+            var new_note_transform = note_transform_human(note);
+            var new_complement_transform = complement_transform_human(note);
+            return new_note_transform + new_complement_transform;
+        }
+
+        function humanitizeChord(chord) {
+            if (chord === 'N') {
+                return '-'
+            }
+            var pitch_index = pitchShift.pitch;
+            var tone_chord = note_transform_human(chord);
+            var complement_chord = complement_transform_human(chord);
+            var tone_chord_pitch_idx = gabarito.indexOf(tone_chord) + pitch_index; // if idx -1 -2 or >.len
+            tone_chord_pitch_idx = tone_chord_pitch_idx % gabarito.length; // if we've gone too high, start from `0` again
+            var chord_pitch = gabarito[tone_chord_pitch_idx];
+            return chord_pitch + complement_chord;
         }
 
         function calcVolumeDecibels(pct) {
@@ -545,29 +573,6 @@
             return '00:00';
         }
 
-        function onBeforeSeek() {
-            clearInterval(interval);
-        }
-
-        function onAfterSeek(seconds) {
-            if (typeof seconds === 'number') {
-                Tone.Transport.seconds = seconds;
-                interval = setInterval(() => {
-                    onUpdate();
-                }, 200);
-            }
-        }
-
-        function onSeeking(seconds) {
-
-            console.log('change to', seconds);
-            if (typeof seconds === 'number') {
-                secondsElapsed = seconds;
-                $('#timer').text(formatTime(secondsElapsed));
-            }
-
-        }
-
         function seeking(seconds) {
             clearInterval(interval);
             secondsElapsed = seconds;
@@ -580,17 +585,17 @@
 
         function nextItem() {
             tone_index = tone_index + 1; // increase i by one
-            tone_index = tone_index % listTone.length; // if we've gone too high, start from `0` again
-            return listTone[tone_index]; // give us back the item of where we are now
+            tone_index = tone_index % gabarito.length; // if we've gone too high, start from `0` again
+            return gabarito[tone_index]; // give us back the item of where we are now
         }
 
 
         function prevItem() {
             if (tone_index === 0) { // i would become 0
-                tone_index = listTone.length; // so put it at the other end of the array
+                tone_index = gabarito.length; // so put it at the other end of the array
             }
             tone_index = tone_index - 1; // decrease by one
-            return listTone[tone_index]; // give us back the item of where we are now
+            return gabarito[tone_index]; // give us back the item of where we are now
         }
 
         function changeBpm() {
@@ -604,11 +609,15 @@
             bass_player.playbackRate = playbackRate;
             drums_player.playbackRate = playbackRate;
             other_player.playbackRate = playbackRate;
-            console.log('bpm', new_val);
         }
 
         function drawNote() {
-            $('#chord').text(humanitizeChord(arrayNote[1], pitchShift.pitch));
+            var chord_ = humanitizeChord(arrayNote[1]);
+            if (chord_ !== undefined) {
+                $('#chord').text(chord_);
+            } else {
+                $('#chord').text(arrayNote[1]);
+            }
         }
 
 
@@ -645,9 +654,10 @@
             if (!isPlaying) {
                 clearInterval(interval);
             }
-            drawMasterVol()
+            drawMasterVol();
         }
 
+        // Draw Master Vols
         function drawMasterVol(val) {
             if (val <= 0) {
                 masterVol = val;
@@ -680,7 +690,7 @@
                 reversed: true,
                 tooltip: 'always',
                 rangeHighlights: [{"start": 2, "end": 15, "class": "dangerous"},
-                    {"start": 16, "end": 30, "class": "warningg"}, {"start": 30, "end": 100, "class": "okk"}]
+                    {"start": 15, "end": 30, "class": "warningg"}, {"start": 30, "end": 100, "class": "okk"}]
             });
             $('#player_range').on('change', function (obj) {
                 seeking(parseInt(obj.target.value));
@@ -688,7 +698,6 @@
 
 
             $('#metronome').on('slide', function (slideEvt) {
-                console.log('val', slideEvt.value);
                 metronome_synth.volume.value = calcVolumeDecibels(slideEvt.value);
             });
 
@@ -711,18 +720,17 @@
                 pause();
                 pad_choosed = $(this).val();
                 samples_choosed = pad_types[pad_choosed]
-                console.log(pad_choosed);
                 $('#loader').show();
                 $('#content').hide();
                 pad_player.disconnect();
                 pad_player.dispose();
                 $('#play').addClass('disabled');
                 pad_player = new Tone.GrainPlayer({
-                    url: samples_choosed[mapTone["{{ data.tone }}"]],
+                    url: samples_choosed[tone],
                     name: 'pad',
                     fadeOut: '4n',
                     onload: function () {
-                        $('.pad_link').attr('href', samples_choosed[mapTone["{{ data.tone }}"]]);
+                        $('.pad_link').attr('href', samples_choosed[tone]);
                         $('#play').removeClass('disabled');
                         $('#loader').hide();
                         $('#content').show();
@@ -897,33 +905,28 @@
 
             // Volumes
             $('#pad_continuous').on('slide', function (slideEvt) {
-                console.log('val', slideEvt.value);
                 pad_channel.volume.value = calcVolumeDecibels(slideEvt.value);
             });
 
             $('#vocal').on('slide', function (slideEvt) {
-                console.log('val', slideEvt.value);
                 vocal_channel.volume.value = calcVolumeDecibels(slideEvt.value);
             });
             $('#piano').on('slide', function (slideEvt) {
-                console.log('val', slideEvt.value);
                 piano_channel.volume.value = calcVolumeDecibels(slideEvt.value);
             });
             $('#bass').on('slide', function (slideEvt) {
-                console.log('val', slideEvt.value);
                 bass_channel.volume.value = calcVolumeDecibels(slideEvt.value);
             });
             $('#drums').on('slide', function (slideEvt) {
-                console.log('val', slideEvt.value);
                 drums_channel.volume.value = calcVolumeDecibels(slideEvt.value);
             });
             $('#other').on('slide', function (slideEvt) {
-                console.log('val', slideEvt.value);
                 other_channel.volume.value = calcVolumeDecibels(slideEvt.value);
             });
         });
     </script>
     <script>
+        console.log('tone', tone);
         console.log('pad to load', samples_choosed[tone]);
         var pitchShift = new Tone.PitchShift().toDestination();
         var pad_channel = new Tone.Channel({

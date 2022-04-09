@@ -1,0 +1,40 @@
+
+.pad {
+   margin-top: 8px;
+}
+
+
+.pad-text {
+    height: 100%;
+    line-height: 150%;
+    font-size: 84px;
+    text-align: center;
+}
+
+.pad-text>span {
+    opacity: 1;
+    z-index: 1200;
+    color: rgb(255, 255, 255);
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    -user-select: none;
+    /* Nonprefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.pad-active {
+    background-color: rgba(0, 0, 0, 0.6);;
+}
+
+.pad-name {
+    left: 0;
+    right: 0;
+    line-height: 100%;
+    font-size: 25%;
+}

@@ -1,9 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse
 from django.views.generic import FormView, RedirectView
 
-from app.apis.DetectMobile import DetectMobileBrowser
 from app.forms import NewUserForm, LoginForm
 
 
@@ -23,17 +21,14 @@ class RegisterView(FormView):
         return super(RegisterView, self).form_invalid(form)
 
 
-class LoginView(DetectMobileBrowser, FormView):
+class LoginView(FormView):
     template_name = 'account/login.html'
     form_class = LoginForm
     success_url = '/app/'
 
-    def get_success_url(self):
-        next_url = self.request.GET.get('next')
-        if next_url:
-            return "%s" % next_url
-        else:
-            return reverse('index')
+    def get(self, request, *args, **kwargs):
+        print('aquiii')
+        return super(LoginView, self).get(request, *args, **kwargs)
 
     def form_valid(self, form):
         data = form.cleaned_data

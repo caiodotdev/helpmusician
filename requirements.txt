@@ -17,6 +17,7 @@ django-allauth==0.49.0
 django-cors-headers==3.7.0
 django-celery-beat==2.2.1
 django-celery-results==2.2.0
+django-datatables-view
 django-extensions==3.0.8
 django-filter==21.1
 django-js-asset==1.2.2

@@ -19,7 +19,7 @@ class TestRegisterbase(BaseSeleniumTestCase):
         super(TestRegisterbase, self).tearDown()
 
     def test_registerbase(self):
-        self.logger.debug('Test Register User on Site')
+        print('Test Register User on Site')
         self.get("http://localhost:8080/register/")
         self.driver.find_element(By.ID, "id_username").click()
         self.driver.find_element(By.ID, "id_username").send_keys(USERNAME_USER_DEFAULT)

@@ -18,7 +18,7 @@ class TestLogin(BaseSeleniumTestCase):
         super(TestLogin, self).tearDown()
 
     def test_login(self):
-        self.logger.debug('Test Login on platform')
+        print('Test Login on platform')
         self.get('http://localhost:8080/login/')
         self.driver.find_element(By.ID, "id_username").click()
         self.driver.find_element(By.ID, "id_username").send_keys(USERNAME_USER_DEFAULT)

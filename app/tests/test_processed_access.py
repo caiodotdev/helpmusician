@@ -9,7 +9,7 @@ from app.tests.base import BaseLoggedSeleniumTestCase
 class TestProcessedAccess(BaseLoggedSeleniumTestCase):
 
     def test_processedaccess(self):
-        self.logger.debug('Test Access Page Music Processed')
+        print('Test Access Page Music Processed')
         time.sleep(1)
         self.get('http://localhost:8080/processed/')
         assert self.driver.find_element(By.CSS_SELECTOR, ".display-5").text == "Músicas Processadas"

@@ -14,7 +14,7 @@ from app.tests.utils import create_sourcetrack_dynamicmix, delete_track_and_mix
 class TestPlayaudiomixer(BaseLoggedSeleniumTestCase):
 
     def test_playaudio(self):
-        self.logger.debug('Test Play Audio on Media Player')
+        print('Test Play Audio on Media Player')
         time.sleep(1)
         assert self.driver.find_element(By.LINK_TEXT, "Original").text == "Original"
         self.driver.find_element(By.LINK_TEXT, "Original").click()

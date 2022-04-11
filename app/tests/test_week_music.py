@@ -9,7 +9,7 @@ from app.tests.base import BaseLoggedSeleniumTestCase
 class TestWeekMusic(BaseLoggedSeleniumTestCase):
 
     def test_weekmusic(self):
-        self.logger.debug('Test Access Page Week Music')
+        print('Test Access Page Week Music')
         time.sleep(1)
         self.get('http://localhost:8080/selected/')
         assert self.driver.find_element(By.CSS_SELECTOR, ".display-5").text == "Músicas da Semana"

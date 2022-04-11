@@ -10,7 +10,7 @@ from app.tests.base import BaseLoggedSeleniumTestCase
 class TestDownloadmusicyoutube(BaseLoggedSeleniumTestCase):
 
     def test_downloadmusicyoutube(self):
-        self.logger.debug('Test Download Music from youtube and confirm')
+        print('Test Download Music from youtube and confirm')
         self.driver.set_window_size(1382, 744)
         self.driver.find_element(By.ID, "search").click()
         self.driver.find_element(By.ID, "search").send_keys("gabriela rocha")

@@ -14,7 +14,7 @@ from app.tests.utils import create_sourcetrack_dynamicmix, delete_track_and_mix
 class TestMixer(BaseLoggedSeleniumTestCase):
 
     def test_mixer(self):
-        self.logger.debug('Test Mixer Page')
+        print('Test Mixer Page')
         time.sleep(1)
         elements = self.driver.find_elements(By.CSS_SELECTOR, "tr:nth-child(1) .btn-danger > .fa")
         assert len(elements) > 0

@@ -32,7 +32,6 @@ class BaseSeleniumTestCase(LiveServerTestCase):
 
     def setUp(self):
         super(BaseSeleniumTestCase, self).setUp()
-        self.setupLogger()
         if LOCAL:
             print('----- Local')
             self.driver = webdriver.Chrome(ChromeDriverManager().install())

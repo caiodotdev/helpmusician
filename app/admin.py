@@ -14,7 +14,7 @@ class SourceFileAdmin(admin.ModelAdmin):
     list_per_page = 200
     inlines = [SourceTrackInline, ]
     list_display = ("id", "filename", "path_on_dropbox",
-                    "is_youtube",
+                    "is_youtube", "public_id", "duration",
                     "file_url",
                     "youtube_link", "youtube_fetch_task",
                     )
@@ -43,7 +43,7 @@ class StaticMixAdmin(admin.ModelAdmin):
     list_per_page = 200
     inlines = []
     list_display = ("id", "owner", "celery_id", "source_track", "vocals",
-                    "piano", "drums",
+                    "piano", "drums", "public_id", "duration",
                     "bass", "other",
                     "status", "file_url", "filename", "path_on_dropbox",
                     "date_created", "date_finished",
@@ -72,7 +72,13 @@ class DynamicMixAdmin(admin.ModelAdmin):
     inlines = []
     list_display = ("id", "owner", "source_track",
                     "artist", "title", "status", "date_created", "date_finished",
-                    "folder_path_on_dropbox", "celery_id", "source_url", "vocals_url", "piano_url",
+                    "folder_path_on_dropbox",
+                    "vocals_public_id", "vocals_duration",
+                    "piano_public_id", "piano_duration",
+                    "other_public_id", "other_duration",
+                    "bass_public_id", "bass_duration",
+                    "drums_public_id", "drums_duration",
+                    "celery_id", "source_url", "vocals_url", "piano_url",
                     "bass_url", "drums_url", "other_url",
                     )
 

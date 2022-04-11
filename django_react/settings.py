@@ -6,7 +6,7 @@ from multiprocessing import cpu_count
 # SECURITY WARNING: don't run with debug turned on in production!
 from celery.schedules import crontab
 
-DEBUG = False
+DEBUG = True
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -15,7 +15,6 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'sekrit')
 CPU_SEPARATION = bool(int(os.getenv('CPU_SEPARATION', '1')))
 
 ALLOWED_HOSTS = [os.getenv('APP_HOST'), '0.0.0.0', '127.0.0.1', 'localhost', '*']
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -66,6 +65,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_celery_beat',
     'django_celery_results',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -228,3 +228,12 @@ BROWSERSTACK_ACCESSKEY = os.getenv('BROWSERSTACK_ACCESSKEY', 'Ke15XkyiQ6qp9XryA2
 LT_USERNAME = os.getenv('LT_USERNAME', 'caio.barbosa')
 LT_ACCESS_KEY = os.getenv('LT_ACCESS_KEY', 'NaNNdBDJGhzbKMsigjJ2213wRT75vQDYqxtc9m7miNzzvMqV4P')
 LT_ACCESS_TOKEN = os.getenv('LT_ACCESS_TOKEN', 'NaNNdBDJGhzbKMsigjJ2213wRT75vQDYqxtc9m7miNzzvMqV4P')
+
+CLOUDINARY_URL = os.getenv('CLOUDINARY_URL', 'cloudinary://977733565746842:q552mjrVeEmgPs1kUxfKzp4wz2o@freelancerinc')
+CLOUDINARY_API_KEY = os.getenv('CLOUDINARY_API_KEY',
+                               '977733565746842')
+CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET',
+                                  'q552mjrVeEmgPs1kUxfKzp4wz2o')
+CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME',
+                                  'freelancerinc')
+

@@ -1,25 +1,23 @@
 from sys import platform
 
 import django_filters
-from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
-from django_datatables_view.base_datatable_view import BaseDatatableView
-
-from app.celery import app
 from django.contrib import messages
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import ListView, TemplateView, DetailView, CreateView, DeleteView, FormView
+from django.views.generic import ListView, TemplateView, DetailView, CreateView, DeleteView
+from django_datatables_view.base_datatable_view import BaseDatatableView
 from youtube_title_parse import get_artist_title
 
 from app.apis.DetectMobile import DetectMobileBrowser
 from app.apis.chordify import get_chordify, get_id_youtube, get_notes
 from app.apis.youtube import get_youtube_search, make_youtube_url
-from app.forms import SourceTrackForm, UploadForm
+from app.celery import app
+from app.forms import SourceTrackForm
 from app.models import DynamicMix, SourceFile, YTAudioDownloadTask, SourceTrack, TaskStatus
-from app.tasks import create_dynamic_mix, fetch_youtube_audio, fetch_upload_audio
+from app.tasks import create_dynamic_mix, fetch_youtube_audio
 from app.utils import get_valid_filename
 
 KILL_SIGNAL = 'SIGTERM' if platform == 'win32' else 'SIGUSR1'
@@ -385,7 +383,8 @@ class ProcessedList(LoginRequiredMixin, ListView):
 class SourceTrackFilter(django_filters.FilterSet):
     class Meta:
         model = SourceTrack
-        fields = ["id", "user__username", "source_file__file_url", "artist", "thumb", "title", "date_created", "tone", "bpm",
+        fields = ["id", "user__username", "source_file__file_url", "artist", "thumb", "title", "date_created", "tone",
+                  "bpm",
                   "bar_length", ]
 
 

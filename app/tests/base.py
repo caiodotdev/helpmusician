@@ -1,7 +1,14 @@
+import logging
+import time
+
 from django.conf import settings
 from django.test import LiveServerTestCase
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+
+from app.tests.constants import USERNAME_USER_DEFAULT, PASSWORD_USER_DEFAULT
+from app.tests.utils import create_user, delete_user, create_sourcetrack_dynamicmix, delete_track_and_mix
 
 BROWSERSTACK_LOCAL_IDENTIFIER = settings.BROWSERSTACK_LOCAL_IDENTIFIER
 BROWSERSTACK_USERNAME = settings.BROWSERSTACK_USERNAME
@@ -15,8 +22,17 @@ LT_ACCESS_TOKEN = settings.LT_ACCESS_TOKEN
 class BaseSeleniumTestCase(LiveServerTestCase):
     port = 8080
 
+    logger = None
+
+    def setupLogger(self):
+        self.logger = logging.getLogger(__name__)
+        fileHandler = logging.FileHandler('logfile.log')
+        self.logger.addHandler(fileHandler)
+        self.logger.setLevel(logging.DEBUG)
+
     def setUp(self):
         super(BaseSeleniumTestCase, self).setUp()
+        self.setupLogger()
         if LOCAL:
             print('----- Local')
             self.driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -49,7 +65,6 @@ class BaseSeleniumTestCase(LiveServerTestCase):
                 desired_capabilities=caps)
             self.get(self.live_server_url)
 
-
     def tearDown(self) -> None:
         self.driver.quit()
         super(BaseSeleniumTestCase, self).tearDown()
@@ -57,3 +72,29 @@ class BaseSeleniumTestCase(LiveServerTestCase):
     def get(self, url):
         self.driver.get(url)
         self.driver.set_window_size(1920, 1200)
+
+    def do_login(self):
+        self.get("http://localhost:8080/")
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-secondary").click()
+        self.driver.find_element(By.ID, "id_username").click()
+        self.driver.find_element(By.ID, "id_username").send_keys(USERNAME_USER_DEFAULT)
+        self.driver.find_element(By.ID, "id_password").send_keys(PASSWORD_USER_DEFAULT)
+        self.driver.find_element(By.CSS_SELECTOR, ".btn-success").click()
+        time.sleep(1)
+        self.driver.find_element(By.CSS_SELECTOR, ".popover-navigation > .btn").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".jumbotron").click()
+
+
+class BaseLoggedSeleniumTestCase(BaseSeleniumTestCase):
+    user = None
+
+    def setUp(self):
+        self.user = create_user()
+        create_sourcetrack_dynamicmix(self.user)
+        super(BaseLoggedSeleniumTestCase, self).setUp()
+        self.do_login()
+
+    def tearDown(self) -> None:
+        delete_user(USERNAME_USER_DEFAULT)
+        delete_track_and_mix(self.user)
+        super(BaseLoggedSeleniumTestCase, self).tearDown()

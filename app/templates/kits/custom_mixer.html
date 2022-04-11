@@ -436,6 +436,8 @@
         var pad_choosed = 'default'
         var samples_choosed = pad_types['default']
         var masterVol = 0;
+        var timeSignature = parseInt('{{ data.bar_length }}');
+        Tone.Transport.timeSignature = timeSignature;
         $('#tone').val(get_tone_correct("{{ data.tone }}"));
         var tone = $('#tone').val();
         var tone_index = gabarito.indexOf(tone);

@@ -27,7 +27,6 @@ class LoginView(FormView):
     success_url = '/app/'
 
     def get(self, request, *args, **kwargs):
-        print('aquiii')
         return super(LoginView, self).get(request, *args, **kwargs)
 
     def form_valid(self, form):

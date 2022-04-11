@@ -54,16 +54,12 @@ def fetch_youtube_audio(source_file_id, source_track_id, fetch_task_id, artist, 
         if os.path.exists(rel_path):
             fetch_task.status = TaskStatus.DONE
             fetch_task.date_finished = timezone.now()
-            # path_on_dropbox = get_path_on_dropbox(filename, 'music')
-            # file_url = upload_file(rel_path, path_on_dropbox)
             path_on_cloudinary = 'musicas' + '/' + filename
             req = upload_audio(rel_path, path_on_cloudinary)
-            # File is already on local filesystem
             source_file.file_url = req['url']
             source_file.public_id = req['public_id']
             source_file.duration = req['duration']
             source_file.filename = filename
-            # source_file.path_on_dropbox = path_on_dropbox
             os.remove(rel_path)
             directory = os.path.join(settings.MEDIA_ROOT, settings.UPLOAD_DIR,
                                      source_file_id)

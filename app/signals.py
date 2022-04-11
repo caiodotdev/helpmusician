@@ -2,7 +2,6 @@ from django.db.models.signals import post_delete, pre_delete
 from django.dispatch import receiver
 
 from app.apis.cloudinary_api import remove_cloudinary_file
-from app.apis.dropbox_api import delete_file_on_dropbox
 from app.models import DynamicMix, SourceFile, SourceTrack, StaticMix
 
 """

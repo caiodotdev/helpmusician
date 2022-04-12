@@ -21,7 +21,7 @@ class DetectMobileBrowser(object):
             b = reg_b.search(user_agent)
             v = reg_v.search(user_agent[0:4])
             if b or v:
-                messages.error(self.request, 'Página não disponível para celular. Use um Computador/Notebook!')
+                messages.error(self.request, 'Sistema não disponível para celular. Use um Computador/Notebook!')
                 return redirect('index_site')
             else:
                 return super(DetectMobileBrowser, self).get(self, request, *args, **kwargs)

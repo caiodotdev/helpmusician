@@ -99,7 +99,7 @@ class SourceFile(models.Model):
     public_id = models.CharField(max_length=255, blank=True, null=True)
     duration = models.FloatField(blank=True, null=True)
     # Whether the audio track is from a YouTube link import
-    file_url = models.URLField(blank=True, null=True)
+    file_url = models.TextField(blank=True, null=True)
     filename = models.TextField(blank=True, null=True)
     path_on_dropbox = models.TextField(blank=True, null=True)
     is_youtube = models.BooleanField(default=False)
@@ -160,11 +160,15 @@ class SourceFile(models.Model):
 
     def __str__(self):
         if self.youtube_link:
-            return self.youtube_link
-        elif self.file and self.file.name:
-            return os.path.basename(self.file.name)
+            return "%s" % self.youtube_link
         else:
-            return self.id
+            return str(self.id)
+
+    def __unicode__(self):
+        if self.youtube_link:
+            return "%s" % self.youtube_link
+        else:
+            return str(self.id)
 
 
 class SourceTrack(models.Model):
@@ -257,7 +261,7 @@ class StaticMix(models.Model):
     file = models.FileField(upload_to=mix_track_path,
                             max_length=255,
                             blank=True)
-    file_url = models.URLField(blank=True, null=True)
+    file_url = models.TextField(blank=True, null=True)
     filename = models.TextField(blank=True, null=True)
     path_on_dropbox = models.TextField(blank=True, null=True)
     # Error message
@@ -348,7 +352,7 @@ class DynamicMix(models.Model):
     vocals_file = models.FileField(upload_to=mix_track_path,
                                    max_length=255,
                                    blank=True)
-    vocals_url = models.URLField(blank=True, null=True)
+    vocals_url = models.TextField(blank=True, null=True)
     vocals_path = models.TextField(blank=True, null=True)
     vocals_public_id = models.CharField(max_length=255, blank=True, null=True)
     vocals_duration = models.FloatField(blank=True, null=True)
@@ -357,7 +361,7 @@ class DynamicMix(models.Model):
     piano_file = models.FileField(upload_to=mix_track_path,
                                   max_length=255,
                                   blank=True)
-    piano_url = models.URLField(blank=True, null=True)
+    piano_url = models.TextField(blank=True, null=True)
     piano_path = models.TextField(blank=True, null=True)
     piano_public_id = models.CharField(max_length=255, blank=True, null=True)
     piano_duration = models.FloatField(blank=True, null=True)
@@ -366,7 +370,7 @@ class DynamicMix(models.Model):
     other_file = models.FileField(upload_to=mix_track_path,
                                   max_length=255,
                                   blank=True)
-    other_url = models.URLField(blank=True, null=True)
+    other_url = models.TextField(blank=True, null=True)
     other_path = models.TextField(blank=True, null=True)
     other_public_id = models.CharField(max_length=255, blank=True, null=True)
     other_duration = models.FloatField(blank=True, null=True)
@@ -375,7 +379,7 @@ class DynamicMix(models.Model):
     bass_file = models.FileField(upload_to=mix_track_path,
                                  max_length=255,
                                  blank=True)
-    bass_url = models.URLField(blank=True, null=True)
+    bass_url = models.TextField(blank=True, null=True)
     bass_path = models.TextField(blank=True, null=True)
     bass_public_id = models.CharField(max_length=255, blank=True, null=True)
     bass_duration = models.FloatField(blank=True, null=True)
@@ -384,7 +388,7 @@ class DynamicMix(models.Model):
     drums_file = models.FileField(upload_to=mix_track_path,
                                   max_length=255,
                                   blank=True)
-    drums_url = models.URLField(blank=True, null=True)
+    drums_url = models.TextField(blank=True, null=True)
     drums_path = models.TextField(blank=True, null=True)
     drums_public_id = models.CharField(max_length=255, blank=True, null=True)
     drums_duration = models.FloatField(blank=True, null=True)

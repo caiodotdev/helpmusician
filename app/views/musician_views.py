@@ -19,6 +19,7 @@ from app.forms import SourceTrackForm
 from app.models import DynamicMix, SourceFile, YTAudioDownloadTask, SourceTrack, TaskStatus
 from app.tasks import create_dynamic_mix, fetch_youtube_audio
 from app.utils import get_valid_filename
+from app.tests.base import LOCAL
 
 KILL_SIGNAL = 'SIGTERM' if platform == 'win32' else 'SIGUSR1'
 
@@ -362,22 +363,12 @@ class ConfirmAddMusic(LoginRequiredMixin, CreateView):
         return '/app/'
 
 
-class ProcessedList(LoginRequiredMixin, ListView):
+class ProcessedList(LoginRequiredMixin, DetectMobileBrowser, TemplateView):
     """
     List all Movies
     """
     login_url = '/login/'
     template_name = 'music/processed.html'
-    model = SourceTrack
-    context_object_name = 'tracks'
-    paginate_by = 1
-
-    def get_context_data(self, **kwargs):
-        context = super(ProcessedList, self).get_context_data(**kwargs)
-        queryset = self.get_queryset()
-        filter = SourceTrackFilter(self.request.GET, queryset)
-        context["filter"] = filter
-        return context
 
 
 class SourceTrackFilter(django_filters.FilterSet):
@@ -402,7 +393,10 @@ class ProcessedListJson(BaseDatatableView):
             return super(ProcessedListJson, self).render_column(row, column)
 
     def get_initial_queryset(self):
-        qs = SourceTrack.objects.filter(dynamic__status=TaskStatus.DONE).distinct()
+        if not LOCAL:
+            qs = SourceTrack.objects.filter(dynamic__status=TaskStatus.DONE).distinct('source_file')
+        else:
+            qs = SourceTrack.objects.filter(dynamic__status=TaskStatus.DONE).distinct()
         return qs
 
     def filter_queryset(self, qs):

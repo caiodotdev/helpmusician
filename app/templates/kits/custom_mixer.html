@@ -74,7 +74,7 @@
             </div>
             <hr/>
             <div class="row text-center" id="options">
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3" id="metronome_marker">
                     <div class="form-group">
                         <label>Metronomo</label>
                         <div class="input-group mb-3">
@@ -92,7 +92,7 @@
 
                     </div>
                 </div>
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3" id="tone_change_marker">
                     <div class="form-group">
                         <label>Tom</label>
                         <div class="input-group mb-3">
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3" id="chord_change_marker">
                     <div class="form-group">
                         <label>Acorde</label>
                         <div class="form-inline" style="display: block !important;">
@@ -118,7 +118,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3" id="padtype_change_marker">
                     <div class="form-group">
                         <label>Pad Contínuo</label>
                         <div class="form-inline text-center" style="display: block !important;">
@@ -140,7 +140,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-1 ">
-                    <div class="row">
+                    <div class="row" id="bpm_slider">
                         <div class="col-12 col-sm-12">
                             <input class="ch disable" id="metronome" type="text"
                                    data-slider-min="1" data-slider-max="100"
@@ -159,7 +159,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-1">
-                    <div class="row">
+                    <div class="row" id="pad_slider">
                         <div class="col-12 col-sm-12">
                             <input class="ch disabled" id="pad_continuous" name="pad_continuous" type="text"
                                    data-slider-min="1" data-slider-max="100"
@@ -181,7 +181,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-1">
-                    <div class="row">
+                    <div class="row" id="vocals_slider">
                         <div class="col-12 col-sm-12">
                             <input class="ch disabled" id="vocal" type="text"
                                    data-slider-min="1" data-slider-max="100"
@@ -204,7 +204,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-1">
-                    <div class="row">
+                    <div class="row" id="piano_slider">
                         <div class="col-12 col-sm-12">
                             <input class="ch disabled" id="piano" type="text"
                                    data-slider-min="1" data-slider-max="100"
@@ -227,7 +227,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-1">
-                    <div class="row">
+                    <div class="row" id="bass_slider">
                         <div class="col-12 col-sm-12">
                             <input class="ch disabled" id="bass" type="text"
                                    data-slider-min="1" data-slider-max="100"
@@ -250,7 +250,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-1">
-                    <div class="row">
+                    <div class="row" id="drums_slider">
                         <div class="col-12 col-sm-12">
                             <input class="ch disabled" id="drums" type="text"
                                    data-slider-min="1" data-slider-max="100"
@@ -273,7 +273,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-1">
-                    <div class="row">
+                    <div class="row" id="other_slider">
                         <div class="col-12 col-sm-12">
                             <input class="ch disabled" id="other" type="text"
                                    data-slider-min="1" data-slider-max="100"
@@ -296,7 +296,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-1">
-                    <div class="row">
+                    <div class="row" id="master_vols">
                         <div class="col-6 col-sm-6">
                             <div class="progress progress-bar-vertical" data-toggle="tooltip" data-placement="top"
                                  title="Master">
@@ -945,6 +945,7 @@
                     $('#play').removeClass('disabled');
                     $('#loader').hide();
                     $('#content').show();
+                    init_tour('mixer', steps);
                 }
             }
         }).sync().start(0, 0);
@@ -966,6 +967,7 @@
                     $('#play').removeClass('disabled');
                     $('#loader').hide();
                     $('#content').show();
+                    init_tour('mixer', steps);
                 }
             }
         }).sync().start(0, 0);
@@ -985,6 +987,7 @@
                     $('#play').removeClass('disabled');
                     $('#loader').hide();
                     $('#content').show();
+                    init_tour('mixer', steps);
                 }
             }
         }).sync().start(0, 0);
@@ -1004,6 +1007,7 @@
                     $('#play').removeClass('disabled');
                     $('#loader').hide();
                     $('#content').show();
+                    init_tour('mixer', steps);
                 }
             }
         }).sync().start(0, 0);
@@ -1023,6 +1027,7 @@
                     $('#play').removeClass('disabled');
                     $('#loader').hide();
                     $('#content').show();
+                    init_tour('mixer', steps);
                 }
             }
         }).sync().start(0, 0);
@@ -1042,6 +1047,7 @@
                     $('#play').removeClass('disabled');
                     $('#loader').hide();
                     $('#content').show();
+                    init_tour('mixer', steps);
                 }
             }
         }).sync().start(0, 0);
@@ -1053,6 +1059,114 @@
         Tone.Destination.chain(toneMeter);
 
 
+    </script>
+
+    <script>
+
+        var steps = [
+            {
+                element: "#player",
+                backdrop: true,
+                placement: "bottom",
+                content: 'Vamos te ensinar como funciona nossa Mixer.'
+            },
+            {
+                element: "#play",
+                backdrop: true,
+                placement: "bottom",
+                content: 'Aqui você inicia a música.'
+            },
+            {
+                element: "#player_range",
+                backdrop: true,
+                placement: "bottom",
+                content: 'Utilize esta barra para avançar ou voltar para alguma parte da musica.'
+            },
+            {
+                element: "#metronome_marker",
+                backdrop: true,
+                placement: "top",
+                content: 'Aqui vamos carregar o BPM original. Voce pode alterar o BPM como quiser.'
+            },
+            {
+                element: "#tone_change_marker",
+                backdrop: true,
+                placement: "top",
+                content: 'Aqui vamos colocar o TOM original. Voce pode testar outros, mas lembre-se que esta funcionalidade está em testes.'
+            },
+            {
+                element: "#chord_change_marker",
+                backdrop: true,
+                placement: "top",
+                content: 'Aqui vamos mostrar os acordes para você acompanhar durante a música, de acordo com o tom selecionado.'
+            },
+            {
+                element: "#padtype_change_marker",
+                backdrop: true,
+                placement: "top",
+                content: 'Aqui voce pode selecionar um tipo de pad para acompanhamento.'
+            },
+            {
+                element: "#mixer",
+                placement: "top",
+                content: 'Aqui encontra-se nossa Mixer. Voce pode alterar todas as configurações conforme sua necessidade.'
+            },
+            {
+                element: "#bpm_slider",
+                placement: "top",
+                content: 'Metronomo. Aqui voce pode controlar o volume do metronomo'
+            },
+            {
+                element: "#solo_metronome",
+                placement: "top",
+                content: 'Estes botoes você pode deixar em "Solo". Apenas este canal irá tocar.'
+            },
+            {
+                element: "#mute_metronome",
+                placement: "top",
+                content: 'Com estes botoes você poderá desligar (Mute) o canal. E os outros canais irão continuar tocando.'
+            },
+            {
+                element: "#pad_slider",
+                placement: "top",
+                content: 'Neste canal fica o Pad Contínuo.'
+            },
+            {
+                element: "#vocals_slider",
+                placement: "top",
+                content: 'Neste canal fica os Vocais.'
+            },
+            {
+                element: "#piano_slider",
+                placement: "top",
+                content: 'Neste canal fica o Piano.'
+            },
+            {
+                element: "#bass_slider",
+                placement: "top",
+                content: 'Neste canal fica o Baixo.'
+            },
+            {
+                element: "#drums_slider",
+                placement: "top",
+                content: 'Neste canal fica a Bateria.'
+            },
+            {
+                element: "#other_slider",
+                placement: "top",
+                content: 'Neste canal fica todos os demais instrumentos agrupados, que chamamos de acompanhamentos.'
+            },
+            {
+                element: "#master_vols",
+                placement: "top",
+                content: 'Neste canal uma representação do canal Master de volumes.'
+            },
+        ];
+
+        function restart_tour() {
+            init_tour('mixer', steps);
+            tour.restart();
+        }
     </script>
 
 

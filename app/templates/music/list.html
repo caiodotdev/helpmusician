@@ -258,16 +258,17 @@
             },
         ];
         init_tour('listing', steps);
+        function restart_tour() {
+            init_tour('listing', steps);
+            tour.restart();
+        }
 
         var timer = setInterval(function () {
             window.location.href = '';
             clearInterval(timer);
         }, 120000);
 
-        function restart_tour() {
-            init_tour('listing', steps);
-            tour.restart();
-        }
+
 
     </script>
 

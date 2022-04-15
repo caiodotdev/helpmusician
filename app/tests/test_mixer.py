@@ -20,6 +20,8 @@ class TestMixer(BaseLoggedSeleniumTestCase):
         assert len(elements) > 0
         self.driver.find_element(By.CSS_SELECTOR, "tr:nth-child(1) .btn-success > .fa").click()
         WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located((By.ID, "play")))
+        WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".popover-navigation > .btn")))
+        self.driver.find_element(By.CSS_SELECTOR, ".popover-navigation > .btn").click()
         time.sleep(2)
         elements = self.driver.find_elements(By.ID, "play")
         assert len(elements) > 0

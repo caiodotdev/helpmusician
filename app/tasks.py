@@ -56,7 +56,7 @@ def fetch_youtube_audio(source_file_id, source_track_id, fetch_task_id, artist, 
             fetch_task.date_finished = timezone.now()
             path_on_cloudinary = 'musicas' + '/' + filename
             req = upload_audio(rel_path, path_on_cloudinary)
-            source_file.file_url = req['url']
+            source_file.file_url = req['secure_url']
             source_file.public_id = req['public_id']
             source_file.duration = req['duration']
             source_file.filename = filename

@@ -55,22 +55,6 @@ def get_path_on_dropbox(name, type):
     return '/%s/%s' % (type, name)
 
 
-# def upload_to_dropbox(name, filepath):
-#     headers_upload = HEADERS_TO_UPLOAD
-#     headers_upload["Dropbox-API-Arg"] = "{\"path\":\"" + name + "\"}"
-#     result = None
-#     try:
-#         with open(filepath, "rb") as audio_file:
-#             encoded_file = b64encode(audio_file.read())
-#         response = requests.post(URL_UPLOAD, headers=headers_upload, data=encoded_file)
-#         result = response.json()
-#         print(result)
-#         audio_file.close()
-#     except (Exception,):
-#         print('deu erro com upload file')
-#     return result
-
-
 def upload_to_dropbox(filepath, path_on_dropbox):
     """Upload a file.
     Return the request response, or None in case of error.

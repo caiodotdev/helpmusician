@@ -18,8 +18,8 @@ from app.celery import app
 from app.forms import SourceTrackForm
 from app.models import DynamicMix, SourceFile, YTAudioDownloadTask, SourceTrack, TaskStatus
 from app.tasks import create_dynamic_mix, fetch_youtube_audio
-from app.utils import get_valid_filename
 from app.tests.base import LOCAL
+from app.utils import get_valid_filename
 
 KILL_SIGNAL = 'SIGTERM' if platform == 'win32' else 'SIGUSR1'
 

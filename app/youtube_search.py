@@ -11,13 +11,6 @@ class YouTubeSearchError(Exception):
     pass
 
 
-# def duration_is_valid(duration):
-#     dur = datetime.datetime.strptime(str(duration), '%M:%S')
-#     print(dur)
-#     max_dur = datetime.datetime.strptime('08:30', '%M:%S')
-#     return dur <= max_dur
-
-
 def perform_search(query: str, page_token=None):
     videosSearch = VideosSearch(query, limit=25)
     search_items = videosSearch.result()['result']

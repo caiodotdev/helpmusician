@@ -1,14 +1,14 @@
 import os
 from datetime import timedelta
-import dj_database_url
 from multiprocessing import cpu_count
 
+import dj_database_url
 # SECURITY WARNING: don't run with debug turned on in production!
 from celery.schedules import crontab
 
-DEBUG = False
+DEBUG = True
 
-LOCAL_TESTS = False
+LOCAL_TESTS = True
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -238,4 +238,3 @@ CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET',
                                   'q552mjrVeEmgPs1kUxfKzp4wz2o')
 CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME',
                                   'freelancerinc')
-

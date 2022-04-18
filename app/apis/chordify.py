@@ -35,13 +35,6 @@ def get_chordify(id):
     return json_response
 
 
-def get_search(search):
-    url = 'https://chordify.net/search/{}'
-    url = url.format(search)
-    page = get_page(url)
-    main = page.select('main')
-
-
 def search_cifra(search):
     url = 'https://studiosolsolr-a.akamaihd.net/cc/h2/?q={}'
     url = url.format(urllib.parse.quote(search, safe=''))

@@ -1,19 +1,14 @@
 import os.path
 
 import cloudinary
-import cloudinary.uploader
 import cloudinary.api
-
+import cloudinary.uploader
+import requests
 from django.conf import settings
 
 CLOUD_NAME = settings.CLOUDINARY_CLOUD_NAME
 API_KEY = settings.CLOUDINARY_API_KEY
 API_SECRET = settings.CLOUDINARY_API_SECRET
-import requests
-
-# CLOUD_NAME = 'freelancerinc'
-# API_KEY = '977733565746842'
-# API_SECRET = 'q552mjrVeEmgPs1kUxfKzp4wz2o'
 
 cloudinary.config(
     cloud_name=CLOUD_NAME,
@@ -39,17 +34,3 @@ def remove_cloudinary_file(public_id):
 def download_file(path_ext, url):
     response = requests.get(url)
     open(path_ext, "wb").write(response.content)
-
-
-if __name__ == '__main__':
-    filename = 'Nivea Soares TEU REINO (128 kbps).mp3'
-    path = os.path.join('./', filename)
-    folder = 'musicas' + '/' + filename
-    req = upload_audio(path, folder)
-    print(req)
-    public_id = req['public_id']
-    asset_id = req['asset_id']
-    url = req['url']
-    duration = req['duration']
-    download_file('musica.mp3', url)
-    remove_cloudinary_file(public_id)

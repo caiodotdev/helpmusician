@@ -1,10 +1,11 @@
 from __future__ import unicode_literals
+
 import os
 
 from django.conf import settings
+from youtube_title_parse import get_artist_title
 from yt_dlp import YoutubeDL
 from yt_dlp.utils import DownloadError
-from youtube_title_parse import get_artist_title
 
 """
 This module contains functions related to downloading/parsing YouTube links with youtubedl.

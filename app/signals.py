@@ -18,7 +18,6 @@ def delete_source_file(sender, instance, using, **kwargs):
             remove_cloudinary_file(instance.public_id)
         except (Exception,):
             print('SourceFile Signal delete: Nao conseguiu remover Musica do Cloudinary')
-        # delete_file_on_dropbox(instance.path_on_dropbox)
 
 
 @receiver(post_delete,
@@ -36,8 +35,6 @@ def delete_source_track(sender, instance, using, **kwargs):
                 print('SourceTrack Signal delete: Nao conseguiu remover Musica do Cloudinary')
             instance.source_file.delete()
 
-            # delete_file_on_dropbox(instance.source_file.path_on_dropbox)
-
 
 @receiver(pre_delete,
           sender=StaticMix,
@@ -50,7 +47,6 @@ def delete_static_mix(sender, instance, using, **kwargs):
                 remove_cloudinary_file(instance.public_id)
             except (Exception,):
                 print('StaticMix Signal delete:Nao conseguiu remover do Cloudinary')
-            # delete_file_on_dropbox(instance.path_on_dropbox)
 
 
 @receiver(pre_delete,
@@ -68,9 +64,3 @@ def delete_dynamic_mix(sender, instance, using, **kwargs):
                 remove_cloudinary_file(instance.drums_public_id)
             except (Exception,):
                 print('DynamicMix Signal delete:Nao conseguiu remover do Cloudinary')
-            # delete_file_on_dropbox(instance.vocals_path)
-            # delete_file_on_dropbox(instance.piano_path)
-            # delete_file_on_dropbox(instance.other_path)
-            # delete_file_on_dropbox(instance.drums_path)
-            # delete_file_on_dropbox(instance.bass_path)
-            # delete_file_on_dropbox(instance.folder_path_on_dropbox)

@@ -6,9 +6,9 @@ import dj_database_url
 # SECURITY WARNING: don't run with debug turned on in production!
 from celery.schedules import crontab
 
-DEBUG = True
+DEBUG = False
 
-LOCAL_TESTS = True
+LOCAL_TESTS = False
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

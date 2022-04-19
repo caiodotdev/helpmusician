@@ -62,11 +62,14 @@
 {#                    <li id="drumkit" class="nav-item">#}
 {#                        <a class="nav-link clicked" href="{% url 'drumkit' %}">Drum Kit</a>#}
 {#                    </li>#}
-                    <li id="padkit" class="nav-item">
-                        <a class="nav-link clicked" href="{% url 'worship_pads' %}">Worship Pads</a>
-                    </li>
+{#                    <li id="padkit" class="nav-item">#}
+{#                        <a class="nav-link clicked" href="{% url 'worship_pads' %}">Worship Pads</a>#}
+{#                    </li>#}
                     <li id="selected" class="nav-item">
                         <a class="nav-link clicked" href="{% url 'selected' %}">Musicas da Semana</a>
+                    </li>
+                     <li id="profile_link" class="nav-item">
+                         <a class="nav-link clicked" href="{% url 'my_profile' user.pk %}">Meu Perfil</a>
                     </li>
                      <li id="selected" class="nav-item">
                         <a class="nav-link clicked" href="#" onclick="restart_tour();">Ajuda</a>

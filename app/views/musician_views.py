@@ -4,10 +4,11 @@ import django_filters
 from django.contrib import messages
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import ListView, TemplateView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, TemplateView, DetailView, CreateView, DeleteView, UpdateView
 from django_datatables_view.base_datatable_view import BaseDatatableView
 from youtube_title_parse import get_artist_title
 
@@ -15,7 +16,7 @@ from app.apis.DetectMobile import DetectMobileBrowser
 from app.apis.chordify import get_chordify, get_id_youtube, get_notes
 from app.apis.youtube import get_youtube_search, make_youtube_url
 from app.celery import app
-from app.forms import SourceTrackForm
+from app.forms import SourceTrackForm, ProfileForm
 from app.models import DynamicMix, SourceFile, YTAudioDownloadTask, SourceTrack, TaskStatus
 from app.tasks import create_dynamic_mix, fetch_youtube_audio
 from app.tests.base import LOCAL
@@ -406,3 +407,11 @@ class ProcessedListJson(BaseDatatableView):
                 tone__icontains=search) | Q(bpm__icontains=search))
         filter = SourceTrackFilter(self.request.GET, qs)
         return filter.qs
+
+
+class MeuPerfil(UpdateView):
+    template_name = 'music/profile.html'
+    form_class = ProfileForm
+    model = User
+    success_url = '/app/'
+

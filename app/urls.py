@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views.auth import LoginView, LogoutUser, RegisterView
 from .views.musician_views import ListTracks, ResultsView, ConfirmMusic, DrumKit, PadContinuous, CustomMixer, \
-    DeleteDynamic, PlayerView, SelectedView, SelectedOut, ConfirmAddMusic, ProcessedList, ProcessedListJson
+    DeleteDynamic, PlayerView, SelectedView, SelectedOut, ConfirmAddMusic, ProcessedList, ProcessedListJson, MeuPerfil
 
 urlpatterns = [
     path(
@@ -85,6 +85,11 @@ urlpatterns = [
         'processed-json/',
         ProcessedListJson.as_view(),
         name='processed_json'
+    ),
+    path(
+        'my-profile/<int:pk>/',
+        MeuPerfil.as_view(),
+        name='my_profile'
     )
 
 ]

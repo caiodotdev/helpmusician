@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load form_utils %}
+{% load static %}
+{% block content %}
+    <div id="content" class="row">
+        <div class="col-12 col-sm-12">
+            <div class="jumbotron jumbotron-fluid bg-transparent">
+                <div class="container secondary-color text-center">
+                    <img class="img-responsive" style="max-height: 200px;"
+                         src="{% static 'default/img/user_p.webp' %}"/>
+                </div>
+                <br/>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="container ">
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-sm-8">
+                                <div class="form-group">
+                                    <label>Nome:</label>
+                                    {{ form.first_name }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-8">
+                                <div class="form-group">
+                                    <label>Sobrenome:</label>
+                                    {{ form.last_name }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-8">
+                                <div class="form-group">
+                                    <label>Usuario:</label>
+                                    {{ form.username }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-8">
+                                <div class="form-group">
+                                    <label>Email:</label>
+                                    {{ form.email }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-8">
+                                <a href="{% url 'index' %}" class="btn btn-secondary pull-left">Voltar</a>
+                                <button id="alterar" class="btn btn-primary pull-right">Alterar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br/>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('input[name=username]').attr('readonly', 'true').addClass('disabled');
+            $('#profile_link').addClass('active');
+        });
+
+    </script>
+
+{% endblock %}

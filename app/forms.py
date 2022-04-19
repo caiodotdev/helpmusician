@@ -6,7 +6,7 @@ from app.utils import generate_bootstrap_widgets_for_all_fields
 from . import (
     models
 )
-from .models import SourceTrack, SourceFile
+from .models import SourceTrack, SourceFile, Avaliacao
 
 
 class BaseForm(forms.Form):
@@ -63,3 +63,12 @@ class ProfileForm(BaseForm, ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', ]
+
+
+class AvaliacaoForm(BaseForm, ModelForm):
+    first_name = forms.CharField(max_length=255)
+    username = forms.CharField(max_length=255)
+
+    class Meta:
+        model = Avaliacao
+        fields = ['user', 'message', 'rate']

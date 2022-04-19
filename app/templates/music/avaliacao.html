@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load form_utils %}
+{% load static %}
+{% block content %}
+    <div id="content" class="row">
+        <div class="col-12 col-sm-12">
+            <div class="jumbotron jumbotron-fluid bg-transparent">
+                <div class="container secondary-color text-center">
+                    <h3>Avalie-nos</h3>
+                </div>
+                <br/>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="container ">
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-sm-8">
+                                <div class="form-group">
+                                    <label>Nome:</label>
+                                    {{ form.first_name }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-8">
+                                <div class="form-group">
+                                    <label>Usuario:</label>
+                                    {{ form.username }}
+                                    {{ form.user }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-8">
+                                <div class="form-group">
+                                    <label>Nota:</label>
+                                    <br/>
+                                    <div style="margin-left: 8px;">
+                                        <input id="rate" type="text"
+                                               name="rate"
+                                               data-provide="slider"
+                                               data-slider-ticks="[1, 2, 3, 4, 5]"
+                                               data-slider-ticks-labels='["Péssimo", "Ruim", "Médio", "Bom", "Ótimo"]'
+                                               data-slider-min="1"
+                                               data-slider-max="5"
+                                               data-slider-step="1"
+                                               data-slider-value="3"
+                                               data-slider-tooltip="hide"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-8">
+                                <div class="form-group">
+                                    <label>Mensagem:</label>
+                                    {{ form.message }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-8">
+                                <a href="{% url 'index' %}" class="btn btn-secondary pull-left">Voltar</a>
+                                <button id="alterar" class="btn btn-primary pull-right">Avaliar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br/>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('input[name=username], input[name=first_name]').attr('readonly', 'true').addClass('disabled');
+            $('#rate_link').addClass('active');
+            $('[name=user]').hide();
+        });
+
+    </script>
+
+{% endblock %}

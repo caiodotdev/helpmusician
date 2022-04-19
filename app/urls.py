@@ -2,7 +2,8 @@ from django.urls import path
 
 from .views.auth import LoginView, LogoutUser, RegisterView
 from .views.musician_views import ListTracks, ResultsView, ConfirmMusic, DrumKit, PadContinuous, CustomMixer, \
-    DeleteDynamic, PlayerView, SelectedView, SelectedOut, ConfirmAddMusic, ProcessedList, ProcessedListJson, MeuPerfil
+    DeleteDynamic, PlayerView, SelectedView, SelectedOut, ConfirmAddMusic, ProcessedList, ProcessedListJson, MeuPerfil, \
+    RateUs
 
 urlpatterns = [
     path(
@@ -90,6 +91,11 @@ urlpatterns = [
         'my-profile/<int:pk>/',
         MeuPerfil.as_view(),
         name='my_profile'
+    ),
+    path(
+        'avaliacao/',
+        RateUs.as_view(),
+        name='rate_us'
     )
 
 ]

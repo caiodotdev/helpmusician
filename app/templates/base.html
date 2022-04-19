@@ -59,34 +59,38 @@
                     <li id="processed_link" class="nav-item">
                         <a class="nav-link clicked" href="{% url 'processed_list' %}">Musicas Processadas</a>
                     </li>
-{#                    <li id="drumkit" class="nav-item">#}
-{#                        <a class="nav-link clicked" href="{% url 'drumkit' %}">Drum Kit</a>#}
-{#                    </li>#}
-{#                    <li id="padkit" class="nav-item">#}
-{#                        <a class="nav-link clicked" href="{% url 'worship_pads' %}">Worship Pads</a>#}
-{#                    </li>#}
+                    {#                    <li id="drumkit" class="nav-item">#}
+                    {#                        <a class="nav-link clicked" href="{% url 'drumkit' %}">Drum Kit</a>#}
+                    {#                    </li>#}
+                    {#                    <li id="padkit" class="nav-item">#}
+                    {#                        <a class="nav-link clicked" href="{% url 'worship_pads' %}">Worship Pads</a>#}
+                    {#                    </li>#}
                     <li id="selected" class="nav-item">
                         <a class="nav-link clicked" href="{% url 'selected' %}">Musicas da Semana</a>
                     </li>
-                     <li id="profile_link" class="nav-item">
-                         <a class="nav-link clicked" href="{% url 'my_profile' user.pk %}">Meu Perfil</a>
+                    <li id="profile_link" class="nav-item">
+                        <a class="nav-link clicked" href="{% url 'my_profile' user.pk %}">Meu Perfil</a>
                     </li>
-                     <li id="selected" class="nav-item">
+                    <li id="selected" class="nav-item">
                         <a class="nav-link clicked" href="#" onclick="restart_tour();">Ajuda</a>
                     </li>
 
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="btn btn-info" href="https://t.me/+eD_MgeE64MdhZDBh" target="_blank">
-                            <i class="fa fa-paper-plane"></i> Telegram
-                        </a>
+                    <li id="rate_link" class="nav-item">
+                        <a class="nav-link clicked" href="{% url 'rate_us' %}">Avalie-nos</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link clicked" href="{% url 'logout' %}">
                             <i class="fa fa-sign-out"></i>
                             Sair</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="badge badge-info" href="https://t.me/+eD_MgeE64MdhZDBh" target="_blank"
+                           style="margin-top: 10px;">
+                            <i class="fa fa-paper-plane"></i> Telegram
+                        </a>
                     </li>
 
                 </ul>
@@ -187,7 +191,6 @@
         data-text-align="left"
         data-close-text="Aceitar!">
 </script>
-
 
 
 </body>

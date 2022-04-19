@@ -6,6 +6,7 @@ import mutagen
 import requests
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from mutagen.easyid3 import EasyID3
 from mutagen.id3 import ID3NoHeaderError
@@ -466,3 +467,16 @@ class DynamicMix(models.Model):
             'separator_args',
             'bitrate'
         ]]
+
+
+class Avaliacao(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    message = models.TextField(blank=True, null=True)
+    rate = models.IntegerField(validators=[
+        MaxValueValidator(5),
+        MinValueValidator(1)
+    ])
+
+    def __str__(self):
+        return "%s - %s" % (self.user.username, str(self.rate))

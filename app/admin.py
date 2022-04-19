@@ -87,9 +87,14 @@ class DynamicMixAdmin(admin.ModelAdmin):
         return obj.source_track.user
 
 
+class AvaliacaoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'rate', 'created_at')
+
+
 # Register your models here.
 admin.site.register(SourceFile, SourceFileAdmin)
 admin.site.register(SourceTrack, SourceTrackAdmin)
 admin.site.register(StaticMix, StaticMixAdmin)
 admin.site.register(DynamicMix, DynamicMixAdmin)
 admin.site.register(YTAudioDownloadTask, YTAudioDownloadTaskAdmin)
+admin.site.register(Avaliacao, AvaliacaoAdmin)

@@ -16,8 +16,8 @@ from app.apis.DetectMobile import DetectMobileBrowser
 from app.apis.chordify import get_chordify, get_id_youtube, get_notes
 from app.apis.youtube import get_youtube_search, make_youtube_url
 from app.celery import app
-from app.forms import SourceTrackForm, ProfileForm
-from app.models import DynamicMix, SourceFile, YTAudioDownloadTask, SourceTrack, TaskStatus
+from app.forms import SourceTrackForm, ProfileForm, AvaliacaoForm
+from app.models import DynamicMix, SourceFile, YTAudioDownloadTask, SourceTrack, TaskStatus, Avaliacao
 from app.tasks import create_dynamic_mix, fetch_youtube_audio
 from app.tests.base import LOCAL
 from app.utils import get_valid_filename
@@ -415,3 +415,31 @@ class MeuPerfil(UpdateView):
     model = User
     success_url = '/app/'
 
+    def form_valid(self, form):
+        messages.success(self.request, 'Perfil atualizado com sucesso')
+        return super(MeuPerfil, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum problema, tente novamente')
+        return super(MeuPerfil, self).form_invalid(form)
+
+
+class RateUs(CreateView):
+    template_name = 'music/avaliacao.html'
+    form_class = AvaliacaoForm
+    model = Avaliacao
+    success_url = '/app/'
+
+    def get_initial(self):
+        user = self.request.user
+        return {'user': user,
+                'first_name': user.first_name,
+                'username': user.username}
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Avaliação enviada com sucesso')
+        return super(RateUs, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum problema, tente novamente')
+        return super(RateUs, self).form_invalid(form)

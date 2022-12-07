@@ -184,6 +184,7 @@ class ConfirmMusic(LoginRequiredMixin, CreateView):
                     # Kick off download task in background
                     artist = str(get_valid_filename(custom_data['artist'])).strip()
                     title = str(get_valid_filename(custom_data['title'])).strip()
+                    print(artist, title, source_file.id, source_track.id, fetch_task.id, custom_data['youtube_link'])
                     result = fetch_youtube_audio.delay(source_file.id, source_track.id, fetch_task.id,
                                                        artist, title,
                                                        custom_data['youtube_link'])
